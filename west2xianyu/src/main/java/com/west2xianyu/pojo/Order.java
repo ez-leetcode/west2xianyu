@@ -25,7 +25,7 @@ public class Order {
     @TableId(type = IdType.ID_WORKER)
     private Long number;
 
-    //3.30暂时到这
+    //3.30暂时到这里
 
 
     private String fromId;            //发货方(发货方信息可以由id查出，减少冗余)
