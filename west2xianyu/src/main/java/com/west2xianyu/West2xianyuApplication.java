@@ -11,3 +11,5 @@ public class West2xianyuApplication {
     }
 
 }
+
+//git ls-files | xargs wc -l

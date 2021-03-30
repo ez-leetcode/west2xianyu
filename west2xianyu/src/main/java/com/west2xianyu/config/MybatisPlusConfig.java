@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement        //启动注解事务管理
 @Configuration
 @MapperScan("com.west2xianyu.mapper")
-public class mybatisPlusConfig {
+public class MybatisPlusConfig {
 
     //乐观锁
     @Bean

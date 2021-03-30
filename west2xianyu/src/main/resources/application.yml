@@ -8,7 +8,7 @@ spring:
   datasource:
     username: root
     password: West2online
-    url: jdbc:mysql://localhost:3306/mybatisplus?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://localhost:3306/west2xianyu?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     driver-class-name: com.mysql.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   #上传文件大小设置
@@ -45,9 +45,6 @@ logging:
   file:
     path: /spring/log
     name: west2xianyu.log
-  pattern:
-    console: %d{yyyy-MM-dd} [%thread] %-5level %logger{50} - %msg%n
-    file: %d{yyyy-MM-dd} === [%thread] === %-5level === %logger{50} === %msg%n
 
 #mybatis-plus配置
 mybatis-plus:
