@@ -1,8 +1,11 @@
 package com.west2xianyu;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
+@MapperScan("com.west2xianyu.mapper")
 @SpringBootApplication
 public class West2xianyuApplication {
 

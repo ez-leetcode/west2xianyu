@@ -18,27 +18,53 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString        //管理员可以删除订单,取消订单，删除订单
+@ToString
 public class Order {
 
     @ApiModelProperty(value = "订单编号",notes = "雪花算法，唯一，数据库中作为主键")
     @TableId(type = IdType.ID_WORKER)
     private Long number;
 
-    //3.30暂时到这里
+    @ApiModelProperty(value = "卖家id",notes = "发货方信息可以由id查出，减少冗余")
+    private String fromId;
 
+    @ApiModelProperty("买家id")
+    private String toId;
 
-    private String fromId;            //发货方(发货方信息可以由id查出，减少冗余)
-    private String toId;              //接收方
-    private Double price;             //价格
-    private Integer status;           //当前订单状态
+    @ApiModelProperty(value = "物品图片url",notes = "统一存在服务器/xy/goods中")
+    private String photo;
 
+    @ApiModelProperty(value = "价格",notes = "单位(元)")
+    private Double price;
+
+    @ApiModelProperty(value = "当前订单状态",notes = "0：未拍下 1：已拍下 2：买家已付款 3：卖家已发货 4：买家确认收货 5：订单完成")
+    private Integer status;
+
+    @ApiModelProperty(value = "拍下时间",notes = "status=0-1")
     @TableField(fill = FieldFill.INSERT)
-    private Date orderTime;           //订单开始时间
+    private Date orderTime;
 
-    private Date finishTime;          //订单完成时间
-    private String fromEvaluation;    //发货方交易评价
-    private Date fromEvaluationTime;  //发货方交易评价时间
-    private String toEvaluation;      //收货方交易评价
-    private Date toEvaluationTime;    //收货方交易评价时间
+    @ApiModelProperty(value = "买家支付时间",notes = "status=1-2")
+    private Date payTime;
+
+    @ApiModelProperty(value = "发货时间",notes = "status=2-3")
+    private Date sendTime;
+
+    @ApiModelProperty(value = "确认收货时间",notes = "status=3-4")
+    private Date confirmTime;
+
+    @ApiModelProperty(value = "订单完成时间",notes = "status=4-5")
+    private Date finishTime;
+
+    @ApiModelProperty(value = "卖家交易评价")
+    private String fromEvaluation;
+
+    @ApiModelProperty(value = "卖家交易评价时间")
+    private Date fromEvaluationTime;
+
+    @ApiModelProperty(value = "买家交易评价")
+    private String toEvaluation;
+
+    @ApiModelProperty(value = "买家交易评价时间")
+    private Date toEvaluationTime;
 }

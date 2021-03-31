@@ -47,6 +47,9 @@ public class User {
     @ApiModelProperty(value = "粉丝数",notes = "在查看个人信息中呈现(粉丝列表功能)")
     private Integer fansCounts;
 
+    @ApiModelProperty(value = "关注数",notes = "在个人信息中呈现(关注列表功能)")
+    private Integer followCounts;
+
     @ApiModelProperty(value = "违反社区规定次数",notes = "3次将自动冻结账号30天，5次将永久封禁")
     private Integer frozenCounts;
 
@@ -56,6 +59,9 @@ public class User {
     @ApiModelProperty("是否账号被冻结")
     @TableLogic
     private Integer deleted;
+
+    @ApiModelProperty(value = "最近一次登录的ip地址",notes = "登录ip不一样的时候要输入验证码")
+    private String ip;
 
     @ApiModelProperty("账号创建日期")
     @TableField(fill = FieldFill.INSERT)
@@ -71,7 +77,6 @@ public class User {
     @ApiModelProperty("解封时间")
     private Date reopenDate;
 
-//加上更新时间
 }
 
 /*
