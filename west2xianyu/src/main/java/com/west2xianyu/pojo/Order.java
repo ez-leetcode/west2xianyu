@@ -14,7 +14,7 @@ import lombok.ToString;
 
 import java.util.Date;
 
-@ApiModel("订单类")
+@ApiModel(description = "订单类")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

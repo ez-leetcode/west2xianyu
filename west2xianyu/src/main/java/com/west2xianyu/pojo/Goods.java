@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("闲置物品类")
+@ApiModel(description = "闲置物品类")
 public class Goods {
 
     @ApiModelProperty(value = "物品编号",notes = "(类似Twitter的雪花算法，编号不唯一)")

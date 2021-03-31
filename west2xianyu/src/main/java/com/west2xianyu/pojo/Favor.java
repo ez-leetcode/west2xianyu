@@ -17,7 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("点赞实例")
+@ApiModel(description = "点赞实例")
 public class Favor {
 
     @ApiModelProperty(value = "收藏物品编号",notes = "收藏时自动添加")

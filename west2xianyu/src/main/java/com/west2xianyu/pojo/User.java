@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("用户类")
+@ApiModel(description = "用户类")
 public class User {
 
     @ApiModelProperty(value = "用户唯一id(学号)",notes = "主键")
@@ -60,8 +60,6 @@ public class User {
     @TableLogic
     private Integer deleted;
 
-    @ApiModelProperty(value = "最近一次登录的ip地址",notes = "登录ip不一样的时候要输入验证码")
-    private String ip;
 
     @ApiModelProperty("账号创建日期")
     @TableField(fill = FieldFill.INSERT)

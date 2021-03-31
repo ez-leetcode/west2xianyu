@@ -16,9 +16,8 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString                   //社区管理员可以删除评论！！！！！(评论被删除通知用户)
-@ApiModel("用户评论类")
-
+@ToString                           //社区管理员可以删除评论！！！！！(评论被删除通知用户)
+@ApiModel(description = "用户评论类")
 public class Comment {
 
     @ApiModelProperty(value = "被评论的物品编号",notes = "评论时生成")

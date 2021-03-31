@@ -45,6 +45,14 @@ logging:
   file:
     path: /spring/log
     name: west2xianyu.log
+  level:
+    io:
+      swagger:
+        models:
+          parameters:
+            AbstractSerializableParameter: error
+
+
 
 #mybatis-plus配置
 mybatis-plus:
@@ -54,4 +62,3 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1            #已被删除记为1
       logic-not-delete-value: 0        #未被删除记为0
-
