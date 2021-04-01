@@ -12,24 +12,20 @@ import lombok.ToString;
 
 import java.util.Date;
 
-//被冻结物品和下架物品无法收藏
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel(description = "收藏物品实例")
-public class Favor {
+@ApiModel(description = "关注实例类")
+public class Fans {
 
-    @ApiModelProperty(value = "收藏物品编号",notes = "收藏时自动添加")
-    private Long goodsId;
-
-    @ApiModelProperty(value = "收藏用户")
+    @ApiModelProperty(value = "被关注的id")
     private String id;
 
-    @ApiModelProperty(value = "用户昵称")
-    private String username;
+    @ApiModelProperty(value = "粉丝id")
+    private String fansId;
 
-    @ApiModelProperty(value = "收藏时间")
+    @ApiModelProperty(value = "关注时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 }

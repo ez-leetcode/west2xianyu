@@ -10,5 +10,7 @@ public interface UserService {
 
     User getUser(String Id);
 
-    void saveUser(User user);
+    int saveUser(User user);
+
+    String addShopping(Long number,String Id);
 }

@@ -18,7 +18,7 @@ import java.util.Date;
 public class User {
 
     @ApiModelProperty(value = "用户唯一id(学号)",notes = "主键")
-    private Integer id;
+    private String id;
 
     @ApiModelProperty(value = "用户昵称",notes = "(可以更改，不唯一)")
     private String username;
@@ -59,7 +59,6 @@ public class User {
     @ApiModelProperty("是否账号被冻结")
     @TableLogic
     private Integer deleted;
-
 
     @ApiModelProperty("账号创建日期")
     @TableField(fill = FieldFill.INSERT)

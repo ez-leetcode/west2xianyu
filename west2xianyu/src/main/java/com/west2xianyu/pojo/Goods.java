@@ -34,6 +34,9 @@ public class Goods {
     @ApiModelProperty(value = "物品名称",notes = "不超过20个字")
     private String goodsName;
 
+    @ApiModelProperty(value = "转手原因",notes = "不超过100字")
+    private String reason;
+
     @ApiModelProperty(value = "作者的物品描述",notes = "不超过250个字")
     private String description;
 
@@ -54,7 +57,6 @@ public class Goods {
 
     @ApiModelProperty(value = "物品标签3")
     private String label3;
-
 
     @ApiModelProperty("闲置物品创建时间")
     @TableField(fill = FieldFill.INSERT)

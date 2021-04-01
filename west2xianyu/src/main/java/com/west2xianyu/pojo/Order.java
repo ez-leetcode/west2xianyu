@@ -21,11 +21,11 @@ import java.util.Date;
 @ToString
 public class Order {
 
-    @ApiModelProperty(value = "订单编号",notes = "雪花算法，唯一，数据库中作为主键")
+    @ApiModelProperty(value = "订单编号",notes = "雪花算法，唯一，数据库中作为主键，和商品不是同一个编号")
     @TableId(type = IdType.ID_WORKER)
     private Long number;
 
-    @ApiModelProperty(value = "卖家id",notes = "发货方信息可以由id查出，减少冗余")
+    @ApiModelProperty(value = "卖家id",notes = "可由id和编号查出相关信息，减少冗余")
     private String fromId;
 
     @ApiModelProperty("买家id")
@@ -37,7 +37,7 @@ public class Order {
     @ApiModelProperty(value = "价格",notes = "单位(元)")
     private Double price;
 
-    @ApiModelProperty(value = "当前订单状态",notes = "0：未拍下 1：已拍下 2：买家已付款 3：卖家已发货 4：买家确认收货 5：订单完成")
+    @ApiModelProperty(value = "当前订单状态，订单从1开始",notes = "0：未拍下 1：已拍下 2：买家已付款 3：卖家已发货 4：买家确认收货 5：订单完成")
     private Integer status;
 
     @ApiModelProperty(value = "拍下时间",notes = "status=0-1")
@@ -68,3 +68,24 @@ public class Order {
     @ApiModelProperty(value = "买家交易评价时间")
     private Date toEvaluationTime;
 }
+
+/*
+CREATE TABLE `west2xianyu`.`Untitled`  (
+  `number` bigint(50) NOT NULL,
+  `from_id` varchar(50) NULL,
+  `to_id` varchar(50) NULL,
+  `photo` varchar(200) NULL,
+  `price` double(20, 2) NULL,
+  `status` int(10) NULL,
+  `order_time` datetime NULL,
+  `pay_time` datetime NULL,
+  `send_time` datetime NULL,
+  `confirm_time` datetime NULL,
+  `finish_time` datetime NULL,
+  `from_evaluation` varchar(250) NULL,
+  `from_evaluation_time` datetime NULL,
+  `to_evaluation` varchar(250) NULL,
+  `to_evaluation_time` datetime NULL,
+  PRIMARY KEY (`number`)
+);
+ */

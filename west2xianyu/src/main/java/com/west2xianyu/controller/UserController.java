@@ -20,12 +20,12 @@ public class UserController {
     private UserService userService;
 
 
-
     @GetMapping("/test")
     //注释用户名
     public String test(@ApiParam("用户名") User user){
         return "test" + user.toString();
     }
+
 
     @ApiOperation(value = "注册帐号请求",notes = "管理员注册请多带一个isAdministrator为1")
     @ApiImplicitParams({
@@ -59,8 +59,6 @@ public class UserController {
 
 
 
-
-
     @ApiOperation(value = "获取用户信息")
     @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string")
     @GetMapping("/user")
@@ -75,17 +73,47 @@ public class UserController {
         }
         log.info("获取用户信息成功，用户：" + user.toString());
         jsonObject.put("getUserStatus","success");
+        jsonObject.put("user",user);
         return jsonObject;
     }
 
-    @ApiOperation(value = "用于修改界面，保存用户信息",notes = "可以修改：username,password,sex,address,email,phone,introduction")
+    @ApiOperation(value = "用于修改界面，保存用户信息",notes = "必带id，可以修改：username,sex,campus,address,email,phone,introduction")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string"),
+            @ApiImplicitParam(name = "username",dataType = "string"),
+            @ApiImplicitParam(name = "password",value = "密码(MD5加密)",dataType = "string"),
+            @ApiImplicitParam(name = "sex",value = "性别M/W",dataType = "string"),
+            @ApiImplicitParam(name = "campus",value = "校区",dataType = "string"),
+            @ApiImplicitParam(name = "address",dataType = "string"),
+            @ApiImplicitParam(name = "email",dataType = "string"),
+            @ApiImplicitParam(name = "phone",dataType = "string"),
+            @ApiImplicitParam(name = "introduction",value = "不超过200字",dataType = "string")
+    })
     @PostMapping("/user")
     public JSONObject saveUser(User user){
         log.info("正在保存用户信息，id：" + user.getId());
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("saveUserStatus","success");
+        int result = userService.saveUser(user);
+        if(result == 1){
+            log.info("修改成功");
+            jsonObject.put("saveUserStatus","success");
+        }else{
+            log.info("修改失败，可能是提交重复信息所致");
+            jsonObject.put("saveUserStatus","repeatWrong");
+        }
         return jsonObject;
     }
 
-
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",paramType = "string")
+    })
+    @ApiOperation(value = "用户添加闲置物品到购物车",notes = "闲置物品被冻结")
+    @PostMapping("/shopping")
+    public JSONObject addShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
+        JSONObject jsonObject = new JSONObject();
+        String status = userService.addShopping(number,id);
+        jsonObject.put("addShoppingStatus",status);
+        return jsonObject;
+    }
 }

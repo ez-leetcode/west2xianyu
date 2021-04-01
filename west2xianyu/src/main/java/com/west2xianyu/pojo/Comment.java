@@ -16,7 +16,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString                           //社区管理员可以删除评论！！！！！(评论被删除通知用户)
+@ToString                                 //社区管理员可以删除评论！！！！！(评论被删除通知用户)
 @ApiModel(description = "用户评论类")
 public class Comment {
 
@@ -24,7 +24,10 @@ public class Comment {
     private Long goodsId;
 
     @ApiModelProperty("评论用户id")
-    private String fromId;
+    private String id;
+
+    @ApiModelProperty(value = "评论用户昵称",notes = "虽然有一定冗余，但是能减少查找次数，提高效率")
+    private String username;
 
     @ApiModelProperty(value = "评论被点赞数",notes = "点赞/取消点赞接口")
     private Integer like;

@@ -9,7 +9,7 @@ spring:
     username: root
     password: West2online
     url: jdbc:mysql://localhost:3306/west2xianyu?useSSL=false&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
   #上传文件大小设置
   servlet:

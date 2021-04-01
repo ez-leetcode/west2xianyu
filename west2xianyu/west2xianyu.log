@@ -1,156 +1,66 @@
-2021-04-01 00:02:51.789  INFO 29112 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 29112 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
-2021-04-01 00:02:51.803  INFO 29112 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
-2021-04-01 00:02:53.348  WARN 29112 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:02:53.356  WARN 29112 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'orderMapper' and 'com.west2xianyu.mapper.OrderMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:02:53.356  WARN 29112 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:02:53.357  WARN 29112 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
-2021-04-01 00:02:53.768  INFO 29112 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
-2021-04-01 00:02:53.775  INFO 29112 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2021-04-01 00:02:53.879  INFO 29112 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61 ms. Found 0 Redis repository interfaces.
-2021-04-01 00:02:55.163  INFO 29112 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
-2021-04-01 00:02:55.189  INFO 29112 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2021-04-01 00:02:55.190  INFO 29112 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
-2021-04-01 00:02:55.396  INFO 29112 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2021-04-01 00:02:55.398  INFO 29112 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3446 ms
-2021-04-01 00:02:56.011  INFO 29112 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
-2021-04-01 00:02:57.765  INFO 29112 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2021-04-01 00:02:57.943  INFO 29112 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2021-04-01 00:02:59.191  INFO 29112 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
-2021-04-01 00:02:59.193  INFO 29112 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2021-04-01 00:02:59.253  INFO 29112 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2021-04-01 00:02:59.328  INFO 29112 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2021-04-01 00:02:59.721  INFO 29112 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 8.879 seconds (JVM running for 10.457)
-2021-04-01 00:04:04.438  INFO 29112 --- [http-nio-8081-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-01 00:04:04.439  INFO 29112 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2021-04-01 00:04:04.440  INFO 29112 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2021-04-01 00:04:26.645  INFO 29112 --- [http-nio-8081-exec-8] c.west2xianyu.controller.UserController  : 正在获取用户信息，id：021900201
-2021-04-01 00:04:26.854  WARN 29112 --- [http-nio-8081-exec-8] c.west2xianyu.controller.UserController  : 获取用户信息失败，用户不存在：021900201
-2021-04-01 00:04:26.873 ERROR 29112 --- [http-nio-8081-exec-8] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is java.lang.NullPointerException: Cannot invoke "com.west2xianyu.pojo.User.toString()" because "user" is null] with root cause
-
-java.lang.NullPointerException: Cannot invoke "com.west2xianyu.pojo.User.toString()" because "user" is null
-	at com.west2xianyu.controller.UserController.getUser(UserController.java:75) ~[classes/:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:64) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:564) ~[na:na]
-	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:197) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:141) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:106) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:894) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1060) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:962) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at org.springframework.web.servlet.FrameworkServlet.doGet(FrameworkServlet.java:898) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:626) ~[tomcat-embed-core-9.0.44.jar:4.0.FR]
-	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883) ~[spring-webmvc-5.3.5.jar:5.3.5]
-	at javax.servlet.http.HttpServlet.service(HttpServlet.java:733) ~[tomcat-embed-core-9.0.44.jar:4.0.FR]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:227) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:53) ~[tomcat-embed-websocket-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119) ~[spring-web-5.3.5.jar:5.3.5]
-	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:189) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:162) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:202) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:97) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:542) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:143) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:92) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:78) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:357) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:374) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:65) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:893) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1707) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1130) ~[na:na]
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:630) ~[na:na]
-	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61) ~[tomcat-embed-core-9.0.44.jar:9.0.44]
-	at java.base/java.lang.Thread.run(Thread.java:832) ~[na:na]
-
-2021-04-01 00:05:08.223  INFO 22948 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 22948 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
-2021-04-01 00:05:08.233  INFO 22948 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
-2021-04-01 00:05:09.906  WARN 22948 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:05:09.907  WARN 22948 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'orderMapper' and 'com.west2xianyu.mapper.OrderMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:05:09.909  WARN 22948 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:05:09.909  WARN 22948 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
-2021-04-01 00:05:10.281  INFO 22948 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
-2021-04-01 00:05:10.287  INFO 22948 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2021-04-01 00:05:10.348  INFO 22948 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 38 ms. Found 0 Redis repository interfaces.
-2021-04-01 00:05:11.625  INFO 22948 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
-2021-04-01 00:05:11.645  INFO 22948 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2021-04-01 00:05:11.646  INFO 22948 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
-2021-04-01 00:05:11.834  INFO 22948 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2021-04-01 00:05:11.835  INFO 22948 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3457 ms
-2021-04-01 00:05:12.484  INFO 22948 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
-2021-04-01 00:05:14.192  INFO 22948 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2021-04-01 00:05:14.372  INFO 22948 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2021-04-01 00:05:15.542  INFO 22948 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
-2021-04-01 00:05:15.546  INFO 22948 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2021-04-01 00:05:15.599  INFO 22948 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2021-04-01 00:05:15.673  INFO 22948 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2021-04-01 00:05:16.045  INFO 22948 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 8.722 seconds (JVM running for 10.185)
-2021-04-01 00:06:34.636  INFO 22948 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-01 00:06:34.637  INFO 22948 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2021-04-01 00:06:34.639  INFO 22948 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
-2021-04-01 00:06:50.225  INFO 22948 --- [http-nio-8081-exec-9] c.west2xianyu.controller.UserController  : 正在获取用户信息，id：021900202
-2021-04-01 00:06:50.408  WARN 22948 --- [http-nio-8081-exec-9] c.west2xianyu.controller.UserController  : 获取用户信息失败，用户不存在：021900202
-2021-04-01 00:09:19.220  INFO 16372 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 16372 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
-2021-04-01 00:09:19.225  INFO 16372 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
-2021-04-01 00:09:20.952  WARN 16372 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:09:20.952  WARN 16372 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'orderMapper' and 'com.west2xianyu.mapper.OrderMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:09:20.953  WARN 16372 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:09:20.954  WARN 16372 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
-2021-04-01 00:09:21.373  INFO 16372 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
-2021-04-01 00:09:21.377  INFO 16372 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2021-04-01 00:09:21.444  INFO 16372 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 41 ms. Found 0 Redis repository interfaces.
-2021-04-01 00:09:23.009  INFO 16372 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
-2021-04-01 00:09:23.035  INFO 16372 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2021-04-01 00:09:23.036  INFO 16372 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
-2021-04-01 00:09:23.414  INFO 16372 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2021-04-01 00:09:23.415  INFO 16372 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4076 ms
-2021-04-01 00:09:24.420  INFO 16372 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
-2021-04-01 00:09:26.396  INFO 16372 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2021-04-01 00:09:26.597  INFO 16372 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2021-04-01 00:09:27.808  INFO 16372 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
-2021-04-01 00:09:27.812  INFO 16372 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2021-04-01 00:09:27.869  INFO 16372 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2021-04-01 00:09:27.939  INFO 16372 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2021-04-01 00:09:28.398  INFO 16372 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 10.139 seconds (JVM running for 11.829)
-2021-04-01 00:09:33.070  INFO 16372 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2021-04-01 00:09:33.071  INFO 16372 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2021-04-01 00:09:33.074  INFO 16372 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-2021-04-01 00:10:56.241  INFO 13816 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 13816 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
-2021-04-01 00:10:56.259  INFO 13816 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
-2021-04-01 00:10:58.012  WARN 13816 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:10:58.013  WARN 13816 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'orderMapper' and 'com.west2xianyu.mapper.OrderMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:10:58.014  WARN 13816 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
-2021-04-01 00:10:58.014  WARN 13816 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
-2021-04-01 00:10:58.530  INFO 13816 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
-2021-04-01 00:10:58.536  INFO 13816 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2021-04-01 00:10:58.717  INFO 13816 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 152 ms. Found 0 Redis repository interfaces.
-2021-04-01 00:11:00.588  INFO 13816 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
-2021-04-01 00:11:00.608  INFO 13816 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2021-04-01 00:11:00.609  INFO 13816 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
-2021-04-01 00:11:00.821  INFO 13816 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2021-04-01 00:11:00.823  INFO 13816 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4412 ms
-2021-04-01 00:11:01.758  INFO 13816 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
-2021-04-01 00:11:03.783  INFO 13816 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2021-04-01 00:11:04.080  INFO 13816 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2021-04-01 00:11:05.909  INFO 13816 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
-2021-04-01 00:11:05.913  INFO 13816 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2021-04-01 00:11:05.991  INFO 13816 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2021-04-01 00:11:06.091  INFO 13816 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2021-04-01 00:11:06.847  INFO 13816 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 12.151 seconds (JVM running for 13.901)
+2021-04-02 00:26:24.800  INFO 31660 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 31660 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-02 00:26:24.819  INFO 31660 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
+2021-04-02 00:26:26.391  WARN 31660 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:26:26.392  WARN 31660 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:26:26.393  WARN 31660 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:26:26.394  WARN 31660 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:26:26.394  WARN 31660 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'orderMapper' and 'com.west2xianyu.mapper.OrderMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:26:26.395  WARN 31660 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:26:26.395  WARN 31660 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:26:26.396  WARN 31660 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-02 00:26:26.800  INFO 31660 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-02 00:26:26.807  INFO 31660 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-02 00:26:26.873  INFO 31660 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 43 ms. Found 0 Redis repository interfaces.
+2021-04-02 00:26:28.069  INFO 31660 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-04-02 00:26:28.088  INFO 31660 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-02 00:26:28.089  INFO 31660 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
+2021-04-02 00:26:28.315  INFO 31660 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-02 00:26:28.316  INFO 31660 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3381 ms
+2021-04-02 00:26:28.929  INFO 31660 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-02 00:26:30.796  INFO 31660 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-02 00:26:30.972  INFO 31660 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-02 00:26:32.134  INFO 31660 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-02 00:26:32.136  INFO 31660 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-02 00:26:32.188  INFO 31660 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-02 00:26:32.257  INFO 31660 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-02 00:26:32.657  INFO 31660 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 8.762 seconds (JVM running for 10.437)
+2021-04-02 00:29:07.231  INFO 31660 --- [http-nio-8081-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-02 00:29:07.233  INFO 31660 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-04-02 00:29:07.235  INFO 31660 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2021-04-02 00:29:07.511  WARN 31660 --- [http-nio-8081-exec-2] com.west2xianyu.service.UserServiceImpl  : 添加购物车失败，该商品不存在：123
+2021-04-02 00:31:53.317  INFO 31660 --- [http-nio-8081-exec-5] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-02 00:31:53.317  INFO 31660 --- [http-nio-8081-exec-5] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-02 00:31:53.335  INFO 31660 --- [http-nio-8081-exec-5] com.west2xianyu.service.UserServiceImpl  : 添加购物车成功，商品：Shopping(number=1377623745895247873, id=171909060, createTime=Fri Apr 02 00:31:53 CST 2021)
+2021-04-02 00:36:32.176  INFO 28872 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 28872 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-02 00:36:32.183  INFO 28872 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
+2021-04-02 00:36:33.739  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:36:33.740  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:36:33.741  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:36:33.741  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:36:33.742  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:36:33.742  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'orderMapper' and 'com.west2xianyu.mapper.OrderMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:36:33.743  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:36:33.743  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-02 00:36:33.743  WARN 28872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-02 00:36:34.096  INFO 28872 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-02 00:36:34.102  INFO 28872 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-02 00:36:34.174  INFO 28872 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 48 ms. Found 0 Redis repository interfaces.
+2021-04-02 00:36:35.383  INFO 28872 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-04-02 00:36:35.402  INFO 28872 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-02 00:36:35.404  INFO 28872 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
+2021-04-02 00:36:35.623  INFO 28872 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-02 00:36:35.623  INFO 28872 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3316 ms
+2021-04-02 00:36:36.236  INFO 28872 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-02 00:36:38.071  INFO 28872 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-02 00:36:38.276  INFO 28872 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-02 00:36:39.464  INFO 28872 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-02 00:36:39.466  INFO 28872 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-02 00:36:39.515  INFO 28872 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-02 00:36:39.589  INFO 28872 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-02 00:36:39.985  INFO 28872 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 8.762 seconds (JVM running for 10.218)
+2021-04-02 00:37:04.301  INFO 28872 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-02 00:37:04.302  INFO 28872 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-04-02 00:37:04.303  INFO 28872 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2021-04-02 00:37:04.647  INFO 28872 --- [http-nio-8081-exec-1] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-02 00:37:04.647  INFO 28872 --- [http-nio-8081-exec-1] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-02 00:37:04.735  INFO 28872 --- [http-nio-8081-exec-1] com.west2xianyu.service.UserServiceImpl  : 添加购物车成功，商品：Shopping(number=1377623745895247873, id=171909060, createTime=Fri Apr 02 00:37:04 CST 2021)
