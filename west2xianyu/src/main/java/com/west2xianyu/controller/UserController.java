@@ -91,8 +91,13 @@ public class UserController {
     })
     @PostMapping("/user")
     public JSONObject saveUser(User user){
-        log.info("正在保存用户信息，id：" + user.getId());
+        //参数太多，懒得写了，自动生成一个user对象好了~
         JSONObject jsonObject = new JSONObject();
+        if(user.getId() == null){
+            log.warn("保存请求未带学号！");
+            jsonObject.put("saveUserStatus","userWrong");
+        }
+        log.info("正在保存用户信息，id：" + user.getId());
         int result = userService.saveUser(user);
         if(result == 1){
             log.info("修改成功");
