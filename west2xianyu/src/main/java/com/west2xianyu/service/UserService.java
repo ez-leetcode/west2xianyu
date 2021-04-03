@@ -13,4 +13,10 @@ public interface UserService {
     int saveUser(User user);
 
     String addShopping(Long number,String Id);
+
+    String deleteShopping(Long number,String Id);
+
+    String addFans(String id,String fansId);
+
+    String addComment(Long goodsId,String id,String comments);
 }

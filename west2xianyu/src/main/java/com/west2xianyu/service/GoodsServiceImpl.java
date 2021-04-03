@@ -11,10 +11,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoodsServiceImpl implements GoodsService{
 
-
     @Autowired
     private GoodsMapper goodsMapper;
-
 
     @Override
     public Goods getGoods(Long number) {

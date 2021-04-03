@@ -104,16 +104,103 @@ public class UserController {
         return jsonObject;
     }
 
+
+    @ApiImplicitParam(name = "id",value = "用户id",required = true,type = "string")
+    @ApiOperation(value = "获取用户购物车内容")
+    @GetMapping("/shopping")
+    public JSONObject getShopping(){
+        JSONObject jsonObject = new JSONObject();
+        //待完成
+        return jsonObject;
+    }
+
+
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",paramType = "string")
+            @ApiImplicitParam(name = "id",required = true,paramType = "string")
     })
-    @ApiOperation(value = "用户添加闲置物品到购物车",notes = "闲置物品被冻结")
+    @ApiOperation(value = "用户添加闲置物品到购物车",notes = "闲置物品被冻结，不能添加进购物车")
     @PostMapping("/shopping")
     public JSONObject addShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
+        log.info("正在尝试添加进购物车，物品编号：" + number);
         String status = userService.addShopping(number,id);
         jsonObject.put("addShoppingStatus",status);
         return jsonObject;
     }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "用户从购物车移除闲置物品")
+    @DeleteMapping("/shopping")
+    public JSONObject deleteShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在尝试移除出购物车，物品编号：" + number);
+        String status = userService.deleteShopping(number,id);
+        jsonObject.put("deleteShoppingStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "被关注者id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "添加关注")
+    @PostMapping("/fans")
+    public JSONObject addFans(@RequestParam("id") String id,@RequestParam("fansId") String fansId){
+        //因为被封号的用户不会显示，所以能加的都是没被封的，不用判断是否被封号
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在尝试添加粉丝，用户：" + id + " 粉丝：" + fansId);
+        String status = userService.addFans(id,fansId);
+        jsonObject.put("addFansStatus",status);
+        return jsonObject;
+    }
+
+
+    //待完成
+    @ApiOperation(value = "获取粉丝列表")
+    @GetMapping("/follow")
+    public JSONObject getFollow(){
+        JSONObject jsonObject = new JSONObject();
+        return jsonObject;
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "评论者id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "comments",value = "用户评论",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "添加用户评论")
+    @PostMapping("/comment")
+    public JSONObject addComment(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id,
+                                 @RequestParam("comments") String comments){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在添加用户评论：" + comments);
+        String status = userService.addComment(goodsId,id,comments);
+        jsonObject.put("addCommentStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "用户学号",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "comments",value = "评论",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "用户自己删除评论",notes = "用户自己才可以删除")
+    @DeleteMapping("/comment")
+    public JSONObject deleteComment(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id,
+                                    @RequestParam("comments") String comments){
+        JSONObject jsonObject = new JSONObject();
+
+        return jsonObject;
+    }
+
+
+
+
 }

@@ -1,16 +1,14 @@
 package com.west2xianyu.service;
 
 
-import com.west2xianyu.mapper.CommentMapper;
-import com.west2xianyu.mapper.GoodsMapper;
-import com.west2xianyu.mapper.ShoppingMapper;
-import com.west2xianyu.mapper.UserMapper;
-import com.west2xianyu.pojo.Goods;
-import com.west2xianyu.pojo.Shopping;
-import com.west2xianyu.pojo.User;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.west2xianyu.mapper.*;
+import com.west2xianyu.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -27,6 +25,10 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private ShoppingMapper shoppingMapper;
+
+    @Autowired
+    private FansMapper fansMapper;
+
 
     //有时间加邮箱验证码
     @Override
@@ -67,6 +69,10 @@ public class UserServiceImpl implements UserService{
         return userMapper.updateById(user);
     }
 
+
+    //用户名默认存在，不检查了，太麻烦
+
+
     @Override
     public String addShopping(Long number, String Id) {
         Goods goods = goodsMapper.selectById(number);
@@ -78,10 +84,74 @@ public class UserServiceImpl implements UserService{
             log.warn("添加购物车失败，该商品已被冻结：" + number);
             return  "frozenWrong";
         }
+        QueryWrapper<Shopping> wrapper = new QueryWrapper<>();
+        wrapper.eq("number",number);
+        wrapper.eq("id",Id);
+        List<Shopping> shoppingList = shoppingMapper.selectList(wrapper);
+        log.info("购物车：" + shoppingList.toString());
+        if(shoppingList.size() != 0){
+            log.warn("添加购物车失败，该商品已被收藏");
+            return "repeatWrong";
+        }
         //已被添加购物车待完成！
         Shopping shopping = new Shopping(number,Id,null);
         shoppingMapper.insert(shopping);
         log.info("添加购物车成功，商品：" + shopping.toString());
+        return "success";
+    }
+
+    @Override
+    public String deleteShopping(Long number, String Id) {
+        //移除购物车不用考虑商品是否存在
+        QueryWrapper<Shopping> wrapper = new QueryWrapper<>();
+        wrapper.eq("number",number);
+        wrapper.eq("id",Id);
+        List<Shopping> shoppingList = shoppingMapper.selectList(wrapper);
+        if(shoppingList.size() == 0){
+            log.warn("移除购物车失败，该商品不在购物车：" + number);
+            return "existWrong";
+        }
+        int result = shoppingMapper.delete(wrapper);
+        if(result != 1){
+            return "unknownWrong";
+        }
+        log.info("商品移除购物车成功：" + number);
+        return "success";
+    }
+
+    @Override
+    public String addFans(String id, String fansId) {
+        User user = userMapper.selectById(id);
+        if(user == null){
+            log.warn("被关注用户不存在，用户：" + id);
+            return "existWrong";
+        }
+        log.info("正在添加关注列表");
+        Fans fans = new Fans(id,fansId,null);
+        int result = fansMapper.insert(fans);
+        if(result != 1){
+            return "unknownWrong";
+        }
+        //中间要有消息推送，待完成
+        log.info("添加关注成功，用户：" + fansId + " 被关注者：" + id);
+        return "success";
+    }
+
+    @Override
+    public String addComment(Long goodsId,String id,String comments) {
+        Goods goods = goodsMapper.selectById(goodsId);
+        if(goods == null){
+            log.warn("评论失败，商品不存在或已被冻结");
+            return "frozenWrong";
+        }
+        User user = userMapper.selectById(id);
+        if(user == null){
+            log.warn("评论失败，用户id不存在或已被冻结");
+            return "userWrong";
+        }
+        Comment comment = new Comment(goodsId,comments,id,user.getUsername(),null,null,null);
+        commentMapper.insert(comment);
+        log.info("评论成功：" + comments);
         return "success";
     }
 }

@@ -23,6 +23,9 @@ public class Comment {
     @ApiModelProperty(value = "被评论的物品编号",notes = "评论时生成")
     private Long goodsId;
 
+    @ApiModelProperty(value = "用户评论",name = "不超过200字")
+    private String comments;
+
     @ApiModelProperty("评论用户id")
     private String id;
 
