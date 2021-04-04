@@ -47,4 +47,16 @@ public class OrderServiceImpl implements OrderService{
     public Order getOrder(Long number) {
         return orderMapper.selectById(number);
     }
+
+    @Override
+    public String deleteOrder(Long number,String id,int flag) {
+        Order order = orderMapper.selectById(number);
+        if(order == null){
+            log.warn("删除订单失败");
+            return "existWrong";
+        }
+        orderMapper.deleteById(number);
+        log.info("删除订单信息成功：" + order.toString());
+        return "success";
+    }
 }

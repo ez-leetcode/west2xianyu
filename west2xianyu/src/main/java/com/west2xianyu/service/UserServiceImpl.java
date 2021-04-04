@@ -7,8 +7,13 @@ import com.west2xianyu.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -28,6 +33,15 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private FansMapper fansMapper;
+
+    @Autowired
+    private FeedbackMapper feedbackMapper;
+
+    @Autowired
+    private CommentLikesMapper commentLikesMapper;
+
+    @Autowired
+    private AddressMapper addressMapper;
 
 
     //有时间加邮箱验证码
@@ -133,9 +147,41 @@ public class UserServiceImpl implements UserService{
             return "unknownWrong";
         }
         //中间要有消息推送，待完成
+
         log.info("添加关注成功，用户：" + fansId + " 被关注者：" + id);
         return "success";
     }
+
+    @Override
+    public String deleteFans(String id, String fansId) {
+        QueryWrapper<Fans> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .eq("fans_id",fansId);
+        Fans fans = fansMapper.selectOne(wrapper);
+        if(fans == null){
+            log.warn("取消关注失败，用户未被关注：" + id);
+            return "existWrong";
+        }
+        int result = fansMapper.delete(wrapper);
+        if(result != 1){
+            log.warn("服务器错误");
+            return "unknownWrong";
+        }
+        User user = userMapper.selectById(id);
+        int cnt = user.getFansCounts() - 1;
+        user.setFansCounts(cnt);
+        //更新被关注用户粉丝数
+        userMapper.updateById(user);
+        log.info("更新被关注用户粉丝数成功，id：" + id + " 粉丝数：" + cnt);
+        User user1 = userMapper.selectById(fansId);
+        int cnt1 = user1.getFansCounts() - 1;
+        user1.setFollowCounts(cnt1);
+        userMapper.updateById(user1);
+        log.info("更新用户关注数成功，id：" + id + "粉丝数：" + cnt1);
+        log.info("成功取消关注，用户：" + fansId + "被关注者：" + id);
+        return "success";
+    }
+
 
     @Override
     public String addComment(Long goodsId,String id,String comments) {
@@ -151,7 +197,163 @@ public class UserServiceImpl implements UserService{
         }
         Comment comment = new Comment(goodsId,comments,id,user.getUsername(),null,null,null);
         commentMapper.insert(comment);
-        log.info("评论成功：" + comments);
+        log.info("评论成功，用户：" + id + " 评论："+ comments);
+        return "success";
+    }
+
+    @Override
+    public String deleteComment(Long goodsId, String id, String comments, String createTime) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("goods_id",goodsId)
+                .eq("id",id)
+                .eq("comments",comments)
+                .eq("create_time",createTime);
+        Comment comment = commentMapper.selectOne(wrapper);
+        if(comment == null){
+            log.info("删除评论失败，评论不存在：" + comments);
+            return "existWrong";
+        }
+        int result = commentMapper.delete(wrapper);
+        if(result != 1){
+            log.warn("服务器错误");
+            return "unknownWrong";
+        }
+        log.info("删除评论成功，用户：" + goodsId + " 评论：" + comments);
+        return "success";
+    }
+
+    @Override
+    public String addFeedback(String id,String phone,String feedbacks) {
+        int result = feedbackMapper.insert(new Feedback(id,phone,feedbacks,0,null));
+        if(result != 1){
+            log.warn("用户反馈失败");
+            return "unknownWrong";
+        }
+        log.info("用户反馈成功，用户：" + id + " 反馈：" + feedbacks);
+        return "success";
+    }
+
+    //商品冻结检查和id检查暂时不做
+    @Override
+    public String addLikes(Long goodsId, String id, String comments, String createTime) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("goods_id",goodsId)
+                .eq("id",id)
+                .eq("comments",comments)
+                .eq("create_time",createTime);
+        Comment comment = commentMapper.selectOne(wrapper);
+        if(comment == null){
+            log.warn("点赞失败，评论不存在");
+            return "existWrong";
+        }
+        QueryWrapper<CommentLikes> wrapper1 = new QueryWrapper<>();
+        wrapper1.eq("goods_id",goodsId)
+                .eq("id",id)
+                .eq("comments",comments);
+        CommentLikes commentLikes = commentLikesMapper.selectOne(wrapper1);
+        if(commentLikes != null){
+            log.warn("点赞失败，评论已被点赞");
+            return "repeatWrong";
+        }
+        CommentLikes commentLikes1 = new CommentLikes(goodsId,comments,id,null);
+        commentLikesMapper.insert(commentLikes1);
+        log.info("插入点赞信息成功：" + commentLikes1.toString());
+        comment.setLikes(comment.getLikes() + 1);
+        commentMapper.updateById(comment);
+        log.info("更新（增加）点赞数据成功");
+        return "success";
+    }
+
+    @Override
+    public String deleteLikes(Long goodsId, String id, String comments, String createTime) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("goods_id",goodsId)
+                .eq("id",id)
+                .eq("comments",comments)
+                .eq("create_time",createTime);
+        Comment comment = commentMapper.selectOne(wrapper);
+        if(comment == null){
+            log.warn("取消点赞失败，评论不存在");
+            return "existWrong";
+        }
+        QueryWrapper<CommentLikes> wrapper1 = new QueryWrapper<>();
+        wrapper1.eq("goods_id",goodsId)
+                .eq("id",id)
+                .eq("comments",comments);
+        CommentLikes commentLikes = commentLikesMapper.selectOne(wrapper1);
+        if(commentLikes == null){
+            log.warn("取消点赞失败，评论未被点赞");
+            return "existWrong";
+        }
+        commentLikesMapper.delete(wrapper1);
+        log.info("删除点赞信息成功");
+        comment.setLikes(comment.getLikes() - 1);
+        commentMapper.updateById(comment);
+        log.info("更新（减少）点赞数据成功");
+        return "success";
+    }
+
+    @Override
+    public String uploadPhoto(MultipartFile file, String id) {
+        if(file.isEmpty()){
+            log.warn("上传头像失败，头像文件为空");
+            return "emptyWrong";
+        }
+        //获取文件名
+        String fileName = file.getOriginalFilename();
+        if(fileName == null){
+            log.warn("上传头像失败，文件名为空");
+            return "emptyWrong";
+        }
+        //获取上传头像文件类型
+        String suffixName = fileName.substring(fileName.lastIndexOf(".") + 1);
+        log.info("上传头像文件类型：" + suffixName);
+        //暂时只支持jpg png jpeg类型头像文件上传
+        if(!(suffixName.equals("jpg") || suffixName.equals("jpeg") || suffixName.equals("png"))){
+            log.warn("上传头像失败，文件格式不匹配");
+        }
+        //新文件名，加UUID防止重复
+        String fileNewName = UUID.randomUUID().toString() + fileName;
+        log.info("新头像文件名：" + fileNewName);
+        //文件路径
+        String filePath = "/xy/photo/" + fileNewName;
+        log.info("头像文件路径：" + filePath);
+        log.info("正在上传头像，用户：" + id);
+        //封装上传文件全路径
+        File photoFile = new File(filePath);
+        try{
+            //保存头像图片
+            file.transferTo(photoFile);
+        }catch (IOException e){
+            e.printStackTrace();
+            log.warn("服务器错误，头像上传失败");
+            return "internetWrong";
+        }
+        //保存图片url
+        User user = userMapper.selectById(id);
+        if(user == null){
+            log.warn("上传头像失败，用户不存在：" + id);
+            return "userWrong";
+        }
+        if(user.getPhoto() != null){
+            //删除原头像文件
+            log.info("正在删除原头像文件：" + user.getPhoto());
+            String lastPhotoUrl = user.getPhoto();
+            File file1 = new File(lastPhotoUrl);
+            if(file1.exists()){
+                if(file1.delete()){
+                    log.info("头像原文件删除成功");
+                }
+            }
+        }
+        user.setPhoto(filePath);
+        log.info("更新头像资源路径成功：" + user.getPhoto());
+        return "success";
+    }
+
+    @Override
+    public String addAddress(String id, String campus, String realAddress, String name, String phone, int isDefault) {
+
         return "success";
     }
 }

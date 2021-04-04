@@ -1,6 +1,8 @@
 package com.west2xianyu.service;
 
 import com.west2xianyu.pojo.User;
+import org.springframework.web.multipart.MultipartFile;
+
 
 public interface UserService {
 
@@ -19,4 +21,18 @@ public interface UserService {
     String addFans(String id,String fansId);
 
     String addComment(Long goodsId,String id,String comments);
+
+    String deleteComment(Long goodsId, String id, String comments, String createTime);
+
+    String deleteFans(String id,String fansId);
+
+    String addFeedback(String id,String phone,String feedbacks);
+
+    String addLikes(Long goodsId,String id,String comments,String createTime);
+
+    String deleteLikes(Long goodsId,String id,String comments,String createTime);
+
+    String uploadPhoto(MultipartFile file,String id);
+
+    String addAddress(String id,String campus,String realAddress,String name,String phone,int isDefault);
 }

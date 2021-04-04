@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "闲置物品控制类",protocols = "https")
 @Slf4j
@@ -65,4 +62,16 @@ public class GoodsController {
         }
         return jsonObject;
     }
+
+    @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long")
+    @ApiOperation(value = "下架自己原有的闲置物品")
+    @DeleteMapping("/goods")
+    public JSONObject deleteGoods(@RequestParam("number") Long number){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在下架闲置物品：" + number);
+        String status = goodsService.deleteGoods(number);
+        jsonObject.put("deleteGoodsStatus",status);
+        return jsonObject;
+    }
+
 }

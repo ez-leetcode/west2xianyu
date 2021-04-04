@@ -8,4 +8,5 @@ public interface GoodsService {
 
     String saveGoods(Goods goods);
 
+    String deleteGoods(Long number);
 }

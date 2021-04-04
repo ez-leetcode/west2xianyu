@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor                        //暂时不支持图片
 @ToString                                 //社区管理员可以删除评论！！！！！(评论被删除通知用户)
 @ApiModel(description = "用户评论类")
 public class Comment {
@@ -23,7 +23,7 @@ public class Comment {
     @ApiModelProperty(value = "被评论的物品编号",notes = "评论时生成")
     private Long goodsId;
 
-    @ApiModelProperty(value = "用户评论",name = "不超过200字")
+    @ApiModelProperty(value = "用户评论",notes = "不超过200字")
     private String comments;
 
     @ApiModelProperty("评论用户id")
@@ -33,7 +33,7 @@ public class Comment {
     private String username;
 
     @ApiModelProperty(value = "评论被点赞数",notes = "点赞/取消点赞接口")
-    private Integer like;
+    private Integer likes;
 
     @ApiModelProperty("是否被删除")
     @TableLogic

@@ -8,6 +8,7 @@ import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Api(tags = "用户控制类",protocols = "https")
@@ -56,6 +57,24 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         return jsonObject;
     }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "photo",value = "头像文件",required = true,paramType = "file"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "用户上传头像")
+    @PostMapping("/photo")
+    public JSONObject uploadPhoto(@RequestParam("photo") MultipartFile file,@RequestParam("id") String id){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在上传用户头像，id：" + id);
+        String status = userService.uploadPhoto(file,id);
+        jsonObject.put("uploadPhotoStatus",status);
+        return jsonObject;
+    }
+
+
+
 
 
 
@@ -166,6 +185,21 @@ public class UserController {
     }
 
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "被关注者id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "取消关注")
+    @DeleteMapping("/fans")
+    public JSONObject deleteFans(@RequestParam("id") String id,@RequestParam("fansId") String fansId){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在尝试取消关注,用户： " + id + " 粉丝：" + fansId);
+        String status = userService.deleteFans(id, fansId);
+        jsonObject.put("deleteFansStatus",status);
+        return jsonObject;
+    }
+
+
     //待完成
     @ApiOperation(value = "获取粉丝列表")
     @GetMapping("/follow")
@@ -194,17 +228,93 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "id",value = "用户学号",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "comments",value = "评论",required = true,paramType = "string")
+            @ApiImplicitParam(name = "comments",value = "评论",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,type = "Date")
     })
     @ApiOperation(value = "用户自己删除评论",notes = "用户自己才可以删除")
     @DeleteMapping("/comment")
-    public JSONObject deleteComment(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id,
-                                    @RequestParam("comments") String comments){
+    public JSONObject deleteComment(@RequestParam("goodsId") Long goodsId, @RequestParam("id") String id,
+                                    @RequestParam("comments") String comments, @RequestParam("createTime") String createTime){
         JSONObject jsonObject = new JSONObject();
-
+        log.info("用户正在删除自己的评论：" + comments);
+        String status = userService.deleteComment(goodsId,id,comments,createTime);
+        jsonObject.put("deleteCommentStatus",status);
         return jsonObject;
     }
 
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "对评论点赞")
+    @PostMapping("/likes")
+    public JSONObject addLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
+                               @RequestParam("comments") String comments,@RequestParam("createTime") String createTime){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在给评论点赞：" + comments);
+        String status = userService.addLikes(goodsId,id,comments,createTime);
+        jsonObject.put("addLikesStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "取消评论点赞")
+    @DeleteMapping("/likes")
+    public JSONObject deleteLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
+                                  @RequestParam("comments") String comments,@RequestParam("createTime") String createTime){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在取消评论点赞：" + comments);
+        String status = userService.deleteLikes(goodsId,id,comments,createTime);
+        jsonObject.put("deleteLikesStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "phone",value = "联系方式（电话）",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "feedbacks",value = "用户反馈(不超200个字)",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "添加用户反馈")
+    @PostMapping("/feedback")
+    public JSONObject addFeedback(@RequestParam("id") String id,@RequestParam("phone") String phone,
+                                  @RequestParam("feedbacks") String feedbacks){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在添加用户反馈，用户：" + id + " 反馈：" + feedbacks);
+        String status = userService.addFeedback(id,phone,feedbacks);
+        jsonObject.put("addFeedbackStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "campus",value = "校区",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "realAddress",value = "具体地址",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "name",value = "收货人姓名",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "phone",value = "电话",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "isDefault",value = "是否是默认地址",required = true,paramType = "int")
+    })
+    @ApiOperation(value = "保存用户收获地址")
+    @PostMapping("/address")
+    public JSONObject addAddress(@RequestParam("id") String id,@RequestParam("campus") String campus,
+                                 @RequestParam("realAddress") String realAddress,@RequestParam("name") String name,
+                                 @RequestParam("phone") String phone,@RequestParam("isDefault") int isDefault){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在保存用户收获地址信息：" + realAddress);
+        String status = userService.addAddress(id,campus,realAddress,name,phone,isDefault);
+        jsonObject.put("addAddressStatus",status);
+        return jsonObject;
+    }
 
 
 

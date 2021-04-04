@@ -9,10 +9,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "订单控制类",protocols = "https")
 @Slf4j
@@ -39,19 +36,51 @@ public class OrderController {
     }
 
 
+    @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long")
+    @ApiOperation("获取订单详细信息")
     @GetMapping("/order")
     public JSONObject getOrder(@RequestParam("number") Long number){
         JSONObject jsonObject = new JSONObject();
         log.info("正在获取订单信息，订单：" + number);
         Order order = orderService.getOrder(number);
-        if(order != null){
+        if(order == null){
             log.warn("获取订单信息失败，订单不存在");
             jsonObject.put("getOrderStatus","existWrong");
+        }else{
+            log.info("获取订单信息成功，订单：" + order.toString());
         }
-        log.info("获取订单信息成功，订单：" + order.toString());
         jsonObject.put("getOrderStatus","success");
         jsonObject.put("order",order);
         return jsonObject;
     }
 
+
+    //暂时不用
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "fromId",value = "卖家id",paramType = "string"),
+            @ApiImplicitParam(name = "toId",value = "买家id",paramType = "string")
+    })
+    @ApiOperation("删除订单")
+    @DeleteMapping("/order")
+    public JSONObject deleteOrder(@RequestParam("number") Long number,@RequestParam(value = "fromId",required = false) String fromId,
+                                  @RequestParam(value = "toId",required = false) String toId) {
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在尝试删除订单信息：" + number);
+        if((fromId == null && toId == null) || (fromId != null && toId != null)){
+            log.warn("请求参数错误");
+            jsonObject.put("deleteOrderStatus","requestWrong");
+            return jsonObject;
+        }
+        String status;
+        if(fromId != null){
+            log.info("正在尝试删除卖家订单信息：" + fromId);
+            status = orderService.deleteOrder(number,fromId,0);
+        }else{
+            log.info("正在尝试删除买家订单信息：" + toId);
+            status = orderService.deleteOrder(number,toId,1);
+        }
+        jsonObject.put("deleteOrderStatus",status);
+        return jsonObject;
+    }
 }

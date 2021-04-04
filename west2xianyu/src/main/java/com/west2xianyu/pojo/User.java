@@ -26,11 +26,11 @@ public class User {
     @ApiModelProperty(value = "密码",notes = "密码由前台MD5(salt)加密后传输")
     private String password;
 
-    @ApiModelProperty(value = "性别",notes = "man/woman")
+    @ApiModelProperty(value = "性别",notes = "M/W")
     private String sex;
 
-    @ApiModelProperty(value = "收货地址",notes = "校区/楼/宿舍")
-    private String address;
+    @ApiModelProperty(value = "收货地址编号")
+    private Long address;
 
     @ApiModelProperty(value = "邮箱",notes = "用户没设置，注册时默认用学号生成学校邮箱")
     private String email;

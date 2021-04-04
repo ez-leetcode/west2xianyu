@@ -26,4 +26,16 @@ public class GoodsServiceImpl implements GoodsService{
         log.info("上传成功，物品：" + goods.toString());
         return "success";
     }
+
+    @Override
+    public String deleteGoods(Long number) {
+        Goods goods = goodsMapper.selectById(number);
+        if(goods == null){
+            log.warn("下架物品失败，物品不存在：" + number);
+            return "existWrong";
+        }
+        goodsMapper.deleteById(number);
+        log.info("下架物品成功：" + number);
+        return "success";
+    }
 }
