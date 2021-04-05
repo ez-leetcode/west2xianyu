@@ -1,7 +1,12 @@
 package com.west2xianyu.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.pojo.Address;
+import com.west2xianyu.pojo.Shopping;
 import com.west2xianyu.pojo.User;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 public interface UserService {
@@ -35,4 +40,12 @@ public interface UserService {
     String uploadPhoto(MultipartFile file,String id);
 
     String addAddress(String id,String campus,String realAddress,String name,String phone,int isDefault);
+
+    String deleteAddress(Long number,String id);
+
+    JSONObject getShopping(String id, long cnt, long page);
+
+    String deleteHistory(Long goodsId,String id);
+
+    String deleteAllHistory(String id);
 }

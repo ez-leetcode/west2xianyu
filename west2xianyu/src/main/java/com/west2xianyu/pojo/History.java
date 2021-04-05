@@ -23,8 +23,12 @@ public class History {
     @ApiModelProperty(value = "浏览用户id")
     private String id;
 
-    @ApiModelProperty(value = "浏览时间")
+    @ApiModelProperty(value = "第一次浏览时间")
     @TableField(fill = FieldFill.INSERT)
     private String createTime;
+
+    @ApiModelProperty(value = "最近浏览时间")
+    @TableField(fill = FieldFill.UPDATE)
+    private String updateTime;
 
 }

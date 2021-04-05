@@ -70,6 +70,7 @@ public class Goods {
     @Version
     private Integer version;
 
+    //待删除
     @ApiModelProperty(value = "是否被冻结",notes = "有人拍下后，商品会被冻结，不能被搜索到")
     private Integer isFrozen;
 

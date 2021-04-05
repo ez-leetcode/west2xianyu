@@ -26,9 +26,6 @@ public class Favor {
     @ApiModelProperty(value = "收藏用户")
     private String id;
 
-    @ApiModelProperty(value = "用户昵称")
-    private String username;
-
     @ApiModelProperty(value = "收藏时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

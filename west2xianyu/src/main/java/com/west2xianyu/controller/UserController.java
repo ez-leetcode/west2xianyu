@@ -2,6 +2,7 @@ package com.west2xianyu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.pojo.Shopping;
 import com.west2xianyu.pojo.User;
 import com.west2xianyu.service.UserService;
 import io.swagger.annotations.*;
@@ -9,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 
 @Api(tags = "用户控制类",protocols = "https")
@@ -65,16 +68,13 @@ public class UserController {
     })
     @ApiOperation(value = "用户上传头像")
     @PostMapping("/photo")
-    public JSONObject uploadPhoto(@RequestParam("photo") MultipartFile file,@RequestParam("id") String id){
+    public JSONObject uploadPhoto(@RequestParam("photo") MultipartFile file,@RequestParam("id") String id) {
         JSONObject jsonObject = new JSONObject();
         log.info("正在上传用户头像，id：" + id);
-        String status = userService.uploadPhoto(file,id);
-        jsonObject.put("uploadPhotoStatus",status);
+        String status = userService.uploadPhoto(file, id);
+        jsonObject.put("uploadPhotoStatus", status);
         return jsonObject;
     }
-
-
-
 
 
 
@@ -129,16 +129,20 @@ public class UserController {
     }
 
 
-    @ApiImplicitParam(name = "id",value = "用户id",required = true,type = "string")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,type = "string"),
+            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,type = "long"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,type = "long")
+    })
     @ApiOperation(value = "获取用户购物车内容")
     @GetMapping("/shopping")
-    public JSONObject getShopping(){
-        JSONObject jsonObject = new JSONObject();
-        //待完成
+    public JSONObject getShopping(@RequestParam("id") String id,@RequestParam("cnt") long cnt,
+                                  @RequestParam("page") long page){
+        log.info("正在尝试获取用户购物车内容");
+        JSONObject jsonObject = userService.getShopping(id,cnt,page);
+        //返回信息里，一个shoppingList代表内容，pages代表页面数
         return jsonObject;
     }
-
-
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
@@ -302,7 +306,7 @@ public class UserController {
             @ApiImplicitParam(name = "realAddress",value = "具体地址",required = true,paramType = "string"),
             @ApiImplicitParam(name = "name",value = "收货人姓名",required = true,paramType = "string"),
             @ApiImplicitParam(name = "phone",value = "电话",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "isDefault",value = "是否是默认地址",required = true,paramType = "int")
+            @ApiImplicitParam(name = "isDefault",value = "是否是默认地址1是0不是",required = true,paramType = "int")
     })
     @ApiOperation(value = "保存用户收获地址")
     @PostMapping("/address")
@@ -316,6 +320,63 @@ public class UserController {
         return jsonObject;
     }
 
+    //删除默认的地址，会随机转移默认地址设置给其他地址，如没有其他地址，地址会置为null
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "地址编号",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "删除用户的地址配置")
+    @DeleteMapping("/address")
+    public JSONObject deleteAddress(@RequestParam("number") Long number,@RequestParam("id") String id){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在删除用户地址信息：" + number);
+        String status = userService.deleteAddress(number,id);
+        jsonObject.put("deleteAddressStatus",status);
+        return jsonObject;
+    }
 
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "goodsId",value = "物品编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    })
+    @ApiOperation(value = "用户删除历史记录",notes = "单个删除接口")
+    @DeleteMapping("/history")
+    public JSONObject deleteHistory(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在删除历史记录，商品编号：" + goodsId + " 用户id：" + id);
+        String status = userService.deleteHistory(goodsId,id);
+        jsonObject.put("deleteHistoryStatus",status);
+        return jsonObject;
+    }
+
+
+
+    //4.6到这
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long")
+    })
+    @ApiOperation(value = "获取用户全部历史记录")
+    @PostMapping("/allHistory")
+    public JSONObject getHistory(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                                 @RequestParam("page") Long page){
+        //待完成
+        JSONObject jsonObject = new JSONObject();
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    @ApiOperation(value = "清空历史记录")
+    @DeleteMapping("/allHistory")
+    public JSONObject deleteAllHistory(@RequestParam("id") String id){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在清空历史记录，用户id：" + id);
+        String status = userService.deleteAllHistory(id);
+        jsonObject.put("deleteAllHistoryStatus",status);
+        return jsonObject;
+    }
 
 }

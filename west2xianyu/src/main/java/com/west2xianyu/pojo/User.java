@@ -53,6 +53,18 @@ public class User {
     @ApiModelProperty(value = "违反社区规定次数",notes = "3次将自动冻结账号30天，5次将永久封禁")
     private Integer frozenCounts;
 
+    @ApiModelProperty(value = "售卖单量")
+    private Integer saleCounts;
+
+    @ApiModelProperty(value = "描述评分",notes = "默认为5分")
+    private Double aveDescribe;
+
+    @ApiModelProperty(value = "服务评分")
+    private Double aveService;
+
+    @ApiModelProperty(value = "物流评分")
+    private Double aveLogistics;
+
     @ApiModelProperty("是否为管理员")
     private Integer isAdministrator;
 

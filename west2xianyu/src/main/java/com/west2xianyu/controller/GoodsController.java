@@ -4,10 +4,7 @@ package com.west2xianyu.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.west2xianyu.pojo.Goods;
 import com.west2xianyu.service.GoodsService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -22,12 +19,15 @@ public class GoodsController {
 
 
     @ApiOperation(value = "获取闲置物品详细信息")
-    @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "访问者id",required = true,paramType = "string")
+    })
     @GetMapping("/goods")
-    public JSONObject getGoods(@RequestParam("number") Long number){
+    public JSONObject getGoods(@RequestParam("number") Long number,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
         log.info("正在获取闲置物品详细信息");
-        Goods goods = goodsService.getGoods(number);
+        Goods goods = goodsService.getGoods(number,id);
         if(goods == null){
             log.warn("获取闲置物品详细信息失败，物品不存在：" + number);
             jsonObject.put("getGoodsStatus","existWrong");
@@ -38,6 +38,7 @@ public class GoodsController {
             log.warn("获取闲置物品详细信息失败，物品已被冻结，可以通过管理员账号访问");
         }
         log.info("获取闲置物品详细信息成功，物品：" + goods.toString());
+        jsonObject.put("Goods",goods);
         jsonObject.put("getGoodsStatus",goods);
         return jsonObject;
     }
@@ -73,5 +74,37 @@ public class GoodsController {
         jsonObject.put("deleteGoodsStatus",status);
         return jsonObject;
     }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long")
+    })
+    @ApiOperation("收藏商品")
+    @PostMapping("/favor")
+    public JSONObject addFavor(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在添加收藏，id：" + id + " goodsId：" + goodsId);
+        String status = goodsService.addFavor(goodsId,id);
+        jsonObject.put("addFavorStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long")
+    })
+    @ApiOperation("移除商品收藏")
+    @DeleteMapping("/favor")
+    public JSONObject deleteFavor(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在移除收藏，id：" + id + " goodsId：" + goodsId);
+        String status = goodsService.deleteFavor(goodsId,id);
+        jsonObject.put("deleteFavorStatus",status);
+        return jsonObject;
+    }
+
+
 
 }

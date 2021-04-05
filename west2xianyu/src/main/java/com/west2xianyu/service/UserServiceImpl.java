@@ -1,7 +1,9 @@
 package com.west2xianyu.service;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
 import com.west2xianyu.pojo.*;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +44,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private AddressMapper addressMapper;
+
+    @Autowired
+    private HistoryMapper historyMapper;
 
 
     //有时间加邮箱验证码
@@ -353,7 +358,111 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String addAddress(String id, String campus, String realAddress, String name, String phone, int isDefault) {
+        Address address = new Address(null,id,campus,realAddress,name,phone,null,null);
+        QueryWrapper<Address> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .eq("campus",campus)
+                .eq("real_address",realAddress)
+                .eq("name",name)
+                .eq("phone",phone);
+        addressMapper.insert(address);
+        log.info("地址设置插入成功：" + address.toString());
+        if(isDefault == 1){
+            //有设置为默认地址选项，把默认地址改掉
+            User user = userMapper.selectById(id);
+            if(user == null){
+                log.info("修改默认地址失败，用户不存在：" + id);
+                return "existWrong";
+            }
+            user.setAddress(addressMapper.selectOne(wrapper).getNumber());
+            userMapper.updateById(user);
+            log.info("默认地址修改成功：" + user.getAddress());
+        }
+        return "success";
+    }
 
+    @Override
+    public String deleteAddress(Long number, String id) {
+        Address address = addressMapper.selectById(number);
+        if(address == null){
+            log.warn("删除地址设置失败，地址不存在");
+            return "existWrong";
+        }
+        User user = userMapper.selectById(id);
+        if(user == null){
+            log.warn("删除地址设置失败，用户不存在");
+            return "userWrong";
+        }
+        //当前默认地址编号
+        Long number1 = user.getAddress();
+        if(number1.equals(number)){
+            log.info("发现删除地址为默认地址");
+            QueryWrapper<Address> wrapper = new QueryWrapper<>();
+            wrapper.eq("id",id);
+            Address address1 = addressMapper.selectOne(wrapper);
+            log.info("正在把其他地址设为默认");
+            if(address1 != null){
+                //如果还有别的地址，把其设为默认
+                User user1 = new User();
+                user1.setId(id);
+                user1.setAddress(address1.getNumber());
+                userMapper.updateById(user1);
+            }else{
+                //没有其他地址，告诉用户至少保留一个地址
+                log.warn("没有其他地址，至少保留一个地址");
+                return "addressWrong";
+            }
+        }
+        //删除地址信息
+        addressMapper.deleteById(number);
+        log.info("删除地址信息成功");
+        return "success";
+    }
+
+    @Override
+    public JSONObject getShopping(String id, long cnt, long page) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Shopping> wrapper = new QueryWrapper<>();
+        //desc  大到小排序   asc 小到大
+        wrapper.eq("id",id)
+                .orderByDesc("create_time");
+        Page<Shopping> page1 = new Page<>(page,cnt);
+        shoppingMapper.selectPage(page1,wrapper);
+        List<Shopping> shoppingList = page1.getRecords();
+        jsonObject.put("shoppingList",shoppingList);
+        jsonObject.put("pages",page1.getPages());
+        log.info("获取购物车信息成功");
+        log.info("页面数：" + page1.getPages());
+        log.info("购物车信息：" + shoppingList.toString());
+        return jsonObject;
+    }
+
+
+    @Override
+    public String deleteHistory(Long goodsId, String id) {
+        QueryWrapper<History> wrapper = new QueryWrapper<>();
+        wrapper.eq("goods_id",goodsId)
+                .eq("id",id);
+        int result = historyMapper.delete(wrapper);
+        if(result != 1){
+            log.warn("删除历史记录失败，可能是历史记录不存在：" + goodsId);
+            return "existWrong";
+        }
+        log.info("删除历史记录成功");
+        return "success";
+    }
+
+    @Override
+    public String deleteAllHistory(String id) {
+        QueryWrapper<History> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id);
+        int result = historyMapper.delete(wrapper);
+        if(result == 0){
+            log.warn("清空历史浏览异常，历史浏览可能已经被清除");
+            return "existWrong";
+        }else{
+            log.info("清空历史浏览成功，用户：" + id + " 清除条数：" + result);
+        }
         return "success";
     }
 }
