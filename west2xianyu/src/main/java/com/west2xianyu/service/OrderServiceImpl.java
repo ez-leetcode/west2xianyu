@@ -1,9 +1,9 @@
 package com.west2xianyu.service;
 
 import com.west2xianyu.mapper.GoodsMapper;
-import com.west2xianyu.mapper.OrderMapper;
+import com.west2xianyu.mapper.OrdersMapper;
 import com.west2xianyu.pojo.Goods;
-import com.west2xianyu.pojo.Order;
+import com.west2xianyu.pojo.Orders;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 public class OrderServiceImpl implements OrderService{
 
     @Autowired
-    private OrderMapper orderMapper;
+    private OrdersMapper ordersMapper;
 
     @Autowired
     private GoodsMapper goodsMapper;
@@ -30,33 +30,33 @@ public class OrderServiceImpl implements OrderService{
             log.warn("该闲置物品已被冻结，编号：" + number);
             return "frozenWrong";
         }
-        Order order = new Order();
+        Orders orders = new Orders();
         //设置订单卖家和买家
-        order.setFromId(goods.getFromId());
-        order.setToId(toId);
+        orders.setFromId(goods.getFromId());
+        orders.setToId(toId);
         //图片url
-        order.setPhoto(goods.getPhoto());
+        orders.setPhoto(goods.getPhoto());
         //设置价格
-        order.setPrice(goods.getPrice());
-        orderMapper.insert(order);
-        log.info("订单生成成功，订单：" + order.toString());
+        orders.setPrice(goods.getPrice());
+        ordersMapper.insert(orders);
+        log.info("订单生成成功，订单：" + orders.toString());
         return "success";
     }
 
     @Override
-    public Order getOrder(Long number) {
-        return orderMapper.selectById(number);
+    public Orders getOrder(Long number) {
+        return ordersMapper.selectById(number);
     }
 
     @Override
     public String deleteOrder(Long number,String id,int flag) {
-        Order order = orderMapper.selectById(number);
-        if(order == null){
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null){
             log.warn("删除订单失败");
             return "existWrong";
         }
-        orderMapper.deleteById(number);
-        log.info("删除订单信息成功：" + order.toString());
+        ordersMapper.deleteById(number);
+        log.info("删除订单信息成功：" + orders.toString());
         return "success";
     }
 }

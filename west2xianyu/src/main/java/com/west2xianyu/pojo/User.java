@@ -35,6 +35,9 @@ public class User {
     @ApiModelProperty(value = "邮箱",notes = "用户没设置，注册时默认用学号生成学校邮箱")
     private String email;
 
+    @ApiModelProperty(value = "校区")
+    private String campus;
+
     @ApiModelProperty("手机号码")
     private String phone;
 

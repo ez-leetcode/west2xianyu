@@ -1,7 +1,7 @@
 package com.west2xianyu.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.west2xianyu.pojo.Order;
+import com.west2xianyu.pojo.Orders;
 import com.west2xianyu.service.OrderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,15 +42,15 @@ public class OrderController {
     public JSONObject getOrder(@RequestParam("number") Long number){
         JSONObject jsonObject = new JSONObject();
         log.info("正在获取订单信息，订单：" + number);
-        Order order = orderService.getOrder(number);
-        if(order == null){
+        Orders orders = orderService.getOrder(number);
+        if(orders == null){
             log.warn("获取订单信息失败，订单不存在");
             jsonObject.put("getOrderStatus","existWrong");
         }else{
-            log.info("获取订单信息成功，订单：" + order.toString());
+            log.info("获取订单信息成功，订单：" + orders.toString());
         }
         jsonObject.put("getOrderStatus","success");
-        jsonObject.put("order",order);
+        jsonObject.put("order", orders);
         return jsonObject;
     }
 

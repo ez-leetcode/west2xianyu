@@ -18,6 +18,7 @@ public class GoodsController {
     private GoodsService goodsService;
 
 
+    //浏览自己的商品
     @ApiOperation(value = "获取闲置物品详细信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
@@ -106,5 +107,54 @@ public class GoodsController {
     }
 
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long")
+    })
+    @ApiOperation("获取全部收藏列表")
+    @GetMapping("/favor")
+    public JSONObject getFavor(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                               @RequestParam("page") Long page){
+        log.info("正在获取全部收藏列表：" + id);
+        JSONObject jsonObject = goodsService.getAllFavor(id,cnt,page);
+        return jsonObject;
+    }
+
+
+    //4.6
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long")
+    })
+    @ApiOperation("关键词搜索收藏列表")
+    @GetMapping("/searchFavor")
+    public JSONObject searchFavor(@RequestParam("id") String id,@RequestParam("keyword") String keyword,
+                                  @RequestParam("cnt") Long cnt,@RequestParam("page") Long page){
+        log.info("正在获取关键词收藏列表，id：" + id + " keyword：" + keyword);
+        JSONObject jsonObject = goodsService.searchFavor(id,keyword,cnt,page);
+        return jsonObject;
+    }
+
+
+    //4.7
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string"),
+            @ApiImplicitParam(name = "low",value = "价格最低",required = true,paramType = "double"),
+            @ApiImplicitParam(name = "high",value = "价格最高",required = true,paramType = "double"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前页数",required = true,paramType = "long")
+    })
+    @ApiOperation("主页关键词获取")
+    @GetMapping("/searchGoods")
+    public JSONObject searchGoods(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
+                                  @RequestParam(value = "keyword",required = false) String keyword,
+                                  @RequestParam(value = "low") Double low, @RequestParam(value = "high") Double high){
+        log.info("正在获取主页，keyword：" + keyword + " low：" + low + " high：" + high);
+        JSONObject jsonObject = goodsService.searchGoods(keyword,low,high,cnt,page);
+        return jsonObject;
+    }
 
 }

@@ -2,11 +2,8 @@ package com.west2xianyu.service;
 
 import com.alibaba.fastjson.JSONObject;
 import com.west2xianyu.pojo.Address;
-import com.west2xianyu.pojo.Shopping;
 import com.west2xianyu.pojo.User;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 
 public interface UserService {
@@ -43,7 +40,15 @@ public interface UserService {
 
     String deleteAddress(Long number,String id);
 
+    String changeAddress(Address address);
+
     JSONObject getShopping(String id, long cnt, long page);
+
+    JSONObject getHistory(String id,long cnt,long page);
+
+    JSONObject getFollow(String id,long cnt,long page);
+
+    JSONObject getAddress(String id,long cnt,long page);
 
     String deleteHistory(Long goodsId,String id);
 

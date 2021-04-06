@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
+import com.west2xianyu.msg.FansMsg;
+import com.west2xianyu.msg.ShoppingMsg;
 import com.west2xianyu.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,6 +51,8 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private HistoryMapper historyMapper;
 
+    @Autowired
+    private OrdersMapper ordersMapper;
 
     //有时间加邮箱验证码
     @Override
@@ -141,18 +146,30 @@ public class UserServiceImpl implements UserService{
     @Override
     public String addFans(String id, String fansId) {
         User user = userMapper.selectById(id);
+        User user1 = userMapper.selectById(fansId);
+        //关注用户已经可以登录不用判断是否存在
         if(user == null){
             log.warn("被关注用户不存在，用户：" + id);
             return "existWrong";
         }
-        log.info("正在添加关注列表");
-        Fans fans = new Fans(id,fansId,null);
-        int result = fansMapper.insert(fans);
-        if(result != 1){
-            return "unknownWrong";
+        QueryWrapper<Fans> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .eq("fans_id",fansId);
+        Fans fans = fansMapper.selectOne(wrapper);
+        if(fans != null){
+            log.warn("关注失败，用户已被该用户关注");
+            return "repeatWrong";
         }
+        Fans fans1 = new Fans(id,fansId,null);
+        log.info("关注列表更新成功，id：" + id + " fansId：" + fansId);
+        fansMapper.insert(fans1);
         //中间要有消息推送，待完成
-
+        user.setFansCounts(user.getFansCounts() + 1);
+        user1.setFollowCounts(user1.getFollowCounts() + 1);
+        userMapper.updateById(user);
+        log.info("更新被关注者粉丝数量成功：" + user.getFansCounts());
+        userMapper.updateById(user1);
+        log.info("更新关注者关注数量成功：" + user1.getFansCounts());
         log.info("添加关注成功，用户：" + fansId + " 被关注者：" + id);
         return "success";
     }
@@ -187,6 +204,35 @@ public class UserServiceImpl implements UserService{
         return "success";
     }
 
+    @Override
+    public JSONObject getFollow(String id, long cnt, long page) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Fans> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .orderByDesc("create_time");
+        Page<Fans> page1 = new Page<>(page,cnt);
+        fansMapper.selectPage(page1,wrapper);
+        //获取粉丝集合
+        List<Fans> fansList = page1.getRecords();
+        List<FansMsg> fansMsgList = new LinkedList<>();
+        log.info("粉丝列表：" + fansList.toString());
+        for(Fans x:fansList){
+            //遍历粉丝集合，查询所有粉丝信息
+            User user = userMapper.selectById(x.getFansId());
+            QueryWrapper<Orders> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("from_id",id)
+                    .eq("to_id",x.getFansId());
+            //获取购买列表
+            List<Orders> ordersList = ordersMapper.selectList(wrapper1);
+            FansMsg fansMsg = new FansMsg(id,x.getId(),user.getUsername(),user.getPhoto(),
+                    user.getIntroduction(), ordersList.size(),x.getCreateTime());
+            fansMsgList.add(fansMsg);
+        }
+        jsonObject.put("fansList",fansMsgList);
+        jsonObject.put("pages",page1.getPages());
+        log.info("获取粉丝列表成功：" + fansMsgList.toString());
+        return jsonObject;
+    }
 
     @Override
     public String addComment(Long goodsId,String id,String comments) {
@@ -365,6 +411,11 @@ public class UserServiceImpl implements UserService{
                 .eq("real_address",realAddress)
                 .eq("name",name)
                 .eq("phone",phone);
+        Address address1 = addressMapper.selectOne(wrapper);
+        if(address1 != null){
+            log.warn("添加地址失败，地址信息重复");
+            return "repeatWrong";
+        }
         addressMapper.insert(address);
         log.info("地址设置插入成功：" + address.toString());
         if(isDefault == 1){
@@ -399,7 +450,17 @@ public class UserServiceImpl implements UserService{
             log.info("发现删除地址为默认地址");
             QueryWrapper<Address> wrapper = new QueryWrapper<>();
             wrapper.eq("id",id);
-            Address address1 = addressMapper.selectOne(wrapper);
+            List<Address> addressList = addressMapper.selectList(wrapper);
+            if(addressList.size() <= 1){
+                log.warn("没有其他地址，至少保留一个地址");
+                return "addressWrong";
+            }
+            //删除地址信息
+            addressMapper.deleteById(number);
+            //取最近的地址配置为默认
+            wrapper.orderByDesc("create_time");
+            List<Address> addressList1 = addressMapper.selectList(wrapper);
+            Address address1 = addressList1.get(0);
             log.info("正在把其他地址设为默认");
             if(address1 != null){
                 //如果还有别的地址，把其设为默认
@@ -407,10 +468,6 @@ public class UserServiceImpl implements UserService{
                 user1.setId(id);
                 user1.setAddress(address1.getNumber());
                 userMapper.updateById(user1);
-            }else{
-                //没有其他地址，告诉用户至少保留一个地址
-                log.warn("没有其他地址，至少保留一个地址");
-                return "addressWrong";
             }
         }
         //删除地址信息
@@ -429,11 +486,73 @@ public class UserServiceImpl implements UserService{
         Page<Shopping> page1 = new Page<>(page,cnt);
         shoppingMapper.selectPage(page1,wrapper);
         List<Shopping> shoppingList = page1.getRecords();
-        jsonObject.put("shoppingList",shoppingList);
+        List<ShoppingMsg> shoppingMsgList = new LinkedList<>();
+        //获取用户实例，以获取用户校区信息
+        User user = userMapper.selectById(id);
+        for(Shopping x:shoppingList){
+            //获取购物车商品实例
+            Goods goods = goodsMapper.selectById(x.getNumber());
+            //获取卖家实例
+            User user1 = userMapper.selectById(goods.getFromId());
+            double freight = 6.0;
+            if(user.getCampus().equals(user1.getCampus())){
+                //校区一样，免运费
+                freight = 0.0;
+            }
+            //插入新的购物车信息
+            shoppingMsgList.add(new ShoppingMsg(x.getNumber(),goods.getFromId(),goods.getPrice(),freight,
+                    goods.getGoodsName(),goods.getDescription(),goods.getPhoto(),x.getCreateTime()));
+        }
+        jsonObject.put("shoppingList",shoppingMsgList);
         jsonObject.put("pages",page1.getPages());
         log.info("获取购物车信息成功");
         log.info("页面数：" + page1.getPages());
-        log.info("购物车信息：" + shoppingList.toString());
+        log.info("购物车信息：" + shoppingMsgList.toString());
+        return jsonObject;
+    }
+
+
+    @Override
+    public String changeAddress(Address address) {
+        //这里不会去验证用户和地址编号是否匹配
+        Address address1 = addressMapper.selectById(address.getNumber());
+        if(address1 == null){
+            log.warn("修改地址错误，地址设置不存在");
+            return "existWrong";
+        }
+        addressMapper.updateById(address);
+        log.info("修改地址设置成功：" +address1.toString());
+        return "success";
+    }
+
+    @Override
+    public JSONObject getAddress(String id, long cnt, long page) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Address> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .orderByDesc("create_time");
+        Page<Address> page1 = new Page<>(page,cnt);
+        addressMapper.selectPage(page1,wrapper);
+        List<Address> addressList = page1.getRecords();
+        jsonObject.put("addressMsgList",addressList);
+        jsonObject.put("pages",page1.getPages());
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject getHistory(String id,long cnt,long page) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<History> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .orderByDesc("update_time");
+        Page<History> page1 = new Page<>(page,cnt);
+        historyMapper.selectPage(page1,wrapper);
+        List<History> historyList = page1.getRecords();
+        jsonObject.put("historyList",historyList);
+        jsonObject.put("pages",page1.getPages());
+        log.info("获取历史记录信息成功");
+        log.info("页面数：" + page1.getPages());
+        log.info("历史记录信息：" + historyList.toString());
         return jsonObject;
     }
 

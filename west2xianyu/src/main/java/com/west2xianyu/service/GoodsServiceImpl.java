@@ -1,15 +1,23 @@
 package com.west2xianyu.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.FavorMapper;
 import com.west2xianyu.mapper.GoodsMapper;
 import com.west2xianyu.mapper.HistoryMapper;
+import com.west2xianyu.msg.FavorMsg;
+import com.west2xianyu.msg.GoodsMsg;
 import com.west2xianyu.pojo.Favor;
 import com.west2xianyu.pojo.Goods;
 import com.west2xianyu.pojo.History;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jsqlparser.statement.select.Wait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.LinkedList;
+import java.util.List;
 
 
 @Slf4j
@@ -117,4 +125,62 @@ public class GoodsServiceImpl implements GoodsService{
         log.info("移除收藏成功");
         return "success";
     }
+
+    @Override
+    public JSONObject getAllFavor(String id, Long cnt, Long page) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Favor> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .orderByDesc("create_time");
+        Page<Favor> page1 = new Page<>(page,cnt);
+        favorMapper.selectPage(page1,wrapper);
+        List<Favor> favorList = page1.getRecords();
+        List<FavorMsg> favorMsgList = new LinkedList<>();
+        for(Favor x: favorList){
+            //获取商品实例
+            Goods goods = goodsMapper.selectById(x.getGoodsId());
+            favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
+        }
+        log.info("获取收藏商品成功：" + favorMsgList.toString());
+        jsonObject.put("favorList",favorMsgList);
+        jsonObject.put("pages",page1.getPages());
+        return jsonObject;
+    }
+
+
+    @Override
+    public JSONObject searchFavor(String id, String keyword, Long cnt, Long page) {
+        JSONObject jsonObject = new JSONObject();
+        Page<Favor> page1 = new Page<>(page,cnt);
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        //待完成
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject searchGoods(String keyword, Double low, Double high,Long cnt,Long page) {
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        if(keyword != null){
+            //设置搜索关键词
+            wrapper.like("goods_name",keyword);
+        }
+        //设置价格区间
+        wrapper.between("price",low,high);
+        //最近更新过的物品会先被刷到
+        wrapper.orderByDesc("update_time");
+        Page<Goods> page1 = new Page<>(page,cnt);
+        goodsMapper.selectPage(page1,wrapper);
+        List<Goods> goodsList = page1.getRecords();
+        List<GoodsMsg> goodsMsgList = new LinkedList<>();
+        for(Goods x:goodsList){
+            goodsMsgList.add(new GoodsMsg(x.getNumber(),x.getFromId(),x.getPrice(),x.getPhoto(),x.getDescription(),x.getUpdateTime()));
+        }
+        log.info("获取搜索商品信息成功：" + goodsMsgList.toString());
+        log.info("页面数：" + page1.getPages());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("goodsList",goodsMsgList);
+        jsonObject.put("pages",page1.getPages());
+        return jsonObject;
+    }
+
 }

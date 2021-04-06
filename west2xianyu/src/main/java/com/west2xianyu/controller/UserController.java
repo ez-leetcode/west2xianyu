@@ -2,7 +2,7 @@ package com.west2xianyu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.west2xianyu.pojo.Shopping;
+import com.west2xianyu.pojo.Address;
 import com.west2xianyu.pojo.User;
 import com.west2xianyu.service.UserService;
 import io.swagger.annotations.*;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
 
 
 @Api(tags = "用户控制类",protocols = "https")
@@ -158,6 +157,7 @@ public class UserController {
         return jsonObject;
     }
 
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "id",required = true,paramType = "string")
@@ -173,6 +173,7 @@ public class UserController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "被关注者id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,paramType = "string")
@@ -189,6 +190,7 @@ public class UserController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "被关注者id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,paramType = "string")
@@ -204,11 +206,19 @@ public class UserController {
     }
 
 
-    //待完成
+    //pass
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "cnt",value = "一页数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long")
+    })
     @ApiOperation(value = "获取粉丝列表")
-    @GetMapping("/follow")
-    public JSONObject getFollow(){
-        JSONObject jsonObject = new JSONObject();
+    @GetMapping("/fans")
+    public JSONObject getFollow(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                                @RequestParam("page") Long page){
+        log.info("正在获取粉丝列表：" + id);
+        JSONObject jsonObject = userService.getFollow(id,cnt,page);
+        jsonObject.put("getFollowStatus","success");
         return jsonObject;
     }
 
@@ -300,6 +310,7 @@ public class UserController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "campus",value = "校区",required = true,paramType = "string"),
@@ -320,7 +331,8 @@ public class UserController {
         return jsonObject;
     }
 
-    //删除默认的地址，会随机转移默认地址设置给其他地址，如没有其他地址，地址会置为null
+    //pass
+    //删除默认的地址，会随机转移默认地址设置给其他地址，如没有其他地址，会报错
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "地址编号",required = true,paramType = "string"),
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
@@ -334,6 +346,48 @@ public class UserController {
         jsonObject.put("deleteAddressStatus",status);
         return jsonObject;
     }
+
+
+    //pass
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "number",value = "用户地址编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "campus",value = "校区",paramType = "string"),
+            @ApiImplicitParam(name = "realAddress",value = "具体地址",paramType = "string"),
+            @ApiImplicitParam(name = "phone",value = "电话",paramType = "string"),
+            @ApiImplicitParam(name = "name",value = "收件人姓名",paramType = "string")
+    })
+    @ApiOperation("修改用户地址配置")
+    @PatchMapping("/address")
+    public JSONObject changeAddress(@RequestParam("id") String id,@RequestParam("number") Long number,
+                                    @RequestParam(value = "campus",required = false) String campus,
+                                    @RequestParam(value = "realAddress",required = false) String realAddress,
+                                    @RequestParam(value = "phone",required = false) String phone,
+                                    @RequestParam(value = "name",required = false) String name){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在修改用户地址配置，用户：" + id + " 地址编号：" + number);
+        String status = userService.changeAddress(new Address(number,id,campus,realAddress,name,phone,null,null));
+        jsonObject.put("changeAddressStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long")
+    })
+    @ApiOperation("获取用户地址列表")
+    @GetMapping("/address")
+    public JSONObject getAddress(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                                    @RequestParam("page") Long page){
+        log.info("正在获取用户地址列表：" + id);
+        JSONObject jsonObject = userService.getAddress(id,cnt,page);
+        jsonObject.put("getAddressStatus","success");
+        return jsonObject;
+    }
+
+
 
 
     @ApiImplicitParams({
@@ -363,7 +417,9 @@ public class UserController {
     public JSONObject getHistory(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                  @RequestParam("page") Long page){
         //待完成
-        JSONObject jsonObject = new JSONObject();
+        log.info("正在获取用户全部历史记录：" + id);
+        JSONObject jsonObject = userService.getHistory(id,cnt,page);
+        jsonObject.put("getAllHistoryStatus","success");
         return jsonObject;
     }
 

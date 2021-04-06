@@ -19,7 +19,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Order {
+public class Orders {
 
     @ApiModelProperty(value = "订单编号",notes = "雪花算法，唯一，数据库中作为主键，和商品不是同一个编号")
     @TableId(type = IdType.ID_WORKER)
