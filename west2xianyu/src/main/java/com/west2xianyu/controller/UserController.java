@@ -296,15 +296,16 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "phone",value = "联系方式（电话）",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "feedbacks",value = "用户反馈(不超200个字)",required = true,paramType = "string")
+            @ApiImplicitParam(name = "title",value = "标题（不超过30字）",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "feedbacks",value = "用户反馈（不超过200个字）",required = true,paramType = "string")
     })
     @ApiOperation(value = "添加用户反馈")
     @PostMapping("/feedback")
     public JSONObject addFeedback(@RequestParam("id") String id,@RequestParam("phone") String phone,
-                                  @RequestParam("feedbacks") String feedbacks){
+                                  @RequestParam("feedbacks") String feedbacks,@RequestParam("title") String title){
         JSONObject jsonObject = new JSONObject();
         log.info("正在添加用户反馈，用户：" + id + " 反馈：" + feedbacks);
-        String status = userService.addFeedback(id,phone,feedbacks);
+        String status = userService.addFeedback(id,phone,feedbacks,title);
         jsonObject.put("addFeedbackStatus",status);
         return jsonObject;
     }
@@ -434,5 +435,7 @@ public class UserController {
         jsonObject.put("deleteAllHistoryStatus",status);
         return jsonObject;
     }
+
+
 
 }

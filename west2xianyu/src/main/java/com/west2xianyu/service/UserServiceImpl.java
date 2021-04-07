@@ -274,8 +274,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String addFeedback(String id,String phone,String feedbacks) {
-        int result = feedbackMapper.insert(new Feedback(id,phone,feedbacks,0,null));
+    public String addFeedback(String id,String phone,String feedbacks,String title) {
+        int result = feedbackMapper.insert(new Feedback(null,id,phone,title,feedbacks,0,null));
         if(result != 1){
             log.warn("用户反馈失败");
             return "unknownWrong";

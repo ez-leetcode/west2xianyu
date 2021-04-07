@@ -28,7 +28,7 @@ public interface UserService {
 
     String deleteFans(String id,String fansId);
 
-    String addFeedback(String id,String phone,String feedbacks);
+    String addFeedback(String id,String phone,String feedbacks,String title);
 
     String addLikes(Long goodsId,String id,String comments,String createTime);
 

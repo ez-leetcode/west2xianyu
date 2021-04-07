@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("收藏商品消息对象")
+@ApiModel(description = "收藏商品消息对象")
 public class FavorMsg {
 
     @ApiModelProperty(value = "收藏物品编号")

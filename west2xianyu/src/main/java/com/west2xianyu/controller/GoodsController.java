@@ -141,20 +141,27 @@ public class GoodsController {
 
     //4.7
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string"),
             @ApiImplicitParam(name = "low",value = "价格最低",required = true,paramType = "double"),
             @ApiImplicitParam(name = "high",value = "价格最高",required = true,paramType = "double"),
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页数",required = true,paramType = "long")
+            @ApiImplicitParam(name = "page",value = "当前页数",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string"),
+            @ApiImplicitParam(name = "label1",value = "标签1",paramType = "string"),
+            @ApiImplicitParam(name = "label2",value = "标签2",paramType = "string"),
+            @ApiImplicitParam(name = "label3",value = "标签3",paramType = "string")
     })
     @ApiOperation("主页关键词获取")
     @GetMapping("/searchGoods")
     public JSONObject searchGoods(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
                                   @RequestParam(value = "keyword",required = false) String keyword,
-                                  @RequestParam(value = "low") Double low, @RequestParam(value = "high") Double high){
+                                  @RequestParam(value = "low") Double low, @RequestParam(value = "high") Double high,
+                                  @RequestParam(value = "label1",required = false) String label1,
+                                  @RequestParam(value = "label2",required = false) String label2,
+                                  @RequestParam(value = "label3",required = false) String label3){
         log.info("正在获取主页，keyword：" + keyword + " low：" + low + " high：" + high);
-        JSONObject jsonObject = goodsService.searchGoods(keyword,low,high,cnt,page);
+        JSONObject jsonObject = goodsService.searchGoods(keyword,low,high,cnt,page,label1,label2,label3);
         return jsonObject;
     }
+
 
 }

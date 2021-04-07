@@ -1,6 +1,6 @@
 package com.west2xianyu.msg;
 
-import io.swagger.annotations.Api;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("商品展示信息类")
+@ApiModel(description = "商品展示信息类")
 public class GoodsMsg {
 
     @ApiModelProperty(value = "商品编号")
@@ -28,6 +28,9 @@ public class GoodsMsg {
 
     @ApiModelProperty(value = "商品图片url")
     private String photo;
+
+    @ApiModelProperty(value = "商品名称")
+    private String goodsName;
 
     @ApiModelProperty(value = "作者的物品描述",notes = "不超过250个字")
     private String description;

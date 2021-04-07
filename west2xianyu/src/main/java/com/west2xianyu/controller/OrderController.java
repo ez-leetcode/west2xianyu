@@ -83,4 +83,48 @@ public class OrderController {
         jsonObject.put("deleteOrderStatus",status);
         return jsonObject;
     }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "toId",value = "买家id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "evaluation",value = "评价",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "describe",value = "描述评价",required = true,paramType = "double"),
+            @ApiImplicitParam(name = "service",value = "服务评价",required = true,paramType = "double"),
+            @ApiImplicitParam(name = "logistics",value = "快递评价",required = true,paramType = "double"),
+            @ApiImplicitParam(name = "isNoname",value = "是否匿名",required = true,paramType = "int")
+    })
+    @ApiOperation("购买后评价商品")
+    @PostMapping("/evaluate")
+    public JSONObject evaluateOrder(@RequestParam("number") Long number,@RequestParam("fromId") String fromId,
+                                    @RequestParam("toId") String toId,@RequestParam("describe") Double describe,
+                                    @RequestParam("service") Double service,@RequestParam("logistics") Double logistics,
+                                    @RequestParam("isNoname") int isNoname,@RequestParam("evaluation") String evaluation){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在添加商品评价：" + describe);
+        String status = orderService.evaluateOrder(number,fromId,toId,describe,service,logistics,isNoname,evaluation);
+        jsonObject.put("evaluateOrderStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "status",value = "订单状态",required = true,paramType = "int"),
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long")
+    })
+    @ApiOperation("获取所有订单页面")
+    @GetMapping("/orderList")
+    public JSONObject getOrderList(@RequestParam("id") String id,@RequestParam("status") int status,
+                                   @RequestParam(value = "keyword",required = false) String keyword, @RequestParam("cnt") long cnt,
+                                   @RequestParam("page") long page){
+        log.info("正在获取所有订单页面，id：" + id + " status：" + status);
+        JSONObject jsonObject = orderService.getOrderList(id,keyword,status,cnt,page);
+        log.info("获取所有订单页面成功");
+        return jsonObject;
+    }
+
 }

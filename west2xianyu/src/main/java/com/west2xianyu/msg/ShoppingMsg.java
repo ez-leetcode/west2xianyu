@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("购物车列表消息对象")
+@ApiModel(description = "购物车列表消息对象")
 public class ShoppingMsg {
 
     @ApiModelProperty("商品编号")

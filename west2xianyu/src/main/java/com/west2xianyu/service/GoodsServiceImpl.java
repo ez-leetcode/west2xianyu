@@ -12,7 +12,6 @@ import com.west2xianyu.pojo.Favor;
 import com.west2xianyu.pojo.Goods;
 import com.west2xianyu.pojo.History;
 import lombok.extern.slf4j.Slf4j;
-import net.sf.jsqlparser.statement.select.Wait;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -96,7 +95,7 @@ public class GoodsServiceImpl implements GoodsService{
             return "repeatWrong";
         }
         //添加收藏物品
-        favorMapper.insert(new Favor(goodsId,id,null));
+        favorMapper.insert(new Favor(goodsId,id,goods.getGoodsName(),null));
         log.info("添加收藏成功");
         goods.setFavorCounts(goods.getFavorCounts() + 1);
         goodsMapper.updateById(goods);
@@ -152,28 +151,67 @@ public class GoodsServiceImpl implements GoodsService{
     public JSONObject searchFavor(String id, String keyword, Long cnt, Long page) {
         JSONObject jsonObject = new JSONObject();
         Page<Favor> page1 = new Page<>(page,cnt);
-        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
-        //待完成
+        QueryWrapper<Favor> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .like("goods_name",keyword)
+                .orderByDesc("create_time");
+        favorMapper.selectPage(page1,wrapper);
+        List<Favor> favorList = page1.getRecords();
+        List<FavorMsg> favorMsgList = new LinkedList<>();
+        for(Favor x:favorList){
+            //frozen
+            Goods goods = goodsMapper.selectById(x.getGoodsId());
+            favorMsgList.add(new FavorMsg(goods.getNumber(),id,goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),goods.getCreateTime()));
+        }
+        log.info("获取收藏物品成功：" + favorMsgList.toString());
+        jsonObject.put("favorList",favorMsgList);
+        jsonObject.put("pages",page1.getPages());
         return jsonObject;
     }
 
     @Override
-    public JSONObject searchGoods(String keyword, Double low, Double high,Long cnt,Long page) {
+    public JSONObject searchGoods(String keyword, Double low, Double high,Long cnt,Long page,String label1,String label2,String label3) {
         QueryWrapper<Goods> wrapper = new QueryWrapper<>();
-        if(keyword != null){
-            //设置搜索关键词
-            wrapper.like("goods_name",keyword);
-        }
         //设置价格区间
         wrapper.between("price",low,high);
         //最近更新过的物品会先被刷到
         wrapper.orderByDesc("update_time");
+        if(label1 != null){
+            wrapper.or()
+                    .like("label1",label1)
+                    .or()
+                    .like("label2",label1)
+                    .or()
+                    .like("label3",label1);
+        }
+        if(label2 != null){
+            wrapper.or()
+                    .like("label1",label2)
+                    .or()
+                    .like("label2",label2)
+                    .or()
+                    .like("label3",label2);
+        }
+        if(label3 != null){
+            wrapper.or()
+                    .like("label1",label3)
+                    .or()
+                    .like("label2",label3)
+                    .or()
+                    .like("label3",label3);
+        }
+        if(keyword != null){
+            //设置搜索关键词
+            wrapper.or()
+                    .like("goods_name",keyword);
+        }
         Page<Goods> page1 = new Page<>(page,cnt);
         goodsMapper.selectPage(page1,wrapper);
         List<Goods> goodsList = page1.getRecords();
         List<GoodsMsg> goodsMsgList = new LinkedList<>();
         for(Goods x:goodsList){
-            goodsMsgList.add(new GoodsMsg(x.getNumber(),x.getFromId(),x.getPrice(),x.getPhoto(),x.getDescription(),x.getUpdateTime()));
+            goodsMsgList.add(new GoodsMsg(x.getNumber(),x.getFromId(),x.getPrice(),x.getPhoto(),
+                    x.getGoodsName(),x.getDescription(),x.getUpdateTime()));
         }
         log.info("获取搜索商品信息成功：" + goodsMsgList.toString());
         log.info("页面数：" + page1.getPages());
@@ -182,5 +220,4 @@ public class GoodsServiceImpl implements GoodsService{
         jsonObject.put("pages",page1.getPages());
         return jsonObject;
     }
-
 }

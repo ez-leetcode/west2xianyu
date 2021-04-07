@@ -25,11 +25,17 @@ public class Orders {
     @TableId(type = IdType.ID_WORKER)
     private Long number;
 
-    @ApiModelProperty(value = "卖家id",notes = "可由id和编号查出相关信息，减少冗余")
+    @ApiModelProperty(value = "商品编号",notes = "通过商品编号可以查看商品信息减少冗余")
+    private Long goodsNumber;
+
+    @ApiModelProperty(value = "卖家id")
     private String fromId;
 
-    @ApiModelProperty("买家id")
+    @ApiModelProperty(value = "买家id")
     private String toId;
+
+    @ApiModelProperty(value = "物品名称",notes = "不超过20个字")
+    private String goodsName;
 
     @ApiModelProperty(value = "物品图片url",notes = "统一存在服务器/xy/goods中")
     private String photo;
@@ -59,17 +65,6 @@ public class Orders {
     @ApiModelProperty(value = "订单完成时间",notes = "status=4-5")
     private Date finishTime;
 
-    @ApiModelProperty(value = "卖家交易评价")
-    private String fromEvaluation;
-
-    @ApiModelProperty(value = "卖家交易评价时间")
-    private Date fromEvaluationTime;
-
-    @ApiModelProperty(value = "买家交易评价")
-    private String toEvaluation;
-
-    @ApiModelProperty(value = "买家交易评价时间")
-    private Date toEvaluationTime;
 }
 
 /*

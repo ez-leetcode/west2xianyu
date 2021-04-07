@@ -1,11 +1,8 @@
-package com.west2xianyu.pojo;
-
+package com.west2xianyu.msg;
 
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -15,28 +12,29 @@ import lombok.ToString;
 
 import java.util.Date;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel(description = "用户反馈实例")
-public class Feedback {
+@ApiModel(description = "用户反馈消息类")
+public class FeedbackMsg {
 
-    @TableId(type = IdType.ID_WORKER)
     @ApiModelProperty(value = "反馈内容编号")
     private Long number;
 
     @ApiModelProperty(value = "反馈用户id")
     private String id;
 
-    @ApiModelProperty(value = "联系方式")
-    private String phone;
+    @ApiModelProperty(value = "用户昵称")
+    private String username;
+
+    @ApiModelProperty(value = "头像url")
+    private String photo;
 
     @ApiModelProperty(value = "标题")
     private String title;
 
-    @ApiModelProperty(value = "用户反馈内容")
+    @ApiModelProperty(value = "反馈内容")
     private String feedbacks;
 
     @ApiModelProperty(value = "是否已被管理员读过")

@@ -13,7 +13,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("粉丝列表消息对象")
+@ApiModel(description = "粉丝列表消息对象")
 public class FansMsg {
 
     @ApiModelProperty("用户id")
