@@ -11,9 +11,11 @@ import com.west2xianyu.msg.GoodsMsg;
 import com.west2xianyu.pojo.Favor;
 import com.west2xianyu.pojo.Goods;
 import com.west2xianyu.pojo.History;
+import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -79,6 +81,23 @@ public class GoodsServiceImpl implements GoodsService{
         return "success";
     }
 
+
+    @Override
+    public String changeGoods(Goods goods) {
+        Goods goods1 = goodsMapper.selectById(goods.getNumber());
+        if(goods1 == null){
+            log.warn("修改商品信息失败，可能商品被冻结或不存在：" + goods.getNumber());
+            return "existWrong";
+        }
+        if(goods1.getPrice() != null){
+            //把原价格作为历史价格
+            goods.setHisPrice(goods1.getPrice());
+        }
+        goodsMapper.updateById(goods);
+        log.info("修改商品信息成功");
+        return "success";
+    }
+
     @Override
     public String addFavor(Long goodsId, String id) {
         Goods goods = goodsMapper.selectById(goodsId);
@@ -136,8 +155,8 @@ public class GoodsServiceImpl implements GoodsService{
         List<Favor> favorList = page1.getRecords();
         List<FavorMsg> favorMsgList = new LinkedList<>();
         for(Favor x: favorList){
-            //获取商品实例
-            Goods goods = goodsMapper.selectById(x.getGoodsId());
+            //获取商品实例，找不管有没有被逻辑删除的
+            Goods goods = goodsMapper.selectGoodsWhenever(x.getGoodsId());
             favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
         }
         log.info("获取收藏商品成功：" + favorMsgList.toString());
@@ -146,6 +165,41 @@ public class GoodsServiceImpl implements GoodsService{
         return jsonObject;
     }
 
+
+    //待完成
+    @Override
+    public JSONObject getAllFavor1(String id, Long cnt, Long page) {
+        QueryWrapper<Favor> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .orderByDesc("create_time");
+        Page<Favor> page1 = new Page<>(page,cnt);
+        favorMapper.selectPage(page1,wrapper);
+        List<FavorMsg> favorMsgList = new LinkedList<>();
+        List<Favor> favorList = page1.getRecords();
+        for(Favor x: favorList){
+            //获取商品实例，找已经被逻辑删除的
+            Goods goods = goodsMapper.selectGoodsWhenDelete(x.getGoodsId());
+            if(goods != null){
+                favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
+            }
+        }
+        log.info("获取失效的收藏商品成功：" + favorMsgList.toString());
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("favorList",favorMsgList);
+        jsonObject.put("pages",page1.getPages());
+        return jsonObject;
+    }
+
+
+    //待完成
+    @Override
+    public JSONObject getAllFavor2(String id, Long cnt, Long page) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Favor> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                .orderByDesc("create_time");
+        return jsonObject;
+    }
 
     @Override
     public JSONObject searchFavor(String id, String keyword, Long cnt, Long page) {
@@ -219,5 +273,12 @@ public class GoodsServiceImpl implements GoodsService{
         jsonObject.put("goodsList",goodsMsgList);
         jsonObject.put("pages",page1.getPages());
         return jsonObject;
+    }
+
+    @Override
+    public String uploadGoodsPhoto(MultipartFile file) {
+        String url = OssUtils.uploadPhoto(file,"goodsPhoto");
+        log.info("上传商品图片成功：" + url);
+        return url;
     }
 }

@@ -8,6 +8,7 @@ import com.west2xianyu.mapper.*;
 import com.west2xianyu.msg.FansMsg;
 import com.west2xianyu.msg.ShoppingMsg;
 import com.west2xianyu.pojo.*;
+import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -346,6 +347,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String uploadPhoto(MultipartFile file, String id) {
+        /*
         if(file.isEmpty()){
             log.warn("上传头像失败，头像文件为空");
             return "emptyWrong";
@@ -380,24 +382,29 @@ public class UserServiceImpl implements UserService{
             log.warn("服务器错误，头像上传失败");
             return "internetWrong";
         }
-        //保存图片url
+        */
+        //先尝试获取用户信息
         User user = userMapper.selectById(id);
         if(user == null){
             log.warn("上传头像失败，用户不存在：" + id);
             return "userWrong";
         }
+        //现在使用oss存储
+        String url = OssUtils.uploadPhoto(file,"userPhoto");
+        if(url.length() < 12){
+            //少于12说明报错
+            return url;
+        }
+        //上传成功后先删除源文件
         if(user.getPhoto() != null){
             //删除原头像文件
             log.info("正在删除原头像文件：" + user.getPhoto());
-            String lastPhotoUrl = user.getPhoto();
-            File file1 = new File(lastPhotoUrl);
-            if(file1.exists()){
-                if(file1.delete()){
-                    log.info("头像原文件删除成功");
-                }
-            }
+            String lastObjectName = user.getPhoto().substring(user.getPhoto().lastIndexOf("/") + 1);
+            log.info("原文件名：" + lastObjectName);
+            OssUtils.deletePhoto(lastObjectName,"userPhoto");
         }
-        user.setPhoto(filePath);
+        user.setPhoto(url);
+        userMapper.updateById(user);
         log.info("更新头像资源路径成功：" + user.getPhoto());
         return "success";
     }

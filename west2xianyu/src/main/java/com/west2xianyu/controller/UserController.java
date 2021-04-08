@@ -66,7 +66,7 @@ public class UserController {
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
     })
     @ApiOperation(value = "用户上传头像")
-    @PostMapping("/photo")
+    @PostMapping("/userPhoto")
     public JSONObject uploadPhoto(@RequestParam("photo") MultipartFile file,@RequestParam("id") String id) {
         JSONObject jsonObject = new JSONObject();
         log.info("正在上传用户头像，id：" + id);
