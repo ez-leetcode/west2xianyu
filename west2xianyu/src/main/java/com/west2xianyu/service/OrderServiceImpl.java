@@ -12,7 +12,6 @@ import com.west2xianyu.pojo.Evaluate;
 import com.west2xianyu.pojo.Goods;
 import com.west2xianyu.pojo.Orders;
 import com.west2xianyu.pojo.User;
-import jdk.dynalink.linker.LinkerServices;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -153,6 +152,25 @@ public class OrderServiceImpl implements OrderService{
         log.info("获取订单列表成功：" + orderMsgList.toString());
         jsonObject.put("orderList",orderMsgList);
         jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
         return jsonObject;
+    }
+
+
+    //4-5
+    @Override
+    public String confirmOrder(Long number, String fromId, String toId) {
+        //1.先看看订单状态是否相符 2.修改订单状态，通知卖家
+        Orders orders = ordersMapper.selectById(number);
+        if(orders.getStatus() != 4){
+            log.warn("订单状态错误：" + orders.getStatus());
+            return "orderWrong";
+        }
+        //设置订单状态
+        orders.setStatus(5);
+        //更新状态
+        ordersMapper.updateById(orders);
+        //通知卖家待完成
+        return "success";
     }
 }

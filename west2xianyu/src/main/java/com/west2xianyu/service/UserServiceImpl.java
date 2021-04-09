@@ -231,6 +231,7 @@ public class UserServiceImpl implements UserService{
         }
         jsonObject.put("fansList",fansMsgList);
         jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
         log.info("获取粉丝列表成功：" + fansMsgList.toString());
         return jsonObject;
     }
@@ -512,6 +513,7 @@ public class UserServiceImpl implements UserService{
         }
         jsonObject.put("shoppingList",shoppingMsgList);
         jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
         log.info("获取购物车信息成功");
         log.info("页面数：" + page1.getPages());
         log.info("购物车信息：" + shoppingMsgList.toString());
@@ -543,6 +545,7 @@ public class UserServiceImpl implements UserService{
         List<Address> addressList = page1.getRecords();
         jsonObject.put("addressMsgList",addressList);
         jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
         return jsonObject;
     }
 
@@ -557,6 +560,7 @@ public class UserServiceImpl implements UserService{
         List<History> historyList = page1.getRecords();
         jsonObject.put("historyList",historyList);
         jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
         log.info("获取历史记录信息成功");
         log.info("页面数：" + page1.getPages());
         log.info("历史记录信息：" + historyList.toString());

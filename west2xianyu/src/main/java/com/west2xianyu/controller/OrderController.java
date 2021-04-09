@@ -127,4 +127,38 @@ public class OrderController {
         return jsonObject;
     }
 
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "toId",value = "买家",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "number",value = "订单id",required = true,paramType = "long"),
+    })
+    @ApiOperation("确认收货")
+    @PostMapping("/confirmOrder")
+    public JSONObject confirmOrder(@RequestParam("fromId") String fromId,@RequestParam("toId") String toId,
+                                   @RequestParam("number") Long number){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在确认收货：" + number);
+        String status = orderService.confirmOrder(number,fromId,toId);
+        jsonObject.put("confirmOrderStatus",status);
+        return jsonObject;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

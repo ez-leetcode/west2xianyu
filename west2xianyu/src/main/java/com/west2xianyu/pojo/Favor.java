@@ -3,6 +3,7 @@ package com.west2xianyu.pojo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -28,6 +29,10 @@ public class Favor {
 
     @ApiModelProperty(value = "收藏物品名称",notes = "虽然冗余，但是减少sql次数")
     private String goodsName;
+
+    @ApiModelProperty(value = "伪删除",notes = "商品冻结后这里也会被更新，这样可以增加sql效率")
+    @TableLogic
+    private Integer deleted;
 
     @ApiModelProperty(value = "收藏时间")
     @TableField(fill = FieldFill.INSERT)

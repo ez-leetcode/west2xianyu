@@ -14,4 +14,6 @@ public interface OrderService {
     String evaluateOrder(Long number,String fromId,String toId,double describe,double service,double logistics,int isNoname,String evaluation);
 
     JSONObject getOrderList(String id,String keyword,int status,long cnt,long page);
+
+    String confirmOrder(Long number,String fromId,String toId);
 }

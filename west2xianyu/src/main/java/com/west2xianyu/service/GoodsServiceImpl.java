@@ -114,7 +114,7 @@ public class GoodsServiceImpl implements GoodsService{
             return "repeatWrong";
         }
         //添加收藏物品
-        favorMapper.insert(new Favor(goodsId,id,goods.getGoodsName(),null));
+        favorMapper.insert(new Favor(goodsId,id,goods.getGoodsName(),null,null));
         log.info("添加收藏成功");
         goods.setFavorCounts(goods.getFavorCounts() + 1);
         goodsMapper.updateById(goods);
@@ -155,27 +155,32 @@ public class GoodsServiceImpl implements GoodsService{
         List<Favor> favorList = page1.getRecords();
         List<FavorMsg> favorMsgList = new LinkedList<>();
         for(Favor x: favorList){
-            //获取商品实例，找不管有没有被逻辑删除的
-            Goods goods = goodsMapper.selectGoodsWhenever(x.getGoodsId());
+            //获取商品实例，找到的是没有失效的
+            Goods goods = goodsMapper.selectById(x.getGoodsId());
             favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
         }
         log.info("获取收藏商品成功：" + favorMsgList.toString());
         jsonObject.put("favorList",favorMsgList);
         jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
         return jsonObject;
     }
 
 
-    //待完成
+    //获取已失效
     @Override
     public JSONObject getAllFavor1(String id, Long cnt, Long page) {
-        QueryWrapper<Favor> wrapper = new QueryWrapper<>();
-        wrapper.eq("id",id)
-                .orderByDesc("create_time");
-        Page<Favor> page1 = new Page<>(page,cnt);
-        favorMapper.selectPage(page1,wrapper);
+        //mybatis-plus逻辑删除deleted查询不了已经失效的，这里手写一个并分页
+        long a = cnt * (page - 1);
+        long b = cnt;
+        List<Favor> favorList = favorMapper.selectFavorDeleted(id,a,b);
+        List<Favor> favorList1 = favorMapper.selectAllFavorDeleted(id);
+        long i = favorList1.size() % cnt;
+        long pages = favorList1.size() / cnt;
+        if(i != 0){
+            pages ++;
+        }
         List<FavorMsg> favorMsgList = new LinkedList<>();
-        List<Favor> favorList = page1.getRecords();
         for(Favor x: favorList){
             //获取商品实例，找已经被逻辑删除的
             Goods goods = goodsMapper.selectGoodsWhenDelete(x.getGoodsId());
@@ -186,18 +191,45 @@ public class GoodsServiceImpl implements GoodsService{
         log.info("获取失效的收藏商品成功：" + favorMsgList.toString());
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("favorList",favorMsgList);
-        jsonObject.put("pages",page1.getPages());
+        jsonObject.put("pages",pages);
+        jsonObject.put("count",favorList.size());
         return jsonObject;
     }
 
 
-    //待完成
+    //获取降价
     @Override
     public JSONObject getAllFavor2(String id, Long cnt, Long page) {
         JSONObject jsonObject = new JSONObject();
         QueryWrapper<Favor> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
                 .orderByDesc("create_time");
+        //先获取所有收藏
+        List<Favor> favorList = favorMapper.selectList(wrapper);
+        List<FavorMsg> favorMsgList = new LinkedList<>();
+        List<FavorMsg> favorMsgList1 = new LinkedList<>();
+        for(Favor x:favorList){
+            Goods goods = goodsMapper.selectById(x.getGoodsId());
+            if(goods.getHisPrice() != null){
+                if(goods.getPrice() < goods.getHisPrice()){
+                    favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
+                }
+            }
+        }
+        //分页
+        long sum = favorMsgList.size();
+        long a = sum % cnt;
+        long pages = sum / cnt;
+        if(a != 0){
+            pages ++;
+        }
+        for(long i = cnt * (page - 1); i < cnt * page && i < favorMsgList.size(); i++){
+            favorMsgList1.add(favorMsgList.get((int)i));
+        }
+        log.info("获取降价物品成功：" + favorMsgList1.toString());
+        jsonObject.put("favorList",favorMsgList1);
+        jsonObject.put("pages",pages);
+        jsonObject.put("count",favorMsgList.size());
         return jsonObject;
     }
 
@@ -220,6 +252,7 @@ public class GoodsServiceImpl implements GoodsService{
         log.info("获取收藏物品成功：" + favorMsgList.toString());
         jsonObject.put("favorList",favorMsgList);
         jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
         return jsonObject;
     }
 
@@ -272,6 +305,7 @@ public class GoodsServiceImpl implements GoodsService{
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("goodsList",goodsMsgList);
         jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
         return jsonObject;
     }
 
