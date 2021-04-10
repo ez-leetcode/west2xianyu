@@ -35,6 +35,12 @@ public class GoodsMsg {
     @ApiModelProperty(value = "作者的物品描述",notes = "不超过250个字")
     private String description;
 
+    @ApiModelProperty(value = "物品被浏览次数",notes = "浏览跳转时增加")
+    private Integer scanCounts;
+
+    @ApiModelProperty(value = "物品被收藏次数",notes = "取消收藏应删除，前台已被收藏不能发收藏请求")
+    private Integer favorCounts;
+
     @ApiModelProperty(value = "最近上架时间")
     private Date updateTime;
 

@@ -39,4 +39,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     @Select("SELECT * FROM user WHERE deleted = 1 ORDER BY reopen_date DESC LIMIT #{a} , #{b}")
     List<User> selectDeletedUser3(long a,long b);
+
+    @Select("SELECT * FROM user WHERE id = #{id} AND deleted = 1")
+    User selectUserWhenever(String id);
 }

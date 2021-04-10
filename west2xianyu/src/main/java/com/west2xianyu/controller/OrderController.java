@@ -10,6 +10,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+
+// 1.订单被拍下 2.代管理员审核 3.买家付款 4.卖家发货 5.买家确认收货 6.买家评价 7.订单已完成 8.订单被删除
 
 @Api(tags = "订单控制类",protocols = "https")
 @Slf4j
@@ -129,6 +133,23 @@ public class OrderController {
 
 
     @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),
+    })
+    @ApiOperation("卖家已发货")
+    @PostMapping("/sendOrder")
+    public JSONObject sendOrder(@RequestParam("number") Long number,@RequestParam("fromId") String fromId){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在确认发货，用户：" + fromId + " 订单：" + number);
+        String status = orderService.sendOrder(number,fromId);
+        jsonObject.put("sendOrderStatus",status);
+        return jsonObject;
+    }
+
+
+
+
+    @ApiImplicitParams({
             @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "toId",value = "买家",required = true,paramType = "string"),
             @ApiImplicitParam(name = "number",value = "订单id",required = true,paramType = "long"),
@@ -145,16 +166,53 @@ public class OrderController {
     }
 
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "买家id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "number",value = "订单id",required = true,paramType = "long"),
+    })
+    @ApiOperation("取消订单")
+    @PostMapping("/cancelOrder")
+    public JSONObject cancelOrder(@RequestParam("id") String id,@RequestParam("number") Long number){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在取消订单，用户：" + id + " 订单：" + number);
+        String status = orderService.cancelOrder(number,id);
+        jsonObject.put("cancelOrderStatus",status);
+        return jsonObject;
+    }
 
 
+    //申请订单退款
+    //退款图片上传待完成
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "退款买家id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "money",value = "退款金额",required = true,paramType = "double"),
+            @ApiImplicitParam(name = "reason",value = "退款原因",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "photo",value = "描述图片url",paramType = "string")
+    })
+    @ApiOperation("订单退款(付款和已发货状态可用)，通知管理员")
+    @PostMapping("/refund")
+    public JSONObject postRefund(@RequestParam("number") Long number,@RequestParam("id") String id,
+                             @RequestParam("money") Double money,@RequestParam("reason") String reason,
+                             @RequestParam(value = "photo",required = false) String photo){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在生成订单退款：" + number);
+        String status = orderService.saveRefund(number,id,money,reason,photo);
+        jsonObject.put("refundStatus",status);
+        return jsonObject;
+    }
 
 
-
-
-
-
-
-
+    @ApiImplicitParam(name = "photo",value = "描述图片文件",required = true,paramType = "file")
+    @ApiOperation("上传退款描述图片")
+    @PostMapping("/refundPhoto")
+    public JSONObject refundPhotoUpload(@RequestParam("photo") MultipartFile file){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在上传退款描述图片");
+        String status = orderService.refundPhotoUpload(file);
+        jsonObject.put("refundPhotoUpload",status);
+        return jsonObject;
+    }
 
 
 

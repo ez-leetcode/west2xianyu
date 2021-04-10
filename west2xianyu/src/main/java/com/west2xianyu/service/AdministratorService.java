@@ -11,7 +11,13 @@ public interface AdministratorService {
 
     JSONObject getAllUser(String keyword,Long cnt,Long page);
 
+    JSONObject getGoodsList(String keyword,Long cnt,Long page);
+
     JSONObject getAllUser1(int isDeleted,String keyword,Long cnt,Long page);
 
     User frozeUser(String id, String reason, int days);
+
+    String reopenUser(String id,String adminId);
+
+    String judgeGoods(Long number,String id,int isPass);
 }

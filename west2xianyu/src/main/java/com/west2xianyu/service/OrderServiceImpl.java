@@ -3,18 +3,14 @@ package com.west2xianyu.service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.west2xianyu.mapper.EvaluateMapper;
-import com.west2xianyu.mapper.GoodsMapper;
-import com.west2xianyu.mapper.OrdersMapper;
-import com.west2xianyu.mapper.UserMapper;
+import com.west2xianyu.mapper.*;
 import com.west2xianyu.msg.OrderMsg;
-import com.west2xianyu.pojo.Evaluate;
-import com.west2xianyu.pojo.Goods;
-import com.west2xianyu.pojo.Orders;
-import com.west2xianyu.pojo.User;
+import com.west2xianyu.pojo.*;
+import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.Date;
@@ -37,6 +33,9 @@ public class OrderServiceImpl implements OrderService{
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private RefundMapper refundMapper;
 
 
     @Override
@@ -157,6 +156,32 @@ public class OrderServiceImpl implements OrderService{
     }
 
 
+    @Override
+    public String cancelOrder(Long number, String id) {
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null){
+            log.warn("取消订单失败，商品不存在或已被冻结：" + number);
+            return "existWrong";
+        }
+        //商品存在，检查状态是否相同
+        if(orders.getStatus() != 3){
+            log.warn("取消订单失败，订单状态不符合要求：" + orders.getStatus());
+            return "orderWrong";
+        }
+        //状态也符合要求，更改状态，商品解冻，通知卖家
+        orders.setStatus(0);
+        //更新订单状态
+        ordersMapper.updateById(orders);
+        Goods goods = new Goods();
+        goods.setNumber(orders.getNumber());
+        goods.setDeleted(0);
+        //解冻商品
+        goodsMapper.updateById(goods);
+        //通知卖家待完成
+        log.info("取消订单成功，订单：" + number);
+        return "success";
+    }
+
     //4-5
     @Override
     public String confirmOrder(Long number, String fromId, String toId) {
@@ -172,5 +197,61 @@ public class OrderServiceImpl implements OrderService{
         ordersMapper.updateById(orders);
         //通知卖家待完成
         return "success";
+    }
+
+
+    //订单申请退款状态为8
+    @Override
+    public String saveRefund(Long number, String id, double money, String reason, String photo) {
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null){
+            log.warn("申请退款失败，订单不存在：" + number);
+            return "existWrong";
+        }
+        //状态不为已付款或者已发货
+        if(orders.getStatus() != 3 && orders.getStatus() != 4){
+            log.warn("申请退款失败，订单不符合要求：" + orders.getStatus());
+            return "statusWrong";
+        }
+        //消息推送待完成
+        refundMapper.insert(new Refund(number,id,money,reason,photo,null,null));
+        log.info("退款请求申请成功");
+        //修改订单状态
+        orders.setStatus(8);
+        //更新
+        ordersMapper.updateById(orders);
+        log.info("订单状态更新成功");
+        return "success";
+    }
+
+    @Override
+    public String sendOrder(Long number, String fromId) {
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null){
+            log.warn("确认发货失败，订单不存在或已被冻结：" + number);
+            return "existWrong";
+        }
+        if(orders.getStatus() != 3) {
+            log.warn("确认发货失败，订单状态不符合要求：" + orders.getStatus());
+            return "statusWrong";
+        }
+        if(!orders.getFromId().equals(fromId)){
+            log.warn("确认发货失败，卖家错误：" + fromId);
+            return "userWrong";
+        }
+        //修改订单状态
+        orders.setStatus(4);
+        //更新
+        ordersMapper.updateById(orders);
+        //通知买家待完成
+        log.info("确认发货成功");
+        return "success";
+    }
+
+
+    @Override
+    public String refundPhotoUpload(MultipartFile file) {
+        String url = OssUtils.uploadPhoto(file,"refundPhoto");
+        return url;
     }
 }

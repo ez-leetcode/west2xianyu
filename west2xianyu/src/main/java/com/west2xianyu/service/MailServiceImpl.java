@@ -24,7 +24,7 @@ public class MailServiceImpl implements MailService{
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(sender);
         message.setTo(email);
-        message.setSubject("西二在线闲鱼验证码");
+        message.setSubject("西二闲鱼：验证码");
         //function：业务功能
         message.setText("尊敬的用户，您好：\n"
                 + "\n本次" + function + "请求的验证码为：" + yzm + "，该验证码5分钟内有效，请及时输入。（请勿泄露此验证码）\n"
@@ -43,6 +43,19 @@ public class MailServiceImpl implements MailService{
         message.setSubject("西二闲鱼：您的账号因违反社区规定已经被封禁");
         message.setText("尊敬的用户：" + username + "（" + id + "）" + "您好！ \n "
                 + "您的账号已于" + frozenDate1 + "被封禁至" + openDate1 + "具体原因如下（如有疑惑请回复此管理员邮件）： \n" + reason);
+        javaMailSender.send(message);
+    }
+
+    @Override
+    public void sendReopenEmail(String id, String adminId,String email,String username) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd  hh:mm:ss");
+        String reopenDate = sdf.format(new Date());
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(sender);
+        message.setTo(email);
+        message.setSubject("西二闲鱼：您的账号已被管理员解封");
+        message.setText("尊敬的用户：" + username + "（" + id + "）" + "您好！ \n" +
+                "您的账号已于" + reopenDate + "被管理员：" + adminId + "解封。请珍惜帐号，不要违反社区管理规定！");
         javaMailSender.send(message);
     }
 }

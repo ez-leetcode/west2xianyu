@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.west2xianyu.pojo.User;
 import com.west2xianyu.service.AdministratorService;
 import com.west2xianyu.service.MailService;
+import com.west2xianyu.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -26,6 +27,9 @@ public class AdministratorController {
 
     @Autowired
     private MailService mailService;
+
+    @Autowired
+    private UserService userService;
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string"),
@@ -83,6 +87,47 @@ public class AdministratorController {
 
 
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "adminId",value = "管理员id",required = true,paramType = "string")
+    })
+    @ApiOperation("解封用户")
+    @PostMapping("/reopenUser")
+    public JSONObject reopenUser(@RequestParam("id") String id,@RequestParam("adminId") String adminId){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在解封用户，用户：" + id + " 管理员：" + adminId);
+        String status = administratorService.reopenUser(id,adminId);
+        //发送邮件通知用户
+        if(status.equals("success")){
+            User user = userService.getUser(id);
+            mailService.sendReopenEmail(user.getId(),adminId,user.getEmail(),user.getUsername());
+        }
+        jsonObject.put("reopenUserStatus",status);
+        return jsonObject;
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "isPass",value = "是否通过",required = true,paramType = "int"),
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string")
+    })
+    @ApiOperation("审核商品")
+    @PostMapping("/judgeGoods")
+    public JSONObject judgeGoods(@RequestParam("number") Long number,@RequestParam("isPass") int isPass,
+                                 @RequestParam("id") String id){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在审核商品，管理员：" + id + " 商品：" + number);
+        String status = administratorService.judgeGoods(number,id,isPass);
+        jsonObject.put("judgeGoodsStatus",status);
+        return jsonObject;
+    }
+
+
+
+
+
+
 
 
     @ApiImplicitParams({
@@ -110,6 +155,25 @@ public class AdministratorController {
         log.info("正在获取详细反馈信息，管理员：" + id + " 编号：" + number);
         return administratorService.getFeedback(id,number);
     }
+
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string")
+    })
+    @ApiOperation("获取所有订单")
+    @GetMapping("/goodsList")
+    public JSONObject getGoodsList(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
+                               @RequestParam(value = "keyword",required = false) String keyword){
+        log.info("正在获取所有订单");
+        return administratorService.getGoodsList(keyword,cnt,page);
+    }
+
+
+
 
 
 }

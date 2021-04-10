@@ -71,7 +71,13 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         log.info("正在上传用户头像，id：" + id);
         String status = userService.uploadPhoto(file, id);
-        jsonObject.put("uploadPhotoStatus", status);
+        if(status.length() > 12){
+            //存的是url
+            jsonObject.put("url",status);
+            jsonObject.put("uploadPhotoStatus","success");
+        }else{
+            jsonObject.put("uploadPhotoStatus", status);
+        }
         return jsonObject;
     }
 
@@ -435,6 +441,7 @@ public class UserController {
         jsonObject.put("deleteAllHistoryStatus",status);
         return jsonObject;
     }
+
 
 
 

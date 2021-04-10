@@ -4,10 +4,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.FeedbackMapper;
+import com.west2xianyu.mapper.GoodsMapper;
+import com.west2xianyu.mapper.OrdersMapper;
 import com.west2xianyu.mapper.UserMapper;
 import com.west2xianyu.msg.FeedbackMsg;
+import com.west2xianyu.msg.GoodsMsg;
 import com.west2xianyu.msg.UserMsg;
 import com.west2xianyu.pojo.Feedback;
+import com.west2xianyu.pojo.Goods;
+import com.west2xianyu.pojo.Orders;
 import com.west2xianyu.pojo.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +33,12 @@ public class AdministratorServiceImpl implements AdministratorService{
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private GoodsMapper goodsMapper;
+
+    @Autowired
+    private OrdersMapper ordersMapper;
 
 
     @Override
@@ -189,5 +200,86 @@ public class AdministratorServiceImpl implements AdministratorService{
         }
         //封号之后，因为用户登录不上去收不到通知，用邮件通知用户
         return user;
+    }
+
+
+    @Override
+    public String reopenUser(String id, String adminId) {
+        User user = userMapper.selectById(id);
+        if(user != null){
+            log.warn("解封失败，用户并未被封号：" + id);
+            return "userWrong";
+        }
+        //用户已被封禁情况下，获取用户信息
+        User user1 = userMapper.selectUserWhenever(id);
+        user1.setDeleted(0);
+        //管理员解封会清除违规次数
+        user1.setFrozenCounts(0);
+        //更新用户信息
+        userMapper.updateById(user1);
+        log.info("用户解封成功：" + userMapper.selectById(id).toString());
+        //邮件告知用户
+        return "success";
+    }
+
+
+    @Override
+    public JSONObject getGoodsList(String keyword, Long cnt, Long page) {
+        JSONObject jsonObject = new JSONObject();
+        Page<Goods> page1 = new Page<>(page,cnt);
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        if(keyword != null){
+            wrapper.like("number",keyword);
+        }
+        //根据商品状态排序（可能要排除状态，待完成）
+        wrapper.orderByDesc("status");
+        List<GoodsMsg> goodsMsgList = new LinkedList<>();
+        goodsMapper.selectPage(page1,wrapper);
+        List<Goods> goodsList = page1.getRecords();
+        for(Goods x:goodsList){
+            goodsMsgList.add(new GoodsMsg(x.getNumber(),x.getFromId(),x.getPrice(),x.getPhoto(),x.getGoodsName(),x.getDescription(),x.getScanCounts(),
+                    x.getFavorCounts(),x.getUpdateTime()));
+        }
+        log.info("获取商品列表成功：" + goodsMsgList.toString());
+        jsonObject.put("goodsList",goodsMsgList);
+        jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getSize());
+        return jsonObject;
+    }
+
+
+    //审核失败状态 9
+    @Override
+    public String judgeGoods(Long number, String id,int isPass) {
+        //判断更新审核情况
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null){
+            log.warn("审核失败，订单不存在：" + number);
+            return "existWrong";
+        }
+        if(orders.getStatus() != 1){
+            log.warn("审核失败，订单状态有误：" + orders.getStatus());
+            return "statusWrong";
+        }
+        if(isPass == 1){
+            //审核通过，更新状态，通知卖家
+            orders.setStatus(2);
+            ordersMapper.updateById(orders);
+            //通知用户待完成
+        }else{
+            //审核不通过，更新状态，更新卖家犯罪次数，通知卖家
+            orders.setStatus(9);
+            ordersMapper.updateById(orders);
+            User user = userMapper.selectById(orders.getFromId());
+            if(user != null){
+                //用户已被封禁，就不管他了
+                user.setFrozenCounts(user.getFrozenCounts() + 1);
+                userMapper.updateById(user);
+                log.info("更新用户犯罪次数成功：" + user.getId());
+            }
+            //通知用户待完成
+        }
+        log.info("审核商品成功：" + number);
+        return "success";
     }
 }

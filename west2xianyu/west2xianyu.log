@@ -29,3 +29,135 @@
 2021-04-10 00:20:05.461  INFO 19252 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
 2021-04-10 00:20:05.542  INFO 19252 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
 2021-04-10 00:20:06.027  INFO 19252 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 7.879 seconds (JVM running for 9.194)
+2021-04-10 00:25:35.848  INFO 12440 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 12440 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-10 00:25:35.854  INFO 12440 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
+2021-04-10 00:25:37.259  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.260  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.261  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.262  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.262  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.262  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.262  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.263  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.263  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.263  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.263  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.263  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 00:25:37.263  WARN 12440 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-10 00:25:37.578  INFO 12440 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-10 00:25:37.582  INFO 12440 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-10 00:25:37.640  INFO 12440 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 39 ms. Found 0 Redis repository interfaces.
+2021-04-10 00:25:38.730  INFO 12440 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-04-10 00:25:38.747  INFO 12440 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-10 00:25:38.748  INFO 12440 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
+2021-04-10 00:25:38.966  INFO 12440 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-10 00:25:38.966  INFO 12440 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 3002 ms
+2021-04-10 00:25:39.543  INFO 12440 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-10 00:25:41.607  INFO 12440 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-10 00:25:41.785  INFO 12440 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-10 00:25:42.813  INFO 12440 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-10 00:25:42.815  INFO 12440 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-10 00:25:42.860  INFO 12440 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-10 00:25:42.944  INFO 12440 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-10 00:25:43.519  INFO 12440 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 8.493 seconds (JVM running for 9.846)
+2021-04-10 00:26:03.581  INFO 12440 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-10 00:26:03.581  INFO 12440 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-04-10 00:26:03.582  INFO 12440 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2021-04-10 18:42:36.134  INFO 20736 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 20736 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-10 18:42:36.146  INFO 20736 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
+2021-04-10 18:42:39.137  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.139  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.141  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.141  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.142  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.143  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.144  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.145  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.146  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.147  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.148  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.149  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 18:42:39.149  WARN 20736 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-10 18:42:39.956  INFO 20736 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-10 18:42:39.967  INFO 20736 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-10 18:42:40.088  INFO 20736 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 80 ms. Found 0 Redis repository interfaces.
+2021-04-10 18:42:42.368  INFO 20736 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-04-10 18:42:42.407  INFO 20736 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-10 18:42:42.408  INFO 20736 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
+2021-04-10 18:42:42.817  INFO 20736 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-10 18:42:42.819  INFO 20736 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 6477 ms
+2021-04-10 18:42:46.123  INFO 20736 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-10 18:42:51.759  INFO 20736 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-10 18:42:52.144  INFO 20736 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-10 18:42:54.568  INFO 20736 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-10 18:42:54.573  INFO 20736 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-10 18:42:54.693  INFO 20736 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-10 18:42:54.835  INFO 20736 --- [http-nio-8081-exec-2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-10 18:42:54.836  INFO 20736 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-04-10 18:42:54.843  INFO 20736 --- [http-nio-8081-exec-2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 6 ms
+2021-04-10 18:42:54.943  INFO 20736 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-10 18:42:56.518  INFO 20736 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 22.117 seconds (JVM running for 25.285)
+2021-04-10 22:20:22.198  INFO 9292 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 9292 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-10 22:20:22.208  INFO 9292 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
+2021-04-10 22:20:24.689  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.691  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.693  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.694  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.695  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.695  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.696  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.697  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.698  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.699  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.700  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.701  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.702  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:20:24.703  WARN 9292 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-10 22:20:25.322  INFO 9292 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-10 22:20:25.331  INFO 9292 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-10 22:20:25.421  INFO 9292 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 58 ms. Found 0 Redis repository interfaces.
+2021-04-10 22:20:27.214  INFO 9292 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8081 (http)
+2021-04-10 22:20:27.235  INFO 9292 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2021-04-10 22:20:27.236  INFO 9292 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
+2021-04-10 22:20:27.488  INFO 9292 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2021-04-10 22:20:27.489  INFO 9292 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5065 ms
+2021-04-10 22:20:28.344  INFO 9292 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-10 22:20:31.415  INFO 9292 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-10 22:20:31.678  INFO 9292 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-10 22:20:33.283  INFO 9292 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8081 (http) with context path ''
+2021-04-10 22:20:33.285  INFO 9292 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-10 22:20:33.345  INFO 9292 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-10 22:20:33.475  INFO 9292 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-10 22:20:34.412  INFO 9292 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 14.221 seconds (JVM running for 16.47)
+2021-04-10 22:21:18.652  INFO 9292 --- [http-nio-8081-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2021-04-10 22:21:18.653  INFO 9292 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2021-04-10 22:21:18.655  INFO 9292 --- [http-nio-8081-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2021-04-10 22:54:52.458  INFO 20524 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 20524 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-10 22:54:52.465  INFO 20524 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-10 22:54:55.344  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.345  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.346  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.347  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.347  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.348  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.349  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.350  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.350  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.351  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.351  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.352  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.353  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-10 22:54:55.354  WARN 20524 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-10 22:54:56.055  INFO 20524 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-10 22:54:56.067  INFO 20524 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-10 22:54:56.230  INFO 20524 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 113 ms. Found 0 Redis repository interfaces.
+2021-04-10 22:54:58.967  INFO 20524 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-10 22:55:05.006  INFO 20524 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-10 22:55:06.326  INFO 20524 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-10 22:55:09.328  INFO 20524 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-10 22:55:09.447  INFO 20524 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-10 22:55:09.667  INFO 20524 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-10 22:55:10.954  INFO 20524 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 20.074 seconds (JVM running for 23.011)
+2021-04-10 22:55:12.062  INFO 20524 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-10 22:55:12.069  INFO 20524 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-10 22:55:12.098  INFO 20524 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed

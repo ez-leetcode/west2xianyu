@@ -407,7 +407,7 @@ public class UserServiceImpl implements UserService{
         user.setPhoto(url);
         userMapper.updateById(user);
         log.info("更新头像资源路径成功：" + user.getPhoto());
-        return "success";
+        return user.getPhoto();
     }
 
     @Override

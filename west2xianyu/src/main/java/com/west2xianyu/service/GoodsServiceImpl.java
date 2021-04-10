@@ -257,8 +257,11 @@ public class GoodsServiceImpl implements GoodsService{
     }
 
     @Override
-    public JSONObject searchGoods(String keyword, Double low, Double high,Long cnt,Long page,String label1,String label2,String label3) {
+    public JSONObject searchGoods(String fromId,String keyword, Double low, Double high,Long cnt,Long page,String label1,String label2,String label3) {
         QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        if(fromId != null){
+            wrapper.eq("from_id",fromId);
+        }
         //设置价格区间
         wrapper.between("price",low,high);
         //最近更新过的物品会先被刷到
@@ -298,7 +301,7 @@ public class GoodsServiceImpl implements GoodsService{
         List<GoodsMsg> goodsMsgList = new LinkedList<>();
         for(Goods x:goodsList){
             goodsMsgList.add(new GoodsMsg(x.getNumber(),x.getFromId(),x.getPrice(),x.getPhoto(),
-                    x.getGoodsName(),x.getDescription(),x.getUpdateTime()));
+                    x.getGoodsName(),x.getDescription(),x.getScanCounts(),x.getFavorCounts(),x.getUpdateTime()));
         }
         log.info("获取搜索商品信息成功：" + goodsMsgList.toString());
         log.info("页面数：" + page1.getPages());
