@@ -20,4 +20,8 @@ public interface AdministratorService {
     String reopenUser(String id,String adminId);
 
     String judgeGoods(Long number,String id,int isPass);
+
+    String judgeRefund(Long number,String id,int isPass);
+
+    JSONObject getRefund(Long number);
 }

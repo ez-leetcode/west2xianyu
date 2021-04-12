@@ -3,8 +3,10 @@ package com.west2xianyu.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.west2xianyu.pojo.Address;
+import com.west2xianyu.pojo.Result;
 import com.west2xianyu.pojo.User;
 import com.west2xianyu.service.UserService;
+import com.west2xianyu.utils.ResultUtils;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,18 +69,19 @@ public class UserController {
     })
     @ApiOperation(value = "用户上传头像")
     @PostMapping("/userPhoto")
-    public JSONObject uploadPhoto(@RequestParam("photo") MultipartFile file,@RequestParam("id") String id) {
+    public Result<JSONObject> uploadPhoto(@RequestParam("photo") MultipartFile file, @RequestParam("id") String id) {
         JSONObject jsonObject = new JSONObject();
+        Result<JSONObject> result;
         log.info("正在上传用户头像，id：" + id);
         String status = userService.uploadPhoto(file, id);
         if(status.length() > 12){
             //存的是url
             jsonObject.put("url",status);
-            jsonObject.put("uploadPhotoStatus","success");
+            result = ResultUtils.getResult(jsonObject,"success");
         }else{
-            jsonObject.put("uploadPhotoStatus", status);
+            result = ResultUtils.getResult(jsonObject,status);
         }
-        return jsonObject;
+        return result;
     }
 
 
@@ -86,19 +89,20 @@ public class UserController {
     @ApiOperation(value = "获取用户信息")
     @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string")
     @GetMapping("/user")
-    public JSONObject getUser(@RequestParam("id") String id){
+    public Result<JSONObject> getUser(@RequestParam("id") String id){
         log.info("正在获取用户信息，id：" + id);
         JSONObject jsonObject = new JSONObject();
+        Result<JSONObject> result;
         User user = userService.getUser(id);
         if(user == null){
             log.warn("获取用户信息失败，用户不存在：" + id);
-            jsonObject.put("getUserStatus","userWrong");
-            return jsonObject;
+            result = ResultUtils.getResult(jsonObject,"userWrong");
+            return result;
         }
         log.info("获取用户信息成功，用户：" + user.toString());
-        jsonObject.put("getUserStatus","success");
         jsonObject.put("user",user);
-        return jsonObject;
+        result = ResultUtils.getResult(jsonObject,"success");
+        return result;
     }
 
     @ApiOperation(value = "用于修改界面，保存用户信息",notes = "必带id，可以修改：username,sex,campus,address,email,phone,introduction")
@@ -108,29 +112,32 @@ public class UserController {
             @ApiImplicitParam(name = "password",value = "密码(MD5加密)",dataType = "string"),
             @ApiImplicitParam(name = "sex",value = "性别M/W",dataType = "string"),
             @ApiImplicitParam(name = "campus",value = "校区",dataType = "string"),
-            @ApiImplicitParam(name = "address",dataType = "string"),
             @ApiImplicitParam(name = "email",dataType = "string"),
             @ApiImplicitParam(name = "phone",dataType = "string"),
             @ApiImplicitParam(name = "introduction",value = "不超过200字",dataType = "string")
     })
     @PostMapping("/user")
-    public JSONObject saveUser(User user){
-        //参数太多，懒得写了，自动生成一个user对象好了~
+    public Result<JSONObject> saveUser(@RequestParam("id") String id,@RequestParam(value = "username",required = false) String username,
+                                       @RequestParam(value = "password",required = false) String password,
+                                       @RequestParam(value = "sex",required = false) String sex,
+                                       @RequestParam(value = "campus",required = false) String campus,
+                                       @RequestParam(value = "email",required = false) String email,
+                                       @RequestParam(value = "phone",required = false) String phone,
+                                       @RequestParam(value = "introduction",required = false) String introduction){
+        User user = new User(id,username,password,sex,null,email,campus,phone,null,introduction,null, null,
+                null,null,null,null,null,null,null,null,null,null,null);
         JSONObject jsonObject = new JSONObject();
-        if(user.getId() == null){
-            log.warn("保存请求未带学号！");
-            jsonObject.put("saveUserStatus","userWrong");
-        }
+        Result<JSONObject> results;
         log.info("正在保存用户信息，id：" + user.getId());
         int result = userService.saveUser(user);
         if(result == 1){
             log.info("修改成功");
-            jsonObject.put("saveUserStatus","success");
+            results = ResultUtils.getResult(jsonObject,"success");
         }else{
             log.info("修改失败，可能是提交重复信息所致");
-            jsonObject.put("saveUserStatus","repeatWrong");
+            results = ResultUtils.getResult(jsonObject,"repeatWrong");
         }
-        return jsonObject;
+        return results;
     }
 
 
@@ -141,12 +148,13 @@ public class UserController {
     })
     @ApiOperation(value = "获取用户购物车内容")
     @GetMapping("/shopping")
-    public JSONObject getShopping(@RequestParam("id") String id,@RequestParam("cnt") long cnt,
+    public Result<JSONObject> getShopping(@RequestParam("id") String id,@RequestParam("cnt") long cnt,
                                   @RequestParam("page") long page){
         log.info("正在尝试获取用户购物车内容");
         JSONObject jsonObject = userService.getShopping(id,cnt,page);
+        Result<JSONObject> result= ResultUtils.getResult(jsonObject,"success");
         //返回信息里，一个shoppingList代表内容，pages代表页面数
-        return jsonObject;
+        return result;
     }
 
     @ApiImplicitParams({
@@ -155,12 +163,11 @@ public class UserController {
     })
     @ApiOperation(value = "用户添加闲置物品到购物车",notes = "闲置物品被冻结，不能添加进购物车")
     @PostMapping("/shopping")
-    public JSONObject addShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
+    public Result<JSONObject> addShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
         log.info("正在尝试添加进购物车，物品编号：" + number);
         String status = userService.addShopping(number,id);
-        jsonObject.put("addShoppingStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -170,12 +177,11 @@ public class UserController {
     })
     @ApiOperation(value = "用户从购物车移除闲置物品")
     @DeleteMapping("/shopping")
-    public JSONObject deleteShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
+    public Result<JSONObject> deleteShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
         log.info("正在尝试移除出购物车，物品编号：" + number);
         String status = userService.deleteShopping(number,id);
-        jsonObject.put("deleteShoppingStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -186,13 +192,12 @@ public class UserController {
     })
     @ApiOperation(value = "添加关注")
     @PostMapping("/fans")
-    public JSONObject addFans(@RequestParam("id") String id,@RequestParam("fansId") String fansId){
+    public Result<JSONObject> addFans(@RequestParam("id") String id,@RequestParam("fansId") String fansId){
         //因为被封号的用户不会显示，所以能加的都是没被封的，不用判断是否被封号
         JSONObject jsonObject = new JSONObject();
         log.info("正在尝试添加粉丝，用户：" + id + " 粉丝：" + fansId);
         String status = userService.addFans(id,fansId);
-        jsonObject.put("addFansStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -203,12 +208,11 @@ public class UserController {
     })
     @ApiOperation(value = "取消关注")
     @DeleteMapping("/fans")
-    public JSONObject deleteFans(@RequestParam("id") String id,@RequestParam("fansId") String fansId){
+    public Result<JSONObject> deleteFans(@RequestParam("id") String id,@RequestParam("fansId") String fansId){
         JSONObject jsonObject = new JSONObject();
         log.info("正在尝试取消关注,用户： " + id + " 粉丝：" + fansId);
         String status = userService.deleteFans(id, fansId);
-        jsonObject.put("deleteFansStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -220,12 +224,11 @@ public class UserController {
     })
     @ApiOperation(value = "获取粉丝列表")
     @GetMapping("/fans")
-    public JSONObject getFollow(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+    public Result<JSONObject> getFollow(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                 @RequestParam("page") Long page){
         log.info("正在获取粉丝列表：" + id);
         JSONObject jsonObject = userService.getFollow(id,cnt,page);
-        jsonObject.put("getFollowStatus","success");
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,"success");
     }
 
     @ApiImplicitParams({
@@ -235,13 +238,12 @@ public class UserController {
     })
     @ApiOperation(value = "添加用户评论")
     @PostMapping("/comment")
-    public JSONObject addComment(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id,
+    public Result<JSONObject> addComment(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id,
                                  @RequestParam("comments") String comments){
         JSONObject jsonObject = new JSONObject();
         log.info("正在添加用户评论：" + comments);
         String status = userService.addComment(goodsId,id,comments);
-        jsonObject.put("addCommentStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -253,13 +255,12 @@ public class UserController {
     })
     @ApiOperation(value = "用户自己删除评论",notes = "用户自己才可以删除")
     @DeleteMapping("/comment")
-    public JSONObject deleteComment(@RequestParam("goodsId") Long goodsId, @RequestParam("id") String id,
+    public Result<JSONObject> deleteComment(@RequestParam("goodsId") Long goodsId, @RequestParam("id") String id,
                                     @RequestParam("comments") String comments, @RequestParam("createTime") String createTime){
         JSONObject jsonObject = new JSONObject();
         log.info("用户正在删除自己的评论：" + comments);
         String status = userService.deleteComment(goodsId,id,comments,createTime);
-        jsonObject.put("deleteCommentStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -271,13 +272,12 @@ public class UserController {
     })
     @ApiOperation(value = "对评论点赞")
     @PostMapping("/likes")
-    public JSONObject addLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
+    public Result<JSONObject> addLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
                                @RequestParam("comments") String comments,@RequestParam("createTime") String createTime){
         JSONObject jsonObject = new JSONObject();
         log.info("正在给评论点赞：" + comments);
         String status = userService.addLikes(goodsId,id,comments,createTime);
-        jsonObject.put("addLikesStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -289,13 +289,12 @@ public class UserController {
     })
     @ApiOperation(value = "取消评论点赞")
     @DeleteMapping("/likes")
-    public JSONObject deleteLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
+    public Result<JSONObject> deleteLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
                                   @RequestParam("comments") String comments,@RequestParam("createTime") String createTime){
         JSONObject jsonObject = new JSONObject();
         log.info("正在取消评论点赞：" + comments);
         String status = userService.deleteLikes(goodsId,id,comments,createTime);
-        jsonObject.put("deleteLikesStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -307,13 +306,12 @@ public class UserController {
     })
     @ApiOperation(value = "添加用户反馈")
     @PostMapping("/feedback")
-    public JSONObject addFeedback(@RequestParam("id") String id,@RequestParam("phone") String phone,
+    public Result<JSONObject> addFeedback(@RequestParam("id") String id,@RequestParam("phone") String phone,
                                   @RequestParam("feedbacks") String feedbacks,@RequestParam("title") String title){
         JSONObject jsonObject = new JSONObject();
         log.info("正在添加用户反馈，用户：" + id + " 反馈：" + feedbacks);
         String status = userService.addFeedback(id,phone,feedbacks,title);
-        jsonObject.put("addFeedbackStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -328,14 +326,13 @@ public class UserController {
     })
     @ApiOperation(value = "保存用户收获地址")
     @PostMapping("/address")
-    public JSONObject addAddress(@RequestParam("id") String id,@RequestParam("campus") String campus,
+    public Result<JSONObject> addAddress(@RequestParam("id") String id,@RequestParam("campus") String campus,
                                  @RequestParam("realAddress") String realAddress,@RequestParam("name") String name,
                                  @RequestParam("phone") String phone,@RequestParam("isDefault") int isDefault){
         JSONObject jsonObject = new JSONObject();
         log.info("正在保存用户收获地址信息：" + realAddress);
         String status = userService.addAddress(id,campus,realAddress,name,phone,isDefault);
-        jsonObject.put("addAddressStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
     //pass
@@ -346,12 +343,11 @@ public class UserController {
     })
     @ApiOperation(value = "删除用户的地址配置")
     @DeleteMapping("/address")
-    public JSONObject deleteAddress(@RequestParam("number") Long number,@RequestParam("id") String id){
+    public Result<JSONObject> deleteAddress(@RequestParam("number") Long number,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
         log.info("正在删除用户地址信息：" + number);
         String status = userService.deleteAddress(number,id);
-        jsonObject.put("deleteAddressStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -366,7 +362,7 @@ public class UserController {
     })
     @ApiOperation("修改用户地址配置")
     @PatchMapping("/address")
-    public JSONObject changeAddress(@RequestParam("id") String id,@RequestParam("number") Long number,
+    public Result<JSONObject> changeAddress(@RequestParam("id") String id,@RequestParam("number") Long number,
                                     @RequestParam(value = "campus",required = false) String campus,
                                     @RequestParam(value = "realAddress",required = false) String realAddress,
                                     @RequestParam(value = "phone",required = false) String phone,
@@ -374,8 +370,7 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         log.info("正在修改用户地址配置，用户：" + id + " 地址编号：" + number);
         String status = userService.changeAddress(new Address(number,id,campus,realAddress,name,phone,null,null));
-        jsonObject.put("changeAddressStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -386,12 +381,11 @@ public class UserController {
     })
     @ApiOperation("获取用户地址列表")
     @GetMapping("/address")
-    public JSONObject getAddress(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+    public Result<JSONObject> getAddress(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                     @RequestParam("page") Long page){
         log.info("正在获取用户地址列表：" + id);
         JSONObject jsonObject = userService.getAddress(id,cnt,page);
-        jsonObject.put("getAddressStatus","success");
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,"success");
     }
 
 
@@ -403,12 +397,11 @@ public class UserController {
     })
     @ApiOperation(value = "用户删除历史记录",notes = "单个删除接口")
     @DeleteMapping("/history")
-    public JSONObject deleteHistory(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id){
+    public Result<JSONObject> deleteHistory(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
         log.info("正在删除历史记录，商品编号：" + goodsId + " 用户id：" + id);
         String status = userService.deleteHistory(goodsId,id);
-        jsonObject.put("deleteHistoryStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -421,28 +414,24 @@ public class UserController {
     })
     @ApiOperation(value = "获取用户全部历史记录")
     @PostMapping("/allHistory")
-    public JSONObject getHistory(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+    public Result<JSONObject> getHistory(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                  @RequestParam("page") Long page){
         //待完成
         log.info("正在获取用户全部历史记录：" + id);
         JSONObject jsonObject = userService.getHistory(id,cnt,page);
-        jsonObject.put("getAllHistoryStatus","success");
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,"success");
     }
 
 
     @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
     @ApiOperation(value = "清空历史记录")
     @DeleteMapping("/allHistory")
-    public JSONObject deleteAllHistory(@RequestParam("id") String id){
+    public Result<JSONObject> deleteAllHistory(@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
         log.info("正在清空历史记录，用户id：" + id);
         String status = userService.deleteAllHistory(id);
-        jsonObject.put("deleteAllHistoryStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
-
-
 
 
 }

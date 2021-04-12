@@ -202,7 +202,7 @@ public class OrderServiceImpl implements OrderService{
 
     //订单申请退款状态为8
     @Override
-    public String saveRefund(Long number, String id, double money, String reason, String photo) {
+    public String saveRefund(Long number, String id, double money, String reason, String photo, String description) {
         Orders orders = ordersMapper.selectById(number);
         if(orders == null){
             log.warn("申请退款失败，订单不存在：" + number);
@@ -214,7 +214,7 @@ public class OrderServiceImpl implements OrderService{
             return "statusWrong";
         }
         //消息推送待完成
-        refundMapper.insert(new Refund(number,id,money,reason,photo,null,null));
+        refundMapper.insert(new Refund(number,id,money,reason,description,photo,null,null));
         log.info("退款请求申请成功");
         //修改订单状态
         orders.setStatus(8);

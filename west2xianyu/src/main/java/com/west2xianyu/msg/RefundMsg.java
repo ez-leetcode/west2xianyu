@@ -1,8 +1,6 @@
-package com.west2xianyu.pojo;
+package com.west2xianyu.msg;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableLogic;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -12,13 +10,12 @@ import lombok.ToString;
 
 import java.util.Date;
 
-
-@ApiModel(description = "退款管理类")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Refund {
+@ApiModel(description = "退款商品消息类")
+public class RefundMsg {
 
 
     @ApiModelProperty(value = "订单编号")
@@ -26,6 +23,9 @@ public class Refund {
 
     @ApiModelProperty(value = "买家id")
     private String toId;
+
+    @ApiModelProperty(value = "卖家id")
+    private String fromId;
 
     @ApiModelProperty(value = "退款金额")
     private Double money;
@@ -40,10 +40,6 @@ public class Refund {
     private String photo;
 
     @ApiModelProperty(value = "退款时间")
-    @TableField(fill = FieldFill.INSERT)
     private Date createTime;
 
-    @ApiModelProperty(value = "伪删除")
-    @TableLogic
-    private Integer deleted;
 }

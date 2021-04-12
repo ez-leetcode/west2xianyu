@@ -1,7 +1,7 @@
 
 #端口号
 server:
-  port: 8081
+  port: 8082
 
 #连接数据库设置
 spring:
@@ -36,6 +36,7 @@ spring:
         max-idle: 8
         min-idle: 0
     connect-timeout: 30000
+    client-type: jedis
   profiles:
     #配置开发环境
     active: dev

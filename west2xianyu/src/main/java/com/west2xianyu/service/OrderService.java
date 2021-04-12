@@ -20,7 +20,7 @@ public interface OrderService {
 
     String cancelOrder(Long number,String id);
 
-    String saveRefund(Long number,String id,double money,String reason,String photo);
+    String saveRefund(Long number,String id,double money,String reason,String photo,String description);
 
     String sendOrder(Long number,String fromId);
 

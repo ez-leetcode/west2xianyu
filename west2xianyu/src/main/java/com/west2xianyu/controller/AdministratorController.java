@@ -2,10 +2,12 @@ package com.west2xianyu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.pojo.Result;
 import com.west2xianyu.pojo.User;
 import com.west2xianyu.service.AdministratorService;
 import com.west2xianyu.service.MailService;
 import com.west2xianyu.service.UserService;
+import com.west2xianyu.utils.ResultUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -38,10 +40,10 @@ public class AdministratorController {
     })
     @ApiOperation("获取所有用户信息")
     @GetMapping("/getUser")
-    public JSONObject getAllUser(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
-                                 @RequestParam(value = "keyword",required = false) String keyword){
+    public Result<JSONObject> getAllUser(@RequestParam("cnt") Long cnt, @RequestParam("page") Long page,
+                             @RequestParam(value = "keyword",required = false) String keyword){
         log.info("正在获取所有用户信息");
-        return administratorService.getAllUser(keyword,cnt,page);
+        return ResultUtils.getResult(administratorService.getAllUser(keyword,cnt,page),"success");
     }
 
 
@@ -54,10 +56,10 @@ public class AdministratorController {
     })
     @ApiOperation("获取正常或者已禁用的用户信息")
     @GetMapping("/getUser1")
-    public JSONObject getAllUser1(@RequestParam("isDeleted") int isDeleted,@RequestParam(value = "keyword",required = false) String keyword,
+    public Result<JSONObject> getAllUser1(@RequestParam("isDeleted") int isDeleted,@RequestParam(value = "keyword",required = false) String keyword,
                                   @RequestParam("cnt") Long cnt,@RequestParam("page") Long page){
         log.info("正在获取用户信息，是否禁用：" + isDeleted);
-        return administratorService.getAllUser1(isDeleted,keyword,cnt,page);
+        return ResultUtils.getResult(administratorService.getAllUser1(isDeleted,keyword,cnt,page),"success");
     }
 
 
@@ -70,19 +72,17 @@ public class AdministratorController {
     })
     @ApiOperation("管理员冻结用户")
     @PostMapping("/frozeUser")
-    public JSONObject frozenUser(@RequestParam("id") String id,@RequestParam("days") int days,
+    public Result<JSONObject> frozenUser(@RequestParam("id") String id,@RequestParam("days") int days,
                                  @RequestParam("reason") String reason){
         JSONObject jsonObject = new JSONObject();
         log.info("正在封禁账号：" + id + " 时长（天）：" + days);
-        User user =  administratorService.frozeUser(id,reason,days);
+        User user = administratorService.frozeUser(id,reason,days);
         if(user == null){
-            jsonObject.put("frozeUserStatus","existWrong");
-            return jsonObject;
+            return ResultUtils.getResult(jsonObject,"existWrong");
         }
         mailService.sendFrozeEmail(user.getId(),user.getUsername(),user.getEmail(),reason,user.getFrozenDate(),user.getReopenDate());
         log.info("发送封禁提醒邮件成功");
-        jsonObject.put("frozeUserStatus","success");
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,"success");
     }
 
 
@@ -93,7 +93,7 @@ public class AdministratorController {
     })
     @ApiOperation("解封用户")
     @PostMapping("/reopenUser")
-    public JSONObject reopenUser(@RequestParam("id") String id,@RequestParam("adminId") String adminId){
+    public Result<JSONObject> reopenUser(@RequestParam("id") String id,@RequestParam("adminId") String adminId){
         JSONObject jsonObject = new JSONObject();
         log.info("正在解封用户，用户：" + id + " 管理员：" + adminId);
         String status = administratorService.reopenUser(id,adminId);
@@ -102,8 +102,7 @@ public class AdministratorController {
             User user = userService.getUser(id);
             mailService.sendReopenEmail(user.getId(),adminId,user.getEmail(),user.getUsername());
         }
-        jsonObject.put("reopenUserStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -114,15 +113,13 @@ public class AdministratorController {
     })
     @ApiOperation("审核商品")
     @PostMapping("/judgeGoods")
-    public JSONObject judgeGoods(@RequestParam("number") Long number,@RequestParam("isPass") int isPass,
+    public Result<JSONObject> judgeGoods(@RequestParam("number") Long number,@RequestParam("isPass") int isPass,
                                  @RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
         log.info("正在审核商品，管理员：" + id + " 商品：" + number);
         String status = administratorService.judgeGoods(number,id,isPass);
-        jsonObject.put("judgeGoodsStatus",status);
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,status);
     }
-
 
 
 
@@ -138,10 +135,10 @@ public class AdministratorController {
     })
     @ApiOperation("获取所有用户反馈")
     @GetMapping("/feedbackList")
-    public JSONObject getAllFeedback(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
-                                  @RequestParam("id") String id,@RequestParam("isHide") int isHide){
+    public Result<JSONObject> getAllFeedback(@RequestParam("cnt") Long cnt, @RequestParam("page") Long page,
+                                             @RequestParam("id") String id, @RequestParam("isHide") int isHide){
         log.info("正在获取所有用户反馈：" + id);
-        return administratorService.getAllFeedback(id,cnt,page,isHide);
+        return ResultUtils.getResult(administratorService.getAllFeedback(id,cnt,page,isHide),"success");
     }
 
 
@@ -151,9 +148,9 @@ public class AdministratorController {
     })
     @ApiOperation("获取单个具体反馈信息")
     @GetMapping("/feedback")
-    public JSONObject getFeedback(@RequestParam("number") Long number,@RequestParam("id") String id){
+    public Result<JSONObject> getFeedback(@RequestParam("number") Long number,@RequestParam("id") String id){
         log.info("正在获取详细反馈信息，管理员：" + id + " 编号：" + number);
-        return administratorService.getFeedback(id,number);
+        return ResultUtils.getResult(administratorService.getFeedback(id,number),"success");
     }
 
 
@@ -166,14 +163,42 @@ public class AdministratorController {
     })
     @ApiOperation("获取所有订单")
     @GetMapping("/goodsList")
-    public JSONObject getGoodsList(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
+    public Result<JSONObject> getGoodsList(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
                                @RequestParam(value = "keyword",required = false) String keyword){
         log.info("正在获取所有订单");
-        return administratorService.getGoodsList(keyword,cnt,page);
+        return ResultUtils.getResult(administratorService.getGoodsList(keyword,cnt,page),"success");
+    }
+
+
+    //获取退款详细信息待完成
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string")
+    })
+    @ApiOperation("获取退款详细信息")
+    @GetMapping("/getRefund")
+    public Result<JSONObject> getRefund(@RequestParam("number") Long number,@RequestParam("id") String id){
+        log.info("正在获取退款详细信息，管理员：" + id + " 订单：" + number);
+        return ResultUtils.getResult(administratorService.getRefund(number),"success");
     }
 
 
 
 
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "isPass",value = "是否同意",required = true,paramType = "int"),
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string")
+    })
+    @ApiOperation("处理退款申请")
+    @PostMapping("/judgeRefund")
+    public Result<JSONObject> judgeRefund(@RequestParam("number") Long number,@RequestParam("isPass") int isPass,
+                                   @RequestParam("id") String id){
+        JSONObject jsonObject = new JSONObject();
+        log.info("正在处理退款：" + number);
+        String status = administratorService.judgeRefund(number,id,isPass);
+        return ResultUtils.getResult(jsonObject,status);
+    }
 
 }

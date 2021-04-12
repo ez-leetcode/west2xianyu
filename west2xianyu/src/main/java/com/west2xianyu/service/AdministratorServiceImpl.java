@@ -3,17 +3,12 @@ package com.west2xianyu.service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.west2xianyu.mapper.FeedbackMapper;
-import com.west2xianyu.mapper.GoodsMapper;
-import com.west2xianyu.mapper.OrdersMapper;
-import com.west2xianyu.mapper.UserMapper;
+import com.west2xianyu.mapper.*;
 import com.west2xianyu.msg.FeedbackMsg;
 import com.west2xianyu.msg.GoodsMsg;
+import com.west2xianyu.msg.RefundMsg;
 import com.west2xianyu.msg.UserMsg;
-import com.west2xianyu.pojo.Feedback;
-import com.west2xianyu.pojo.Goods;
-import com.west2xianyu.pojo.Orders;
-import com.west2xianyu.pojo.User;
+import com.west2xianyu.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +34,9 @@ public class AdministratorServiceImpl implements AdministratorService{
 
     @Autowired
     private OrdersMapper ordersMapper;
+
+    @Autowired
+    private RefundMapper refundMapper;
 
 
     @Override
@@ -281,5 +279,70 @@ public class AdministratorServiceImpl implements AdministratorService{
         }
         log.info("审核商品成功：" + number);
         return "success";
+    }
+
+
+    //10：申请退款 11：退款成功 12：退款失败
+    @Override
+    public String judgeRefund(Long number, String id, int isPass) {
+        Orders orders = ordersMapper.selectById(number);
+        Refund refund = refundMapper.selectById(number);
+        if(orders == null || refund == null){
+            log.warn("处理退款失败，订单失效或没有退款：" + number);
+            return "existWrong";
+        }
+        if(orders.getStatus() != 10){
+            //不是处于申请退款状态
+            log.warn("处理退款失败，订单状态不符合要求：" + number);
+            return "statusWrong";
+        }
+        //符合要求情况
+        if(isPass == 1){
+            //同意退款
+            orders.setStatus(11);
+            ordersMapper.updateById(orders);
+            log.info("退款申请成功，管理员：" + id  + " 订单：" + number);
+        }else{
+            //不同意退款，恢复原来的订单状态
+            if(orders.getSendTime() == null){
+                //未发货
+                orders.setStatus(3);
+            }else{
+                //已发货
+                orders.setStatus(4);
+            }
+            ordersMapper.updateById(orders);
+            log.info("退款申请失败，管理员：" + id + "订单：" + number);
+        }
+        //处理完申请伪删除退款数据
+        refund.setDeleted(1);
+        refundMapper.updateById(refund);
+        //通知买卖双方
+        return "success";
+    }
+
+    @Override
+    public JSONObject getRefund(Long number) {
+        JSONObject jsonObject = new JSONObject();
+        Orders orders = ordersMapper.selectById(number);
+        Refund refund = refundMapper.selectById(number);
+        if(orders == null || refund == null){
+            log.warn("获取退款订单信息失败，订单或退款信息不存在：" + number);
+            jsonObject.put("getRefundStatus","existWrong");
+            return jsonObject;
+        }
+        if(orders.getStatus() != 10){
+            //不是处于申请退款状态
+            log.warn("处理退款失败，订单状态不符合要求：" + orders.getStatus());
+            jsonObject.put("getRefundStatus","statusWrong");
+        }else{
+            //状态没问题
+            RefundMsg refundMsg = new RefundMsg(refund.getNumber(),refund.getToId(),orders.getFromId(),refund.getMoney(),
+                    refund.getReason(),refund.getDescription(),refund.getPhoto(),refund.getCreateTime());
+            jsonObject.put("refund",refundMsg);
+            log.info("获取退款信息成功：" + refundMsg.toString());
+        }
+        jsonObject.put("getRefundStatus","success");
+        return jsonObject;
     }
 }
