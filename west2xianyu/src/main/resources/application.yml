@@ -1,7 +1,7 @@
 
 #端口号
 server:
-  port: 8082
+  port: 8083
 
 #连接数据库设置
 spring:
@@ -55,6 +55,7 @@ logging:
 
 
 
+
 #mybatis-plus配置
 mybatis-plus:
   configuration:
@@ -63,6 +64,5 @@ mybatis-plus:
     db-config:
       logic-delete-value: 1            #已被删除记为1
       logic-not-delete-value: 0        #未被删除记为0
-
 
 

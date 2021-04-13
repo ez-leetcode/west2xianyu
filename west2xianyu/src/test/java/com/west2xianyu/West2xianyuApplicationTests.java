@@ -1,5 +1,6 @@
 package com.west2xianyu;
 
+import com.west2xianyu.utils.JwtUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,5 +23,7 @@ class West2xianyuApplicationTests {
         operations.set("woai","ycy");
         System.out.println(operations.get("woai"));
     }
+
+
 
 }
