@@ -3,6 +3,7 @@ package com.west2xianyu.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.west2xianyu.pojo.Orders;
 import com.west2xianyu.pojo.Result;
+import com.west2xianyu.service.AlipayService;
 import com.west2xianyu.service.OrderService;
 import com.west2xianyu.utils.ResultUtils;
 import io.swagger.annotations.Api;
@@ -13,6 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 
 // 1.订单被拍下 2.代管理员审核 3.买家付款 4.卖家发货 5.买家确认收货 6.买家评价 7.订单已完成 8.订单被删除   10.申请退款 11.退款成功
@@ -25,6 +30,9 @@ public class OrderController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private AlipayService alipayService;
 
 
     @ApiOperation(value = "生成订单请求",notes = "订单生成后，状态初始为1（物品被拍下）")
@@ -210,8 +218,15 @@ public class OrderController {
         return ResultUtils.getResult(jsonObject,status);
     }
 
-
-
+    @ApiOperation("支付测试")
+    @RequestMapping("/pay")
+    public void payForBill(HttpServletResponse response, HttpServletRequest request){
+        try {
+            alipayService.aliPay(response,request);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 

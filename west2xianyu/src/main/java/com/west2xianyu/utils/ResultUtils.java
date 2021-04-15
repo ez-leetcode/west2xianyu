@@ -20,6 +20,8 @@ public class ResultUtils {
         resultMap.put("tokenWrong",403);
         resultMap.put("yzmWrong",401);
         resultMap.put("authorityWrong",403);
+        resultMap.put("logoutSuccess",200);
+        resultMap.put("loginSuccess",200);
     }
 
 

@@ -3,6 +3,7 @@ package com.west2xianyu.controller;
 
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 @RestController
+@Slf4j
 public class KaptchaController {
 
     @Autowired
@@ -24,13 +26,14 @@ public class KaptchaController {
 
     //放行
     @PermitAll
-    @GetMapping("/zym.jpg")
+    @GetMapping("/yzm.jpg")
     public void captcha(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setHeader("Cache-Control", "no-store, no-cache");
         response.setContentType("image/jpeg");
 
         // 生成文字验证码
         String text = producer.createText();
+        log.info("验证码：" + text);
         // 生成图片验证码
         BufferedImage image = producer.createImage(text);
         // 保存到验证码到 session
@@ -40,6 +43,5 @@ public class KaptchaController {
         ImageIO.write(image, "jpg", out);
         IOUtils.closeQuietly(out);
     }
-
 
 }

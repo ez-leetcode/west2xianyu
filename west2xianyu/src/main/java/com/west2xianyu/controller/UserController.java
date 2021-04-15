@@ -2,6 +2,7 @@ package com.west2xianyu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.config.AlipayConfig;
 import com.west2xianyu.pojo.Address;
 import com.west2xianyu.pojo.Result;
 import com.west2xianyu.pojo.User;
@@ -54,6 +55,7 @@ public class UserController {
     }
 
 
+    /*
     //4.1
     @ApiOperation(value = "登录账号请求",notes = "登录成功会返回一个token，接下来登录时需要带上~")
     @PostMapping("/login")
@@ -61,7 +63,7 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         return jsonObject;
     }
-
+     */
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "photo",value = "头像文件",required = true,paramType = "file"),

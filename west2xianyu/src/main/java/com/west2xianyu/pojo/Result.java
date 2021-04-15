@@ -7,7 +7,6 @@ import lombok.Setter;
 //返回结果
 @Setter
 @Getter
-@Data
 public class Result<T> {
 
     //返回状态码
@@ -19,4 +18,12 @@ public class Result<T> {
     //返回的数据
     private T data;
 
+    @Override
+    public String toString() {
+        return "{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
+    }
 }

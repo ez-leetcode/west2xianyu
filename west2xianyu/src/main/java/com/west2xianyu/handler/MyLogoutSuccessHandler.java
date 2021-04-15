@@ -3,8 +3,8 @@ package com.west2xianyu.handler;
 import com.alibaba.fastjson.JSONObject;
 import com.west2xianyu.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -13,22 +13,21 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-//登录后，访问接口没有权限的时候调用
+//注销成功后被调用
 @Slf4j
 @Component
-public class MyAccessDeniedHandler implements AccessDeniedHandler {
+public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
+
+
 
     @Override
-    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
-        //相应状态
-        httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        //返回json格式
+    public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+        //删除redis缓存
         httpServletResponse.setHeader("Content-Type","application/json;charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         PrintWriter printWriter = httpServletResponse.getWriter();
-        printWriter.write(ResultUtils.getResult(jsonObject,"authorityWrong").toString());
+        printWriter.write(ResultUtils.getResult(jsonObject,"logoutSuccess").toString());
         printWriter.flush();
         printWriter.close();
     }
-
 }

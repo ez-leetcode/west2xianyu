@@ -2,13 +2,17 @@ package com.west2xianyu.utils;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 @Setter
 @Getter
+@Component
 public class RedisUtils {
 
+    @Autowired
     private StringRedisTemplate redisTemplate;
 
 
