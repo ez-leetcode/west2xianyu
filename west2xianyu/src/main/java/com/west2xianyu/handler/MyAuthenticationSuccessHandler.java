@@ -38,16 +38,16 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
         log.info(user.toString());
 
         //生成新的token
-        //String token = JwtUtils.createToken(user.getUsername(),user.getPassword());
-
-
-
-
+        String token = JwtUtils.createToken(user.getUsername(),user.getPassword());
+        log.info("新生成token：" + token);
+        //保存token
+        redisUtils.saveByTime(user.getId(),token,8);
         //返回时把密码清空
         user.setPassword(null);
         JSONObject jsonObject = new JSONObject();
+        jsonObject.put("token",token);
         //输出信息
-        printWriter.write(ResultUtils.getResult(jsonObject, "success").toString());
+        printWriter.write(ResultUtils.getResult(jsonObject, "loginSuccess").toString());
         printWriter.flush();
         printWriter.close();
     }

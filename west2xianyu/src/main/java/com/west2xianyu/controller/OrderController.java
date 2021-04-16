@@ -218,16 +218,5 @@ public class OrderController {
         return ResultUtils.getResult(jsonObject,status);
     }
 
-    @ApiOperation("支付测试")
-    @RequestMapping("/pay")
-    public void payForBill(HttpServletResponse response, HttpServletRequest request){
-        try {
-            alipayService.aliPay(response,request);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
 
 }

@@ -14,7 +14,18 @@ import java.util.Date;
 class West2xianyuApplicationTests {
 
     @Autowired
-    private StringRedisTemplate redisTemplate;
+    private RedisUtils redisUtils;
+
+
+    @Test
+    void fun(){
+        redisUtils.delete("ycy");
+        System.out.println(1);
+        //redisUtils.saveByTime("ycy","yyds",1);
+    }
+
+
+   /*
 
 
     @Autowired
@@ -35,6 +46,8 @@ class West2xianyuApplicationTests {
     }
 
 
+
+     */
 
 
 

@@ -8,7 +8,9 @@ public interface AlipayService {
 
 
 
-    void  aliPay(HttpServletResponse response, HttpServletRequest request) throws IOException;
+    void aliPay(HttpServletResponse response, HttpServletRequest request, String goodsName,Double price,Long number) throws IOException;
 
+    String notifyPay(HttpServletRequest request) throws Exception;
 
+    String refundBill(Long number,Double price) throws Exception;
 }

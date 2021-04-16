@@ -22,6 +22,9 @@ public class ResultUtils {
         resultMap.put("authorityWrong",403);
         resultMap.put("logoutSuccess",200);
         resultMap.put("loginSuccess",200);
+        resultMap.put("paySuccess",200);
+        resultMap.put("payFail",-1);
+        resultMap.put("refundFail",-1);
     }
 
 

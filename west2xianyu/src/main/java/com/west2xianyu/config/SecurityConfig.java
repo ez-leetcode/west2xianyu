@@ -59,8 +59,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         //不通过security
         //可能还要有图片
-        web.ignoring().antMatchers("/yzm.jpg")
-                .antMatchers("/pay");
+        web.ignoring().antMatchers("/swagger-ui.html#")
+                .antMatchers("/yzm.jpg")
+                .antMatchers("/payBill/**")
+                .antMatchers("/notifyBill/**")
+                .antMatchers("/refundBill/**");
     }
 
     @Override
@@ -70,9 +73,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         //http.addFilterBefore(new MyLoginFilter(),UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests()
+                //放行注册接口
+                .antMatchers("/register").permitAll()
+                //放行验证码获取接口
                 .antMatchers("/yzm.jpg/**").permitAll()
+                //放行登录接口
                 .antMatchers("/login").permitAll()
-                .antMatchers("/pay").permitAll()
+                //放行支付宝订单生成接口
+                .antMatchers("/payBill").permitAll()
+                //放行支付宝异步反馈接口
+                .antMatchers("/notifyBill").permitAll()
+                //放行支付宝退款接口
+                .antMatchers("/refundBill").permitAll()
                 //拥有角色
                 .antMatchers("/admin/**").hasRole("admin")
                 //其他所有请求必须认证才能访问，必须登录
@@ -92,6 +104,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
+                //注销url
                 .logoutUrl("/logout")
                 //成功退出登录处理
                 .logoutSuccessHandler(myLogoutSuccessHandler)
@@ -99,8 +112,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 //登录后访问没有权限处理
                 .accessDeniedHandler(myAccessDeniedHandler);
-
-
 
         //异常处理
         // http.exceptionHandling()
