@@ -25,7 +25,8 @@ public class MyLoginFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
-        //post请求并且是login的路径
+        //post请求并且是login的路径，测试的时候先不用
+        /*
         if ("POST".equalsIgnoreCase(request.getMethod()) && "/login".equals(request.getServletPath())) {
             //用户输入的验证码
             String code = request.getParameter("code");
@@ -42,17 +43,16 @@ public class MyLoginFilter extends OncePerRequestFilter {
                 printWriter.close();
             }
         }
+         */
         //非登录状态请求，检查token
         if (!"/login".equals(request.getServletPath())) {
             response.setContentType("application/json;charset=UTF-8");
-            PrintWriter printWriter = response.getWriter();
             //不是登录状态，检查token是否合格
             String token = request.getHeader("token");
             if (token == null) {
                 log.warn("token不存在");
-                printWriter.write(ResultUtils.getResult(new JSONObject(), "yzmWrong").toString());
-                printWriter.flush();
-                printWriter.close();
+                //printWriter.write(ResultUtils.getResult(new JSONObject(), "tokenWrong").toString());
+                //printWriter.flush();
             } else {
                 String username = request.getParameter("id");
                 //因为拦截器之前未实例化bean，所以只能自己创建一个
@@ -67,13 +67,16 @@ public class MyLoginFilter extends OncePerRequestFilter {
                     if (realToken == null || !username.equals(realUsername) || !JwtUtils.isExpiration(token) || !realToken.equals(token)) {
                         //token过期  token不存在  token不匹配  用户名不匹配都认证失败
                         log.warn("token错误");
-                        printWriter.write(ResultUtils.getResult(new JSONObject(), "yzmWrong").toString());
-                        printWriter.flush();
-                        printWriter.close();
+                        //printWriter.write(ResultUtils.getResult(new JSONObject(), "tokenWrong").toString());
+                        //printWriter.flush();
+                    }else{
+                        //token认证成功
+                        log.info("123");
                     }
                 }
             }
         }
+        //printWriter.close();
         chain.doFilter(request, response);
     }
 }

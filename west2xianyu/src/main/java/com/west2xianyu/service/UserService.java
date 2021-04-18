@@ -50,7 +50,15 @@ public interface UserService {
 
     JSONObject getAddress(String id,long cnt,long page);
 
+    JSONObject getMessage(String id,long cnt,long page,int isRead);
+
+    JSONObject getOneMessage(String id,Long number);
+
     String deleteHistory(Long goodsId,String id);
 
     String deleteAllHistory(String id);
+
+    String readAllMessage(String id);
+
+    String deleteAllShopping(String id);
 }

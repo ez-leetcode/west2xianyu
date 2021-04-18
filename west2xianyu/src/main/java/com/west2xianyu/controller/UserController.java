@@ -2,8 +2,8 @@ package com.west2xianyu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.west2xianyu.config.AlipayConfig;
 import com.west2xianyu.pojo.Address;
+import com.west2xianyu.pojo.Message;
 import com.west2xianyu.pojo.Result;
 import com.west2xianyu.pojo.User;
 import com.west2xianyu.service.UserService;
@@ -42,27 +42,32 @@ public class UserController {
     })
     @ApiResponse(code = 200, message = "返回registerStatus，repeatWrong：用户名重复，verifyWrong：验证码错误，success：成功")
     @PostMapping("/register")
-    public JSONObject register(User user){
+    public Result<JSONObject> register(@RequestParam("id") String id,@RequestParam("password") String password,
+                               @RequestParam("isAdministrator") int isAdministrator){
         JSONObject jsonObject = new JSONObject();
+        User user = new User();
+        user.setId(id);
+        user.setPassword(password);
+        user.setIsAdministrator(isAdministrator);
         String status = userService.register(user);
         if(status.equals("repeatWrong") || status.equals("verifyWrong")){
-            jsonObject.put("registerStatus",status);
-            return jsonObject;
+            return ResultUtils.getResult(jsonObject,status);
         }
         log.info("注册成功，用户id：" + user.getId());
-        jsonObject.put("registerStatus","success");
-        return jsonObject;
+        return ResultUtils.getResult(jsonObject,"success");
     }
 
 
     /*
-    //4.1
+
     @ApiOperation(value = "登录账号请求",notes = "登录成功会返回一个token，接下来登录时需要带上~")
     @PostMapping("/login")
     public JSONObject login(User user){
+        System.out.println(111);
         JSONObject jsonObject = new JSONObject();
         return jsonObject;
     }
+
      */
 
     @ApiImplicitParams({
@@ -88,6 +93,7 @@ public class UserController {
 
 
 
+    //pass
     @ApiOperation(value = "获取用户信息")
     @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string")
     @GetMapping("/user")
@@ -107,12 +113,12 @@ public class UserController {
         return result;
     }
 
+    //pass
     @ApiOperation(value = "用于修改界面，保存用户信息",notes = "必带id，可以修改：username,sex,campus,address,email,phone,introduction")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string"),
             @ApiImplicitParam(name = "username",dataType = "string"),
-            @ApiImplicitParam(name = "password",value = "密码(MD5加密)",dataType = "string"),
-            @ApiImplicitParam(name = "sex",value = "性别M/W",dataType = "string"),
+            @ApiImplicitParam(name = "sex",value = "男/女",dataType = "string"),
             @ApiImplicitParam(name = "campus",value = "校区",dataType = "string"),
             @ApiImplicitParam(name = "email",dataType = "string"),
             @ApiImplicitParam(name = "phone",dataType = "string"),
@@ -120,13 +126,12 @@ public class UserController {
     })
     @PostMapping("/user")
     public Result<JSONObject> saveUser(@RequestParam("id") String id,@RequestParam(value = "username",required = false) String username,
-                                       @RequestParam(value = "password",required = false) String password,
                                        @RequestParam(value = "sex",required = false) String sex,
                                        @RequestParam(value = "campus",required = false) String campus,
                                        @RequestParam(value = "email",required = false) String email,
                                        @RequestParam(value = "phone",required = false) String phone,
                                        @RequestParam(value = "introduction",required = false) String introduction){
-        User user = new User(id,username,password,sex,null,email,campus,phone,null,introduction,null, null,
+        User user = new User(id,username,null,sex,null,email,campus,phone,null,introduction,null, null,
                 null,null,null,null,null,null,null,null,null,null,null);
         JSONObject jsonObject = new JSONObject();
         Result<JSONObject> results;
@@ -142,7 +147,8 @@ public class UserController {
         return results;
     }
 
-
+    //pass
+    //删除商品或者冻结时还会有，但是可以点进去，不然异步被下单的商品点进去会有问题
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,type = "string"),
             @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,type = "long"),
@@ -154,11 +160,11 @@ public class UserController {
                                   @RequestParam("page") long page){
         log.info("正在尝试获取用户购物车内容");
         JSONObject jsonObject = userService.getShopping(id,cnt,page);
-        Result<JSONObject> result= ResultUtils.getResult(jsonObject,"success");
         //返回信息里，一个shoppingList代表内容，pages代表页面数
-        return result;
+        return ResultUtils.getResult(jsonObject,"success");
     }
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "id",required = true,paramType = "string")
@@ -173,6 +179,7 @@ public class UserController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "id",required = true,paramType = "string")
@@ -185,6 +192,17 @@ public class UserController {
         String status = userService.deleteShopping(number,id);
         return ResultUtils.getResult(jsonObject,status);
     }
+
+    //pass
+    @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    @ApiOperation(value = "用户清空购物车")
+    @DeleteMapping("/deleteAllShopping")
+    public Result<JSONObject> deleteAllShopping(@RequestParam("id") String id){
+        log.info("正在清空购物车：" + id);
+        String status = userService.deleteAllShopping(id);
+        return ResultUtils.getResult(new JSONObject(),status);
+    }
+
 
 
     //pass
@@ -233,6 +251,9 @@ public class UserController {
         return ResultUtils.getResult(jsonObject,"success");
     }
 
+
+
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "id",value = "评论者id",required = true,paramType = "string"),
@@ -249,6 +270,7 @@ public class UserController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "id",value = "用户学号",required = true,paramType = "string"),
@@ -266,11 +288,12 @@ public class UserController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,paramType = "string")
+            @ApiImplicitParam(name = "createTime",value = "评论时间（有可能会出现一个用户评论相同内容）",required = true,paramType = "string")
     })
     @ApiOperation(value = "对评论点赞")
     @PostMapping("/likes")
@@ -282,7 +305,7 @@ public class UserController {
         return ResultUtils.getResult(jsonObject,status);
     }
 
-
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,paramType = "long"),
@@ -300,6 +323,7 @@ public class UserController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "phone",value = "联系方式（电话）",required = true,paramType = "string"),
@@ -326,7 +350,7 @@ public class UserController {
             @ApiImplicitParam(name = "phone",value = "电话",required = true,paramType = "string"),
             @ApiImplicitParam(name = "isDefault",value = "是否是默认地址1是0不是",required = true,paramType = "int")
     })
-    @ApiOperation(value = "保存用户收获地址")
+    @ApiOperation(value = "保存用户收货地址")
     @PostMapping("/address")
     public Result<JSONObject> addAddress(@RequestParam("id") String id,@RequestParam("campus") String campus,
                                  @RequestParam("realAddress") String realAddress,@RequestParam("name") String name,
@@ -376,6 +400,7 @@ public class UserController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
@@ -391,8 +416,7 @@ public class UserController {
     }
 
 
-
-
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "goodsId",value = "物品编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
@@ -408,14 +432,14 @@ public class UserController {
 
 
 
-    //4.6到这
+    //4.6到这，可以加HistoryMsg，还不行
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
             @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long")
     })
     @ApiOperation(value = "获取用户全部历史记录")
-    @PostMapping("/allHistory")
+    @GetMapping("/allHistory")
     public Result<JSONObject> getHistory(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                  @RequestParam("page") Long page){
         //待完成
@@ -424,7 +448,7 @@ public class UserController {
         return ResultUtils.getResult(jsonObject,"success");
     }
 
-
+    //pass
     @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
     @ApiOperation(value = "清空历史记录")
     @DeleteMapping("/allHistory")
@@ -436,4 +460,43 @@ public class UserController {
     }
 
 
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "isRead",value = "是否已读",required = true,paramType = "int")
+    })
+    @ApiOperation("获取消息盒子列表内容")
+    @GetMapping("/message")
+    public Result<JSONObject> getMessage(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                                         @RequestParam("page") Long page,@RequestParam("isRead") Integer isRead){
+        log.info("正在获取消息盒子内容：" + id);
+        return ResultUtils.getResult(userService.getMessage(id,cnt,page,isRead),"success");
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "number",value = "消息编号",required = true,paramType = "long")
+    })
+    @ApiOperation("获取消息具体内容")
+    @GetMapping("/getMessage")
+    public Result<JSONObject> readMessage(@RequestParam("id") String id,@RequestParam("number") Long number){
+        log.info("正在获取消息具体内容：" + number);
+        JSONObject jsonObject = userService.getOneMessage(id,number);
+        if(jsonObject == null){
+            return ResultUtils.getResult(new JSONObject(),"existWrong");
+        }
+        return ResultUtils.getResult(jsonObject,"success");
+    }
+
+    @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    @ApiOperation("将所有消息通知已读")
+    @PostMapping("/message")
+    public Result<JSONObject> deleteMessage(@RequestParam("id") String id){
+        log.info("正在已读所有消息：" + id);
+        return ResultUtils.getResult(new JSONObject(),userService.readAllMessage(id));
+    }
 }

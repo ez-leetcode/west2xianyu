@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.west2xianyu.pojo.Favor;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -19,4 +20,10 @@ public interface FavorMapper extends BaseMapper<Favor> {
     @Select("SELECT * FROM favor WHERE id = #{id} AND deleted = 1 ORDER BY create_time DESC")
     List<Favor> selectAllFavorDeleted(String id);
 
+
+    @Select("SELECT * FROM favor WHERE goods_id = #{goods_id}")
+    Favor selectByGoodsId(Long goods_id);
+
+    @Update("UPDATE favor SET deleted = #{deleted} Where goods_id = #{goods_id}")
+    void updateFavorWhenDelete(Long goods_id,int deleted);
 }

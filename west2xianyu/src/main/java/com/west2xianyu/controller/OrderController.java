@@ -15,9 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 
 // 1.订单被拍下 2.代管理员审核 3.买家付款 4.卖家发货 5.买家确认收货 6.买家评价 7.订单已完成 8.订单被删除   10.申请退款 11.退款成功

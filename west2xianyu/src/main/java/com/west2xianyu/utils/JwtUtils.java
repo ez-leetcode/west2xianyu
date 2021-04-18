@@ -18,7 +18,7 @@ public class JwtUtils {
     private static final long expiration = 1000 * 3600L;
 
 
-
+    //创建token
     public static String createToken(String username,String password){
         JwtBuilder jwtBuilder = Jwts.builder()
                 //设置唯一id
@@ -54,8 +54,7 @@ public class JwtUtils {
     }
 
 
-
-
+    //解析token
     public static void parseToken(String token){
         Claims claims = (Claims) Jwts.parser()
                 .setSigningKey(secret)

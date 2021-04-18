@@ -46,15 +46,16 @@ public class GoodsServiceImpl implements GoodsService{
         }
         //商品存在且未冻结
         QueryWrapper<History> wrapper = new QueryWrapper<>();
-        wrapper.eq("number",number)
+        wrapper.eq("goods_id",number)
                 .eq("id",id);
         History history = historyMapper.selectOne(wrapper);
         if(history != null){
             log.info("已被浏览，正在更新");
             historyMapper.updateById(history);
+        }else{
+            log.info("正在保存历史记录信息，商品编号：" + number + " 用户id：" + id);
+            historyMapper.insert(new History(number,id,null,null));
         }
-        log.info("正在保存历史记录信息，商品编号：" + number + "用户id：" + id);
-        historyMapper.insert(new History(number,id,null,null));
         log.info("正在更新商品浏览信息");
         goods.setScanCounts(goods.getScanCounts() + 1);
         goodsMapper.updateById(goods);
@@ -113,9 +114,18 @@ public class GoodsServiceImpl implements GoodsService{
             log.warn("添加收藏失败，商品已被收藏");
             return "repeatWrong";
         }
-        //添加收藏物品
-        favorMapper.insert(new Favor(goodsId,id,goods.getGoodsName(),null,null));
-        log.info("添加收藏成功");
+        Favor favor1 = favorMapper.selectByGoodsId(goodsId);
+        if(favor1 != null){
+            //未被明面收藏且存在，说明被逻辑删除，更新即可
+            log.info("收藏对象被逻辑删除：" + favor1.toString());
+            //好像逻辑删除的不能直接被更新，这里手动更新
+            favorMapper.updateFavorWhenDelete(goodsId,0);
+            log.info("逻辑删除更新成功");
+        }else{
+            //添加收藏物品
+            favorMapper.insert(new Favor(goodsId,id,goods.getGoodsName(),null,null));
+            log.info("添加收藏成功");
+        }
         goods.setFavorCounts(goods.getFavorCounts() + 1);
         goodsMapper.updateById(goods);
         log.info("商品收藏数更新成功");
@@ -162,7 +172,7 @@ public class GoodsServiceImpl implements GoodsService{
         log.info("获取收藏商品成功：" + favorMsgList.toString());
         jsonObject.put("favorList",favorMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
 
@@ -252,7 +262,7 @@ public class GoodsServiceImpl implements GoodsService{
         log.info("获取收藏物品成功：" + favorMsgList.toString());
         jsonObject.put("favorList",favorMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
 
@@ -308,7 +318,7 @@ public class GoodsServiceImpl implements GoodsService{
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("goodsList",goodsMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
 

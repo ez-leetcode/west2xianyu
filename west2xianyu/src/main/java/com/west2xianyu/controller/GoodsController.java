@@ -20,7 +20,7 @@ public class GoodsController {
     @Autowired
     private GoodsService goodsService;
 
-    //浏览自己的商品
+    //pass
     @ApiOperation(value = "获取闲置物品详细信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
@@ -45,7 +45,9 @@ public class GoodsController {
         return ResultUtils.getResult(jsonObject,"success");
     }
 
-    @ApiImplicitParam(name = "file",value = "商品图片",required = true,paramType = "file")
+
+    //pass
+    @ApiImplicitParam(name = "photo",value = "商品图片",required = true,paramType = "file")
     @ApiOperation(value = "上传商品图片")
     @PostMapping("/goodsPhoto")
     public Result<JSONObject> uploadGoodsPhoto(@RequestParam("photo")MultipartFile file){
@@ -128,6 +130,7 @@ public class GoodsController {
 
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long")
@@ -142,6 +145,7 @@ public class GoodsController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
             @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long")

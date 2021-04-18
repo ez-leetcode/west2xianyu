@@ -7,12 +7,15 @@ import com.west2xianyu.pojo.User;
 import com.west2xianyu.pojo.UserRole;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -28,12 +31,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
     @Autowired
     private UserRoleMapper userRoleMapper;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        System.out.println(222);
         //先查询用户名是否存在
         log.info("正在查询用户名是否存在：" + s);
         User user = userMapper.selectById(s);
@@ -44,10 +44,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
         //用户名存在的情况下，比较密码，待完成
         QueryWrapper<UserRole> wrapper = new QueryWrapper<>();
         wrapper.eq("user",user.getId());
+        Collection<GrantedAuthority> authList = new ArrayList<>();
         List<UserRole> userRoleList = userRoleMapper.selectList(wrapper);
+        if(userRoleList != null){
+            authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
         //2021.4.16 23:56
-        //密码呢？？ 等等再说
-        return null;
+        return new org.springframework.security.core.userdetails.User(user.getId(),user.getPassword(),authList);
     }
 
 }

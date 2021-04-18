@@ -151,7 +151,7 @@ public class OrderServiceImpl implements OrderService{
         log.info("获取订单列表成功：" + orderMsgList.toString());
         jsonObject.put("orderList",orderMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
 
@@ -251,7 +251,6 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public String refundPhotoUpload(MultipartFile file) {
-        String url = OssUtils.uploadPhoto(file,"refundPhoto");
-        return url;
+        return OssUtils.uploadPhoto(file,"refundPhoto");
     }
 }

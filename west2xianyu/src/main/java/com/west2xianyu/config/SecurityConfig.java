@@ -18,7 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
@@ -55,11 +54,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailService).passwordEncoder(getPassword());
     }
 
+    //放行静态资源
     @Override
     public void configure(WebSecurity web) throws Exception {
         //不通过security
         //可能还要有图片
-        web.ignoring().antMatchers("/swagger-ui.html#")
+        //swagger放行这四个，不然看不见
+        web.ignoring().antMatchers("/swagger-ui.html")
+                .antMatchers("/webjars/**")
+                .antMatchers("/v2/**")
+                .antMatchers("/swagger-resources/**")
                 .antMatchers("/yzm.jpg")
                 .antMatchers("/payBill/**")
                 .antMatchers("/notifyBill/**")
@@ -70,9 +74,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         //在校验密码之前先校验验证码
-        //http.addFilterBefore(new MyLoginFilter(),UsernamePasswordAuthenticationFilter.class);
+        //http.addFilterBefore(new MyLoginFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests()
+                //测试的时候放行全部
+                .antMatchers("/**").permitAll()
+                //放行swagger
+                .antMatchers("/swagger-ui.html").permitAll()
                 //放行注册接口
                 .antMatchers("/register").permitAll()
                 //放行验证码获取接口
@@ -85,11 +93,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/notifyBill").permitAll()
                 //放行支付宝退款接口
                 .antMatchers("/refundBill").permitAll()
-                //拥有角色
-                .antMatchers("/admin/**").hasRole("admin")
+                //拥有管理员角色
+                .antMatchers("/admin/**").permitAll()//hasRole("admin")
+                //拥有用户角色
+                //.antMatchers("/user/**").hasRole("user")
                 //其他所有请求必须认证才能访问，必须登录
                 .anyRequest().authenticated()
                 .and()
+                //解决跨域
                 .cors()
                 .and()
                 //因为用token认证，所以关闭csrf
@@ -97,6 +108,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 //登录url
                 .loginProcessingUrl("/login")
+                //用户名参数
+                .usernameParameter("id")
+                //密码参数
+                .passwordParameter("password")
                 //登录成功处理
                 .successHandler(myAuthenticationSuccessHandler)
                 //登录失败处理
@@ -112,7 +127,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 //登录后访问没有权限处理
                 .accessDeniedHandler(myAccessDeniedHandler);
-
         //异常处理
         // http.exceptionHandling()
         //        .accessDeniedHandler(myAccessDeniedHandler);

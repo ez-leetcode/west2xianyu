@@ -2,14 +2,13 @@ package com.west2xianyu.handler;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.west2xianyu.mapper.UserMapper;
-import com.west2xianyu.pojo.User;
 import com.west2xianyu.utils.JwtUtils;
 import com.west2xianyu.utils.RedisUtils;
 import com.west2xianyu.utils.ResultUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -34,16 +33,14 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setHeader("Content-Type", "application/json;charset=utf-8");
         PrintWriter printWriter = httpServletResponse.getWriter();
+        //注意，这里不是pojo的user
         User user = (User) authentication.getPrincipal();
         log.info(user.toString());
-
         //生成新的token
         String token = JwtUtils.createToken(user.getUsername(),user.getPassword());
         log.info("新生成token：" + token);
         //保存token
-        redisUtils.saveByTime(user.getId(),token,8);
-        //返回时把密码清空
-        user.setPassword(null);
+        redisUtils.saveByTime(user.getUsername(),token,8);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("token",token);
         //输出信息

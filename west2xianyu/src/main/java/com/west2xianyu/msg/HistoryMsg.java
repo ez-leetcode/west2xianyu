@@ -1,8 +1,5 @@
-package com.west2xianyu.pojo;
+package com.west2xianyu.msg;
 
-
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,8 +13,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel(description = "历史浏览实例")
-public class History {
+@ApiModel(description = "历史记录信息类")
+public class HistoryMsg {
 
     @ApiModelProperty(value = "闲置物品编号")
     private Long goodsId;
@@ -25,12 +22,16 @@ public class History {
     @ApiModelProperty(value = "浏览用户id")
     private String id;
 
-    @ApiModelProperty(value = "第一次浏览时间")
-    @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
+    @ApiModelProperty(value = "商品名称")
+    private String goodsName;
+
+    @ApiModelProperty(value = "价格")
+    private Double price;
+
+    @ApiModelProperty(value = "图片url")
+    private String photo;
 
     @ApiModelProperty(value = "最近浏览时间")
-    @TableField(fill = FieldFill.UPDATE)
     private Date updateTime;
 
 }

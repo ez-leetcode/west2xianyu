@@ -125,10 +125,7 @@ public class AdministratorController {
 
 
 
-
-
-
-
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long"),
@@ -144,6 +141,7 @@ public class AdministratorController {
     }
 
 
+    //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "反馈编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string")

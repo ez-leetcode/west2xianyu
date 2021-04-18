@@ -62,7 +62,7 @@ public class AdministratorServiceImpl implements AdministratorService{
         log.info("获取全部反馈信息成功：" + id);
         jsonObject.put("feedbackList",feedbackMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
 
@@ -71,12 +71,12 @@ public class AdministratorServiceImpl implements AdministratorService{
         JSONObject jsonObject = new JSONObject();
         Feedback feedback = feedbackMapper.selectById(number);
         User user = userMapper.selectById(feedback.getId());
-        feedback.setIsRead(1);
         FeedbackMsg feedbackMsg = new FeedbackMsg(number,user.getId(),user.getUsername(),user.getPhoto(),
-                feedback.getTitle(),feedback.getFeedbacks(),1,feedback.getCreateTime());
+                feedback.getTitle(),feedback.getFeedbacks(),feedback.getIsRead(),feedback.getCreateTime());
         log.info("获取详细反馈信息成功：" + feedbackMsg.toString());
         jsonObject.put("feedbackMsg",feedbackMsg);
         //更新为已读
+        feedback.setIsRead(1);
         feedbackMapper.updateById(feedback);
         log.info("更新为已读成功");
         return jsonObject;
@@ -139,7 +139,7 @@ public class AdministratorServiceImpl implements AdministratorService{
             log.info("获取正常账号信息成功：" + userMsgList.toString());
             jsonObject.put("userList",userMsgList);
             jsonObject.put("pages",page1.getPages());
-            jsonObject.put("count",page1.getSize());
+            jsonObject.put("count",page1.getTotal());
         }else{
             //已被冻结帐号
             List<User> userList;
@@ -241,7 +241,7 @@ public class AdministratorServiceImpl implements AdministratorService{
         log.info("获取商品列表成功：" + goodsMsgList.toString());
         jsonObject.put("goodsList",goodsMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
 

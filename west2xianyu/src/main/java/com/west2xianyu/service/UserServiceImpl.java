@@ -6,20 +6,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
 import com.west2xianyu.msg.FansMsg;
+import com.west2xianyu.msg.HistoryMsg;
 import com.west2xianyu.msg.ShoppingMsg;
 import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @Service
@@ -55,6 +55,12 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private OrdersMapper ordersMapper;
 
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
+
     //有时间加邮箱验证码
     @Override
     public String register(User user) {
@@ -63,6 +69,10 @@ public class UserServiceImpl implements UserService{
             log.warn("注册失败，该用户已被注册：" + user.getId());
             return "repeatWrong";
         }
+        //先对密码加密
+        log.info("当前密码：" + user.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        log.info("加密后密码：" + user.getPassword());
         //之前加一个验证码是否正确的验证
         log.info("正在创建新帐号");
         //设置默认邮箱
@@ -71,6 +81,14 @@ public class UserServiceImpl implements UserService{
         user.setUsername(user.getId());
         userMapper.insert(user);
         log.info("新账号：" + user.toString());
+        if(user.getIsAdministrator() == 1){
+            //用户是管理员
+            UserRole userRole = new UserRole();
+            userRole.setUser(user.getId());
+            userRole.setRole("admin");
+            userRoleMapper.insert(userRole);
+            log.info("创建管理员成功：" + userRole.getUser());
+        }
         return "success";
     }
 
@@ -165,6 +183,8 @@ public class UserServiceImpl implements UserService{
         log.info("关注列表更新成功，id：" + id + " fansId：" + fansId);
         fansMapper.insert(fans1);
         //中间要有消息推送，待完成
+
+        //修改粉丝数和关注数
         user.setFansCounts(user.getFansCounts() + 1);
         user1.setFollowCounts(user1.getFollowCounts() + 1);
         userMapper.updateById(user);
@@ -231,7 +251,7 @@ public class UserServiceImpl implements UserService{
         }
         jsonObject.put("fansList",fansMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         log.info("获取粉丝列表成功：" + fansMsgList.toString());
         return jsonObject;
     }
@@ -484,6 +504,7 @@ public class UserServiceImpl implements UserService{
         return "success";
     }
 
+    //在冻结商品的时候就要把购物车里的删了！！！！！！！！！！！！！！！！
     @Override
     public JSONObject getShopping(String id, long cnt, long page) {
         JSONObject jsonObject = new JSONObject();
@@ -499,6 +520,7 @@ public class UserServiceImpl implements UserService{
         User user = userMapper.selectById(id);
         for(Shopping x:shoppingList){
             //获取购物车商品实例
+            log.info(x.getNumber().toString());
             Goods goods = goodsMapper.selectById(x.getNumber());
             //获取卖家实例
             User user1 = userMapper.selectById(goods.getFromId());
@@ -513,10 +535,10 @@ public class UserServiceImpl implements UserService{
         }
         jsonObject.put("shoppingList",shoppingMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         log.info("获取购物车信息成功");
         log.info("页面数：" + page1.getPages());
-        log.info("购物车信息：" + shoppingMsgList.toString());
+        //log.info("购物车信息：" + shoppingMsgList.toString());
         return jsonObject;
     }
 
@@ -545,10 +567,11 @@ public class UserServiceImpl implements UserService{
         List<Address> addressList = page1.getRecords();
         jsonObject.put("addressMsgList",addressList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
 
+    //封装成historyMsg，4.19 到这
     @Override
     public JSONObject getHistory(String id,long cnt,long page) {
         JSONObject jsonObject = new JSONObject();
@@ -558,9 +581,21 @@ public class UserServiceImpl implements UserService{
         Page<History> page1 = new Page<>(page,cnt);
         historyMapper.selectPage(page1,wrapper);
         List<History> historyList = page1.getRecords();
-        jsonObject.put("historyList",historyList);
+        List<HistoryMsg> historyMsgList = new ArrayList<>();
+        long sum = page1.getTotal();
+        //手动分页
+        for(History x:historyList){
+            Goods goods = goodsMapper.selectById(x.getGoodsId());
+            if(goods == null){
+                sum --;
+            }else{
+                //加入进来，可能不行
+                historyMsgList.add(new HistoryMsg(goods.getNumber(),id,goods.getGoodsName(),goods.getPrice(),goods.getPhoto(),goods.getUpdateTime()));
+            }
+        }
+        jsonObject.put("historyList",historyMsgList);
         jsonObject.put("pages",page1.getPages());
-        jsonObject.put("count",page1.getSize());
+        jsonObject.put("count",page1.getTotal());
         log.info("获取历史记录信息成功");
         log.info("页面数：" + page1.getPages());
         log.info("历史记录信息：" + historyList.toString());
@@ -593,6 +628,85 @@ public class UserServiceImpl implements UserService{
         }else{
             log.info("清空历史浏览成功，用户：" + id + " 清除条数：" + result);
         }
+        return "success";
+    }
+
+    @Override
+    public JSONObject getMessage(String id, long cnt, long page, int isRead) {
+        QueryWrapper<Message> wrapper = new QueryWrapper<>();
+        JSONObject jsonObject = new JSONObject();
+        Page<Message> page1 = new Page<>(page,cnt);
+        wrapper.eq("id",id)
+                //根据时间排序
+                .orderByDesc("create_time");
+        if(isRead == 1){
+            //查询已读
+            wrapper.eq("is_read",1);
+        }else{
+            //查询未读
+            wrapper.eq("is_read",0);
+        }
+        messageMapper.selectPage(page1,wrapper);
+        List<Message> messageList = page1.getRecords();
+        jsonObject.put("messageList",messageList);
+        jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getTotal());
+        log.info("获取消息盒子信息成功：" + id);
+        return jsonObject;
+    }
+
+
+    @Override
+    public JSONObject getOneMessage(String id, Long number) {
+        JSONObject jsonObject = new JSONObject();
+        Message message = messageMapper.selectById(number);
+        if(message == null){
+            //通知不存在
+            log.warn("通知不存在：" + number);
+            return null;
+        }
+        //设置已读
+        message.setIsRead(1);
+        messageMapper.updateById(message);
+        log.info("已读更新成功");
+        jsonObject.put("message",message);
+        return jsonObject;
+    }
+
+    @Override
+    public String readAllMessage(String id) {
+        QueryWrapper<Message> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id)
+                //未读
+                .eq("is_read",0);
+        List<Message> messageList = messageMapper.selectList(wrapper);
+        if(messageList.isEmpty()){
+            //没有要已读的可能前台连续申请，返回existWrong
+            log.warn("已已读所有消息：" + id);
+            return "existWrong";
+        }
+        //更新所有消息为已读
+        for(Message x:messageList){
+            x.setIsRead(1);
+            messageMapper.updateById(x);
+        }
+        log.info("更新所有消息为已读成功：" + id);
+        return "success";
+    }
+
+    @Override
+    public String deleteAllShopping(String id) {
+        QueryWrapper<Shopping> wrapper = new QueryWrapper<>();
+        wrapper.eq("id",id);
+        List<Shopping> shoppingList = shoppingMapper.selectList(wrapper);
+        if(shoppingList == null){
+            //购物车已被清空
+            log.warn("购物车已被清空：" + id);
+            return "existWrong";
+        }
+        //购物车未被清空
+        shoppingMapper.delete(wrapper);
+        log.info("清空购物车成功：" + id);
         return "success";
     }
 }
