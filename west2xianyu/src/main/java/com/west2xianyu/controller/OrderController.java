@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
-// 1.订单被拍下 2.代管理员审核 3.买家付款 4.卖家发货 5.买家确认收货 6.买家评价 7.订单已完成 8.订单被删除   10.申请退款 11.退款成功
+//   0.订单被取消  1.订单被拍下 2.买家付款 3.卖家发货 4.买家确认收货==订单已完成（需评价） 5.买家已评价 6.订单xxx 8.订单已全部完成   10.申请退款 11.退款成功
 
 @Api(tags = "订单控制类",protocols = "https")
 @Slf4j
@@ -46,6 +46,7 @@ public class OrderController {
     }
 
 
+    //pass
     @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long")
     @ApiOperation("获取订单详细信息")
     @GetMapping("/order")
@@ -75,7 +76,7 @@ public class OrderController {
     @ApiOperation("删除订单")
     @DeleteMapping("/order")
     public Result<JSONObject> deleteOrder(@RequestParam("number") Long number,@RequestParam(value = "fromId",required = false) String fromId,
-                                  @RequestParam(value = "toId",required = false) String toId) {
+                                          @RequestParam(value = "toId",required = false) String toId) {
         JSONObject jsonObject = new JSONObject();
         log.info("正在尝试删除订单信息：" + number);
         if((fromId == null && toId == null) || (fromId != null && toId != null)){
@@ -94,6 +95,7 @@ public class OrderController {
     }
 
 
+    //待评价
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
             @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),

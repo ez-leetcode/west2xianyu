@@ -3,7 +3,6 @@ package com.west2xianyu.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.west2xianyu.pojo.Address;
-import com.west2xianyu.pojo.Message;
 import com.west2xianyu.pojo.Result;
 import com.west2xianyu.pojo.User;
 import com.west2xianyu.service.UserService;

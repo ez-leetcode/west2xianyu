@@ -42,4 +42,7 @@ public interface UserMapper extends BaseMapper<User> {
 
     @Select("SELECT * FROM user WHERE id = #{id} AND deleted = 1")
     User selectUserWhenever(String id);
+
+    @Select("SELECT * FROM user WHERE id = #{id}")
+    User selectUser(String id);
 }

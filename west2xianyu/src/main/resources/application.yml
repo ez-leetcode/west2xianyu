@@ -1,7 +1,7 @@
 
 #端口号
 server:
-  port: 8083
+  port: 8082
 
 #连接数据库设置
 spring:

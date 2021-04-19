@@ -198,6 +198,7 @@ public class AdministratorController {
         JSONObject jsonObject = new JSONObject();
         log.info("正在处理退款：" + number);
         String status = administratorService.judgeRefund(number,id,isPass);
+        //阿里云退款待完成  4.20
         return ResultUtils.getResult(jsonObject,status);
     }
 

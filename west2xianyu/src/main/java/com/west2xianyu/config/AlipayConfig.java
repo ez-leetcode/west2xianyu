@@ -14,7 +14,7 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhc89hcc3odFy1Wb+KTmF59u1ZHuUEF4FRjwtoI1y2NHDvUgUzVKMu5FeIl47k8QbrL/a0tO8Tei/yFMVP/azMMBI3lhubIXvKk5LmuuN9v7IdWn7cnTBhPCqJEyzUPP4zhw41oDZxdmllj7oKCzkSJlU82x3yA80hj+8Xp8Nsk82q6OU2/ymwjHpS9g8m9iZx9kc4KRng21n3afNOnlWsve2vSGaSFQGND78a61e+W7lIpBUqzhK0khzuev+GSJB8atVqvyk+K0XsqYGDeHumIR7GuLTG0HCcpHUZ9WBHaicaXkPusUJdt3S6+vTYBRGyhVYtIBWUOqUWKfV0o34hQIDAQAB";
 
     // 服务器异步通知页面路径（支付成功或者失败会告诉这个路径）  需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
-    public static String notify_url = "http://localhost:8083/notifyBill";
+    public static String notify_url = "http://localhost:8082/notifyBill";
 
     // 页面跳转同步通知页面路径 需http://格式的完整路径，不能加?id=123这类自定义参数，必须外网可以正常访问
     public static String return_url = "http://www.baidu.com";

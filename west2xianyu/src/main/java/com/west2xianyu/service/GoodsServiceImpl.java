@@ -42,7 +42,8 @@ public class GoodsServiceImpl implements GoodsService{
             return null;
         }
         if(goods.getIsFrozen() == 1){
-            return goods;
+            log.warn("获取商品详细信息失败，商品已被冻结");
+            return null;
         }
         //商品存在且未冻结
         QueryWrapper<History> wrapper = new QueryWrapper<>();
@@ -94,6 +95,7 @@ public class GoodsServiceImpl implements GoodsService{
             //把原价格作为历史价格
             goods.setHisPrice(goods1.getPrice());
         }
+        goods.setIsFrozen(0);
         goodsMapper.updateById(goods);
         log.info("修改商品信息成功");
         return "success";
@@ -198,6 +200,7 @@ public class GoodsServiceImpl implements GoodsService{
                 favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
             }
         }
+        //可能有bug
         log.info("获取失效的收藏商品成功：" + favorMsgList.toString());
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("favorList",favorMsgList);
@@ -272,6 +275,8 @@ public class GoodsServiceImpl implements GoodsService{
         if(fromId != null){
             wrapper.eq("from_id",fromId);
         }
+        //未被冻结
+        wrapper.eq("is_frozen",0);
         //设置价格区间
         wrapper.between("price",low,high);
         //最近更新过的物品会先被刷到

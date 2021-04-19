@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
@@ -37,6 +38,9 @@ public class AdministratorServiceImpl implements AdministratorService{
 
     @Autowired
     private RefundMapper refundMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
 
     @Override
@@ -250,25 +254,27 @@ public class AdministratorServiceImpl implements AdministratorService{
     @Override
     public String judgeGoods(Long number, String id,int isPass) {
         //判断更新审核情况
-        Orders orders = ordersMapper.selectById(number);
-        if(orders == null){
+        Goods goods = goodsMapper.selectById(number);
+        if(goods == null){
             log.warn("审核失败，订单不存在：" + number);
             return "existWrong";
         }
-        if(orders.getStatus() != 1){
-            log.warn("审核失败，订单状态有误：" + orders.getStatus());
-            return "statusWrong";
-        }
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        Message message = new Message();
+        message.setId(id);
         if(isPass == 1){
             //审核通过，更新状态，通知卖家
-            orders.setStatus(2);
-            ordersMapper.updateById(orders);
+            goods.setIsFrozen(0);
+            //ordersMapper.updateById(orders);
             //通知用户待完成
+            message.setTitle("您的商品审核已通过");
+            message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品" + number + "已被管理员审核通过");
         }else{
             //审核不通过，更新状态，更新卖家犯罪次数，通知卖家
-            orders.setStatus(9);
-            ordersMapper.updateById(orders);
-            User user = userMapper.selectById(orders.getFromId());
+            goods.setIsFrozen(1);
+            goodsMapper.updateById(goods);
+            User user = userMapper.selectById(goods.getFromId());
             if(user != null){
                 //用户已被封禁，就不管他了
                 user.setFrozenCounts(user.getFrozenCounts() + 1);
@@ -276,7 +282,10 @@ public class AdministratorServiceImpl implements AdministratorService{
                 log.info("更新用户犯罪次数成功：" + user.getId());
             }
             //通知用户待完成
+            message.setTitle("您的商品审核未被通过");
+            message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品" + number + "检测到非法信息，管理员审核未通过，已被冻结，请修改商品信息再上架");
         }
+        messageMapper.insert(message);
         log.info("审核商品成功：" + number);
         return "success";
     }
@@ -314,10 +323,10 @@ public class AdministratorServiceImpl implements AdministratorService{
             ordersMapper.updateById(orders);
             log.info("退款申请失败，管理员：" + id + "订单：" + number);
         }
-        //处理完申请伪删除退款数据
+        //处理完申请伪删除退款数据，不知道能不能行
         refund.setDeleted(1);
         refundMapper.updateById(refund);
-        //通知买卖双方
+        //通知买卖双方 4.20
         return "success";
     }
 

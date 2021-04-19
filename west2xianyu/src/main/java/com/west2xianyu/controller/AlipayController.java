@@ -32,7 +32,7 @@ public class AlipayController {
             @ApiImplicitParam(name = "number",value = "商品编号",required = true,paramType = "long")
     })
     @ApiOperation("支付测试")
-    @RequestMapping("/payBill")
+    @GetMapping("/payBill")
     public void payBill(HttpServletResponse response, HttpServletRequest request,
                            @RequestParam("goodsName") String goodsName,
                            @RequestParam("price") Double price,
@@ -57,15 +57,13 @@ public class AlipayController {
 
 
     @ApiOperation("退款商品")
-    @RequestMapping("/refundBill")
+    @PostMapping("/refundBill")
     public Result<JSONObject> refundBill(@RequestParam("number") Long number,
                                          @RequestParam("price") Double price) throws Exception{
         log.info("正在退款商品信息：" + number + "价格：" + price);
         String status = alipayService.refundBill(number,price);
         return ResultUtils.getResult(new JSONObject(),status);
     }
-
-
 
 
 }
