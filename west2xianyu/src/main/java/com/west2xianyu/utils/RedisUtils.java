@@ -24,7 +24,11 @@ public class RedisUtils {
 
     //存带有过期时间的key-value
     public void saveByTime(String key,String value,int hours){
-        redisTemplate.opsForValue().set(key,value, hours,TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set(key,value,hours,TimeUnit.MINUTES);
+    }
+
+    public void saveByMinutesTime(String key,String value,int minutes){
+        redisTemplate.opsForValue().set(key,value,minutes,TimeUnit.MINUTES);
     }
 
     //删除key

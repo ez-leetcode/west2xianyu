@@ -2,11 +2,10 @@ package com.west2xianyu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.pojo.Orders;
 import com.west2xianyu.pojo.Result;
 import com.west2xianyu.pojo.User;
-import com.west2xianyu.service.AdministratorService;
-import com.west2xianyu.service.MailService;
-import com.west2xianyu.service.UserService;
+import com.west2xianyu.service.*;
 import com.west2xianyu.utils.ResultUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -35,10 +34,16 @@ public class AdministratorController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AlipayService alipayService;
+
+    @Autowired
+    private OrderService orderService;
+
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long")
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation("获取所有用户信息")
     @GetMapping("/getUser")
@@ -51,10 +56,10 @@ public class AdministratorController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "isDeleted",value = "禁用/正常",required = true,paramType = "int"),
-            @ApiImplicitParam(name = "keyword",value = "关键词",paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long")
+            @ApiImplicitParam(name = "isDeleted",value = "禁用/正常",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation("获取正常或者已禁用的用户信息")
     @GetMapping("/getUser1")
@@ -68,9 +73,9 @@ public class AdministratorController {
 
     //封禁时长大于999天=永封
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "被封用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "days",value = "封禁时长(天)",required = true,paramType = "int"),
-            @ApiImplicitParam(name = "reason",value = "封号原因(发邮件告知)",required = true,paramType = "string")
+            @ApiImplicitParam(name = "id",value = "被封用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "days",value = "封禁时长(天)",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "reason",value = "封号原因(发邮件告知)",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation("管理员冻结用户")
     @PostMapping("/frozeUser")
@@ -90,8 +95,8 @@ public class AdministratorController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "adminId",value = "管理员id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "adminId",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation("解封用户")
     @PostMapping("/reopenUser")
@@ -109,9 +114,9 @@ public class AdministratorController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "isPass",value = "是否通过",required = true,paramType = "int"),
-            @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "isPass",value = "是否通过",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation("审核商品")
     @PostMapping("/judgeGoods")
@@ -127,10 +132,10 @@ public class AdministratorController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "isHide",value = "是否隐藏已读",required = true,paramType = "int")
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "isHide",value = "是否隐藏已读",required = true,dataType = "int",paramType = "query")
     })
     @ApiOperation("获取所有用户反馈")
     @GetMapping("/feedbackList")
@@ -143,8 +148,8 @@ public class AdministratorController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "反馈编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "反馈编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation("获取单个具体反馈信息")
     @GetMapping("/feedback")
@@ -157,9 +162,9 @@ public class AdministratorController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string")
+            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query")
     })
     @ApiOperation("获取所有订单")
     @GetMapping("/goodsList")
@@ -172,8 +177,8 @@ public class AdministratorController {
 
     //获取退款详细信息待完成
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation("获取退款详细信息")
     @GetMapping("/getRefund")
@@ -185,20 +190,30 @@ public class AdministratorController {
 
 
 
-
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "isPass",value = "是否同意",required = true,paramType = "int"),
-            @ApiImplicitParam(name = "id",value = "管理员id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "isPass",value = "是否同意",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation("处理退款申请")
     @PostMapping("/judgeRefund")
     public Result<JSONObject> judgeRefund(@RequestParam("number") Long number,@RequestParam("isPass") int isPass,
-                                   @RequestParam("id") String id){
+                                   @RequestParam("id") String id) throws Exception{
         JSONObject jsonObject = new JSONObject();
         log.info("正在处理退款：" + number);
         String status = administratorService.judgeRefund(number,id,isPass);
         //阿里云退款待完成  4.20
+        if(isPass == 1 && status.equals("success")){
+            //退款
+            Orders orders = orderService.getOrder(number);
+            String status1 = alipayService.refundBill(number,orders.getPrice());
+            if(status1.equals("success")){
+                log.info("退款成功");
+            }else{
+                log.info("退款失败，原因：" + status1);
+                status = status1;
+            }
+        }
         return ResultUtils.getResult(jsonObject,status);
     }
 

@@ -11,6 +11,7 @@ import com.west2xianyu.msg.GoodsMsg;
 import com.west2xianyu.pojo.Favor;
 import com.west2xianyu.pojo.Goods;
 import com.west2xianyu.pojo.History;
+import com.west2xianyu.pojo.Message;
 import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,8 @@ public class GoodsServiceImpl implements GoodsService{
         if(goods == null){
             return null;
         }
-        if(goods.getIsFrozen() == 1){
-            log.warn("获取商品详细信息失败，商品已被冻结");
+        if(goods.getIsFrozen() == 1 || goods.getIsPass() == 0){
+            log.warn("获取商品详细信息失败，商品已被冻结或未审核");
             return null;
         }
         //商品存在且未冻结
@@ -71,6 +72,7 @@ public class GoodsServiceImpl implements GoodsService{
         return "success";
     }
 
+    //下架，伪删除
     @Override
     public String deleteGoods(Long number) {
         Goods goods = goodsMapper.selectById(number);
@@ -80,12 +82,18 @@ public class GoodsServiceImpl implements GoodsService{
         }
         goodsMapper.deleteById(number);
         log.info("下架物品成功：" + number);
+        //同时伪删除所有收藏夹里的相关物品
+        QueryWrapper<Favor> wrapper = new QueryWrapper<>();
+        wrapper.eq("goods_id",number);
+        int result = favorMapper.delete(wrapper);
+        log.info("伪删除所有收藏夹内容成功：" + result + " 条");
         return "success";
     }
 
 
     @Override
     public String changeGoods(Goods goods) {
+        //重新修改商品信息要待审核
         Goods goods1 = goodsMapper.selectById(goods.getNumber());
         if(goods1 == null){
             log.warn("修改商品信息失败，可能商品被冻结或不存在：" + goods.getNumber());
@@ -144,8 +152,8 @@ public class GoodsServiceImpl implements GoodsService{
             log.warn("移除收藏失败，商品未被收藏");
             return "existWrong";
         }
-        //已添加收藏情况下，移除收藏
-        favorMapper.delete(wrapper);
+        //已添加收藏情况下，移除收藏，直接删除，不是伪删除
+        favorMapper.deleteFavor(goodsId,id);
         Goods goods = goodsMapper.selectById(goodsId);
         if(goods != null){
             log.info("正在更新商品收藏数：" + goodsId);
@@ -156,18 +164,23 @@ public class GoodsServiceImpl implements GoodsService{
         return "success";
     }
 
+    //获取未失效
     @Override
-    public JSONObject getAllFavor(String id, Long cnt, Long page) {
+    public JSONObject getAllFavor(String id, Long cnt, Long page,String keyword) {
         JSONObject jsonObject = new JSONObject();
         QueryWrapper<Favor> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
                 .orderByDesc("create_time");
+        if(keyword != null){
+            //有关键词，加关键词条件
+            wrapper.like("goods_name",keyword);
+        }
         Page<Favor> page1 = new Page<>(page,cnt);
         favorMapper.selectPage(page1,wrapper);
         List<Favor> favorList = page1.getRecords();
         List<FavorMsg> favorMsgList = new LinkedList<>();
         for(Favor x: favorList){
-            //获取商品实例，找到的是没有失效的
+            //获取商品实例，找到的是没有失效的，商品被下架或者deleted相关收藏也会deleted，如果原收藏商品修改后未被审核过，也可以偷偷看哦~
             Goods goods = goodsMapper.selectById(x.getGoodsId());
             favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
         }
@@ -181,12 +194,24 @@ public class GoodsServiceImpl implements GoodsService{
 
     //获取已失效
     @Override
-    public JSONObject getAllFavor1(String id, Long cnt, Long page) {
+    public JSONObject getAllFavor1(String id, Long cnt, Long page,String keyword) {
         //mybatis-plus逻辑删除deleted查询不了已经失效的，这里手写一个并分页
+        //limit起始于
         long a = cnt * (page - 1);
+        //大小
         long b = cnt;
-        List<Favor> favorList = favorMapper.selectFavorDeleted(id,a,b);
-        List<Favor> favorList1 = favorMapper.selectAllFavorDeleted(id);
+        List<Favor> favorList;
+        List<Favor> favorList1;
+        if(keyword != null){
+            //获取该页面所有已被删除的
+            favorList = favorMapper.selectFavorDeleted1(id,a,b,keyword);
+            //获取所有已被删除的（为了分页）
+            favorList1 = favorMapper.selectAllFavorDeleted1(id,keyword);
+        }else{
+            favorList = favorMapper.selectFavorDeleted(id,a,b);
+            favorList1 = favorMapper.selectAllFavorDeleted(id);
+        }
+        //看看要不要多一页
         long i = favorList1.size() % cnt;
         long pages = favorList1.size() / cnt;
         if(i != 0){
@@ -196,11 +221,9 @@ public class GoodsServiceImpl implements GoodsService{
         for(Favor x: favorList){
             //获取商品实例，找已经被逻辑删除的
             Goods goods = goodsMapper.selectGoodsWhenDelete(x.getGoodsId());
-            if(goods != null){
-                favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
-            }
+            //商品的deleted和收藏是同步更新的，所以goods不会为null
+            favorMsgList.add(new FavorMsg(x.getGoodsId(),x.getId(),goods.getPrice(),goods.getGoodsName(),goods.getPhoto(),x.getCreateTime()));
         }
-        //可能有bug
         log.info("获取失效的收藏商品成功：" + favorMsgList.toString());
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("favorList",favorMsgList);
@@ -212,14 +235,21 @@ public class GoodsServiceImpl implements GoodsService{
 
     //获取降价
     @Override
-    public JSONObject getAllFavor2(String id, Long cnt, Long page) {
+    public JSONObject getAllFavor2(String id, Long cnt, Long page,String keyword) {
         JSONObject jsonObject = new JSONObject();
         QueryWrapper<Favor> wrapper = new QueryWrapper<>();
+        //收藏要存在
         wrapper.eq("id",id)
                 .orderByDesc("create_time");
-        //先获取所有收藏
+        if(keyword != null){
+            //有关键词
+            wrapper.like("goods_name",keyword);
+        }
+        //先获取所有收藏，未被伪删除
         List<Favor> favorList = favorMapper.selectList(wrapper);
+        //存全部已经降价的活着的收藏
         List<FavorMsg> favorMsgList = new LinkedList<>();
+        //当前页面降价的列表
         List<FavorMsg> favorMsgList1 = new LinkedList<>();
         for(Favor x:favorList){
             Goods goods = goodsMapper.selectById(x.getGoodsId());
@@ -246,6 +276,7 @@ public class GoodsServiceImpl implements GoodsService{
         return jsonObject;
     }
 
+    /*
     @Override
     public JSONObject searchFavor(String id, String keyword, Long cnt, Long page) {
         JSONObject jsonObject = new JSONObject();
@@ -268,6 +299,8 @@ public class GoodsServiceImpl implements GoodsService{
         jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
+
+     */
 
     @Override
     public JSONObject searchGoods(String fromId,String keyword, Double low, Double high,Long cnt,Long page,String label1,String label2,String label3) {

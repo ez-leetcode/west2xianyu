@@ -26,7 +26,7 @@ public class SwaggerConfig {
         //显示swagger的环境
         Profiles profiles = Profiles.of("dev","test");
 
-        //判断当前环境
+        //判断当前环境，正式上线时改变环境就可以不显示swagger的页面了
         boolean flag = environment.acceptsProfiles(profiles);
 
         return new Docket(DocumentationType.SWAGGER_2)

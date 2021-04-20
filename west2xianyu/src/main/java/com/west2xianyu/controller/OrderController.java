@@ -34,8 +34,8 @@ public class OrderController {
 
     @ApiOperation(value = "生成订单请求",notes = "订单生成后，状态初始为1（物品被拍下）")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "toId",value = "买家id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "toId",value = "买家id",required = true,dataType = "string",paramType = "query")
     })
     @PostMapping("/order")
     public Result<JSONObject> generateOrder(@RequestParam("number") Long number, @RequestParam("toId") String toId){
@@ -47,7 +47,7 @@ public class OrderController {
 
 
     //pass
-    @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long")
+    @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query")
     @ApiOperation("获取订单详细信息")
     @GetMapping("/order")
     public Result<JSONObject> getOrder(@RequestParam("number") Long number){
@@ -69,9 +69,9 @@ public class OrderController {
 
     //暂时不用
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "fromId",value = "卖家id",paramType = "string"),
-            @ApiImplicitParam(name = "toId",value = "买家id",paramType = "string")
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "fromId",value = "卖家id",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "toId",value = "买家id",dataType = "string",paramType = "query")
     })
     @ApiOperation("删除订单")
     @DeleteMapping("/order")
@@ -97,14 +97,14 @@ public class OrderController {
 
     //待评价
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "toId",value = "买家id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "evaluation",value = "评价",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "describe",value = "描述评价",required = true,paramType = "double"),
-            @ApiImplicitParam(name = "service",value = "服务评价",required = true,paramType = "double"),
-            @ApiImplicitParam(name = "logistics",value = "快递评价",required = true,paramType = "double"),
-            @ApiImplicitParam(name = "isNoname",value = "是否匿名",required = true,paramType = "int")
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "toId",value = "买家id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "evaluation",value = "评价",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "describe",value = "描述评价",required = true,dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "service",value = "服务评价",required = true,dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "logistics",value = "快递评价",required = true,dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "isNoname",value = "是否匿名",required = true,dataType = "int",paramType = "query")
     })
     @ApiOperation("购买后评价商品")
     @PostMapping("/evaluate")
@@ -120,11 +120,11 @@ public class OrderController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "status",value = "订单状态",required = true,paramType = "int"),
-            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "status",value = "订单状态",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation("获取所有订单页面")
     @GetMapping("/orderList")
@@ -139,8 +139,8 @@ public class OrderController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
     })
     @ApiOperation("卖家已发货")
     @PostMapping("/sendOrder")
@@ -155,9 +155,9 @@ public class OrderController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "toId",value = "买家",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "number",value = "订单id",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "toId",value = "买家",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "订单id",required = true,dataType = "long",paramType = "query"),
     })
     @ApiOperation("确认收货")
     @PostMapping("/confirmOrder")
@@ -171,8 +171,8 @@ public class OrderController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "买家id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "number",value = "订单id",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "买家id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "订单id",required = true,dataType = "long",paramType = "query"),
     })
     @ApiOperation("取消订单")
     @PostMapping("/cancelOrder")
@@ -187,12 +187,12 @@ public class OrderController {
     //申请订单退款
     //退款图片上传待完成
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",value = "退款买家id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "money",value = "退款金额",required = true,paramType = "double"),
-            @ApiImplicitParam(name = "reason",value = "退款原因",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "description",value = "描述",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "photo",value = "描述图片url",paramType = "string")
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "退款买家id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "money",value = "退款金额",required = true,dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "reason",value = "退款原因",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "description",value = "描述",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "photo",value = "描述图片url",dataType = "string",paramType = "query")
     })
     @ApiOperation("订单退款(付款和已发货状态可用)，通知管理员")
     @PostMapping("/refund")
@@ -207,7 +207,7 @@ public class OrderController {
     }
 
 
-    @ApiImplicitParam(name = "photo",value = "描述图片文件",required = true,paramType = "file")
+    @ApiImplicitParam(name = "photo",value = "描述图片文件",required = true,dataType = "file",paramType = "body")
     @ApiOperation("上传退款描述图片")
     @PostMapping("/refundPhoto")
     public Result<JSONObject> refundPhotoUpload(@RequestParam("photo") MultipartFile file){

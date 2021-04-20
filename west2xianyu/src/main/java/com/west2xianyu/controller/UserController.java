@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.west2xianyu.pojo.Address;
 import com.west2xianyu.pojo.Result;
 import com.west2xianyu.pojo.User;
+import com.west2xianyu.service.MailService;
 import com.west2xianyu.service.UserService;
+import com.west2xianyu.utils.RedisUtils;
 import com.west2xianyu.utils.ResultUtils;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+
+import java.util.UUID;
 
 
 @Api(tags = "用户控制类",protocols = "https")
@@ -24,6 +28,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private MailService mailService;
+
+    @Autowired
+    private RedisUtils redisUtils;
+
 
     @GetMapping("/test")
     //注释用户名
@@ -34,27 +44,125 @@ public class UserController {
 
     @ApiOperation(value = "注册帐号请求",notes = "管理员注册请多带一个isAdministrator为1")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string"),
-            @ApiImplicitParam(name = "password",value = "用户密码",required = true,dataType = "string"),
-            @ApiImplicitParam(name = "isAdministrator",value = "是否是管理员",required = true,dataType = "int")
-
+            @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "password",value = "用户密码",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "code",value = "验证码",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "isAdministrator",value = "是否是管理员",required = true,dataType = "int",paramType = "query")
     })
     @ApiResponse(code = 200, message = "返回registerStatus，repeatWrong：用户名重复，verifyWrong：验证码错误，success：成功")
     @PostMapping("/register")
     public Result<JSONObject> register(@RequestParam("id") String id,@RequestParam("password") String password,
-                               @RequestParam("isAdministrator") int isAdministrator){
+                               @RequestParam("isAdministrator") int isAdministrator,@RequestParam("code") String code){
         JSONObject jsonObject = new JSONObject();
+        //先判断验证码是否正确
+        String yzm = redisUtils.getValue(id + "register");
+        log.info("用户输入验证码：" + code);
+        log.info("正确验证码：" + yzm);
+        if(yzm == null || !yzm.equals(code.toLowerCase())){
+            //验证码不正确，直接返回错误
+            return ResultUtils.getResult(jsonObject,"codeWrong");
+        }
         User user = new User();
         user.setId(id);
         user.setPassword(password);
         user.setIsAdministrator(isAdministrator);
         String status = userService.register(user);
-        if(status.equals("repeatWrong") || status.equals("verifyWrong")){
+        if(status.equals("repeatWrong")){
             return ResultUtils.getResult(jsonObject,status);
         }
         log.info("注册成功，用户id：" + user.getId());
         return ResultUtils.getResult(jsonObject,"success");
     }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "oldPassword",value = "旧密码",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "newPassword",value = "新密码",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "code",value = "验证码",required = true,dataType = "string",paramType = "query")
+    })
+    @ApiOperation("修改密码")
+    @PostMapping("/changePassword")
+    public Result<JSONObject> changePassword(@RequestParam("id") String id,@RequestParam("oldPassword") String oldPassword,
+                                             @RequestParam("newPassword") String newPassword,@RequestParam("code") String code){
+        log.info("正在修改密码：" + id);
+        //先校验验证码是否正确
+        String yzm = redisUtils.getValue(id + "changePassword");
+        if(yzm == null || !yzm.equals(code.toLowerCase())){
+            //验证码不存在或者错误
+            log.warn("修改密码失败，验证码错误");
+            return ResultUtils.getResult(new JSONObject(),"codeWrong");
+        }
+        //验证码正确的情况下
+        String status = userService.changePassword(id,oldPassword,newPassword);
+        return ResultUtils.getResult(new JSONObject(),status);
+    }
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "学号",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "newPassword",value = "新密码",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "code",value = "验证码",required = true,dataType = "string",paramType = "query")
+    })
+    @ApiOperation("找回密码")
+    @PostMapping("/findPassword")
+    public Result<JSONObject> findPassword(@RequestParam("id") String id,@RequestParam("newPassword") String newPassword,
+                                           @RequestParam("code") String code){
+        log.info("正在找回密码：" + id);
+        //先校验密码是否正确
+        String yzm = redisUtils.getValue(id + "findPassword");
+        if(yzm == null || !yzm.equals(code.toLowerCase())){
+            //验证码不存在或错误
+            log.warn("找回密码失败，验证码错误");
+            return ResultUtils.getResult(new JSONObject(),"codeWrong");
+        }
+        //验证码正确的情况下
+        String status = userService.findPassword(id,newPassword);
+        return ResultUtils.getResult(new JSONObject(),status);
+    }
+
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "status",value = "获取哪一种验证码 1.注册 2.找回密码 3.修改密码",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
+    })
+    @ApiOperation("获取验证码")
+    @PostMapping("/code")
+    public Result<JSONObject> getMailCode(@RequestParam("status") Integer status,@RequestParam("id") String id){
+        log.info("正在获取验证码，状态：" + status);
+        String function;
+        //获取验证码
+        String yzm = UUID.randomUUID().toString().substring(0,5);
+        if(status == 1){
+            function = "注册";
+            //存入数据库
+            redisUtils.saveByMinutesTime(id + "register",yzm,15);
+            mailService.sendEmail(id + "@fzu.edu.cn",yzm,function);
+        }else if(status == 2){
+            function = "找回密码";
+            User user = userService.getUser(id);
+            //无条件获取user，因为有些user已被封号（伪删除）,只能自己写sql获取
+            if(user == null){
+                log.warn("获取验证码失败，用户不存在：" + id);
+                return ResultUtils.getResult(new JSONObject(),"existWrong");
+            }
+            redisUtils.saveByMinutesTime(id + "findPassword",yzm,15);
+            mailService.sendEmail(user.getEmail(),yzm,function);
+        }else if(status == 3){
+            //修改密码
+            function = "修改密码";
+            User user = userService.getUser(id);
+            if(user == null){
+                log.warn("修改密码失败，用户不存在：" + id);
+                return ResultUtils.getResult(new JSONObject(),"existWrong");
+            }
+            redisUtils.saveByMinutesTime(id + "changePassword",yzm,15);
+            mailService.sendEmail(user.getEmail(),yzm,function);
+        }
+        return ResultUtils.getResult(new JSONObject(),"success");
+    }
+
 
 
     /*
@@ -70,8 +178,8 @@ public class UserController {
      */
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "photo",value = "头像文件",required = true,paramType = "file"),
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "photo",value = "头像文件",required = true,dataType = "file",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "用户上传头像")
     @PostMapping("/userPhoto")
@@ -94,7 +202,7 @@ public class UserController {
 
     //pass
     @ApiOperation(value = "获取用户信息")
-    @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string")
+    @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string",paramType = "query")
     @GetMapping("/user")
     public Result<JSONObject> getUser(@RequestParam("id") String id){
         log.info("正在获取用户信息，id：" + id);
@@ -115,13 +223,13 @@ public class UserController {
     //pass
     @ApiOperation(value = "用于修改界面，保存用户信息",notes = "必带id，可以修改：username,sex,campus,address,email,phone,introduction")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string"),
-            @ApiImplicitParam(name = "username",dataType = "string"),
-            @ApiImplicitParam(name = "sex",value = "男/女",dataType = "string"),
-            @ApiImplicitParam(name = "campus",value = "校区",dataType = "string"),
-            @ApiImplicitParam(name = "email",dataType = "string"),
-            @ApiImplicitParam(name = "phone",dataType = "string"),
-            @ApiImplicitParam(name = "introduction",value = "不超过200字",dataType = "string")
+            @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "username",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "sex",value = "男/女",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "campus",value = "校区",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "email",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "phone",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "introduction",value = "不超过200字",dataType = "string",paramType = "query")
     })
     @PostMapping("/user")
     public Result<JSONObject> saveUser(@RequestParam("id") String id,@RequestParam(value = "username",required = false) String username,
@@ -149,9 +257,9 @@ public class UserController {
     //pass
     //删除商品或者冻结时还会有，但是可以点进去，不然异步被下单的商品点进去会有问题
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,type = "string"),
-            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,type = "long"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,type = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation(value = "获取用户购物车内容")
     @GetMapping("/shopping")
@@ -165,8 +273,8 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "用户添加闲置物品到购物车",notes = "闲置物品被冻结，不能添加进购物车")
     @PostMapping("/shopping")
@@ -180,8 +288,8 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "用户从购物车移除闲置物品")
     @DeleteMapping("/shopping")
@@ -193,7 +301,7 @@ public class UserController {
     }
 
     //pass
-    @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     @ApiOperation(value = "用户清空购物车")
     @DeleteMapping("/deleteAllShopping")
     public Result<JSONObject> deleteAllShopping(@RequestParam("id") String id){
@@ -206,8 +314,8 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "被关注者id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "id",value = "被关注者id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "添加关注")
     @PostMapping("/fans")
@@ -222,8 +330,8 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "被关注者id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "id",value = "被关注者id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "取消关注")
     @DeleteMapping("/fans")
@@ -237,9 +345,9 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "一页数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "一页数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation(value = "获取粉丝列表")
     @GetMapping("/fans")
@@ -254,9 +362,9 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",value = "评论者id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "comments",value = "用户评论",required = true,paramType = "string")
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "评论者id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "comments",value = "用户评论",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "添加用户评论")
     @PostMapping("/comment")
@@ -271,10 +379,10 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",value = "用户学号",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "comments",value = "评论",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,type = "Date")
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "comments",value = "评论",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,dataType = "Date",paramType = "query")
     })
     @ApiOperation(value = "用户自己删除评论",notes = "用户自己才可以删除")
     @DeleteMapping("/comment")
@@ -289,10 +397,10 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "createTime",value = "评论时间（有可能会出现一个用户评论相同内容）",required = true,paramType = "string")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "createTime",value = "评论时间（有可能会出现一个用户评论相同内容）",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "对评论点赞")
     @PostMapping("/likes")
@@ -306,10 +414,10 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,paramType = "string")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "取消评论点赞")
     @DeleteMapping("/likes")
@@ -324,10 +432,10 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "phone",value = "联系方式（电话）",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "title",value = "标题（不超过30字）",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "feedbacks",value = "用户反馈（不超过200个字）",required = true,paramType = "string")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "phone",value = "联系方式（电话）",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "title",value = "标题（不超过30字）",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "feedbacks",value = "用户反馈（不超过200个字）",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "添加用户反馈")
     @PostMapping("/feedback")
@@ -342,12 +450,12 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "campus",value = "校区",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "realAddress",value = "具体地址",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "name",value = "收货人姓名",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "phone",value = "电话",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "isDefault",value = "是否是默认地址1是0不是",required = true,paramType = "int")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "campus",value = "校区",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "realAddress",value = "具体地址",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "name",value = "收货人姓名",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "phone",value = "电话",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "isDefault",value = "是否是默认地址1是0不是",required = true,dataType = "int",paramType = "query")
     })
     @ApiOperation(value = "保存用户收货地址")
     @PostMapping("/address")
@@ -363,8 +471,8 @@ public class UserController {
     //pass
     //删除默认的地址，会随机转移默认地址设置给其他地址，如没有其他地址，会报错
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "地址编号",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "地址编号",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "删除用户的地址配置")
     @DeleteMapping("/address")
@@ -378,12 +486,12 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "number",value = "用户地址编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "campus",value = "校区",paramType = "string"),
-            @ApiImplicitParam(name = "realAddress",value = "具体地址",paramType = "string"),
-            @ApiImplicitParam(name = "phone",value = "电话",paramType = "string"),
-            @ApiImplicitParam(name = "name",value = "收件人姓名",paramType = "string")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "用户地址编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "campus",value = "校区",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "realAddress",value = "具体地址",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "phone",value = "电话",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "name",value = "收件人姓名",dataType = "string",paramType = "query")
     })
     @ApiOperation("修改用户地址配置")
     @PatchMapping("/address")
@@ -401,9 +509,9 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,paramType = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation("获取用户地址列表")
     @GetMapping("/address")
@@ -417,8 +525,8 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "goodsId",value = "物品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "goodsId",value = "物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "用户删除历史记录",notes = "单个删除接口")
     @DeleteMapping("/history")
@@ -433,9 +541,9 @@ public class UserController {
 
     //4.6到这，可以加HistoryMsg，还不行
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation(value = "获取用户全部历史记录")
     @GetMapping("/allHistory")
@@ -448,7 +556,7 @@ public class UserController {
     }
 
     //pass
-    @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     @ApiOperation(value = "清空历史记录")
     @DeleteMapping("/allHistory")
     public Result<JSONObject> deleteAllHistory(@RequestParam("id") String id){
@@ -463,10 +571,10 @@ public class UserController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "isRead",value = "是否已读",required = true,paramType = "int")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "isRead",value = "是否已读",required = true,dataType = "int",paramType = "query")
     })
     @ApiOperation("获取消息盒子列表内容")
     @GetMapping("/message")
@@ -477,8 +585,8 @@ public class UserController {
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "number",value = "消息编号",required = true,paramType = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "消息编号",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation("获取消息具体内容")
     @GetMapping("/getMessage")
@@ -491,7 +599,7 @@ public class UserController {
         return ResultUtils.getResult(jsonObject,"success");
     }
 
-    @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string")
+    @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     @ApiOperation("将所有消息通知已读")
     @PostMapping("/message")
     public Result<JSONObject> deleteMessage(@RequestParam("id") String id){

@@ -20,13 +20,13 @@ public interface GoodsService {
 
     String changeGoods(Goods goods);
 
-    JSONObject getAllFavor(String id,Long cnt,Long page);
+    JSONObject getAllFavor(String id,Long cnt,Long page,String keyword);
 
-    JSONObject getAllFavor1(String id,Long cnt,Long page);
+    JSONObject getAllFavor1(String id,Long cnt,Long page,String keyword);
 
-    JSONObject getAllFavor2(String id,Long cnt,Long page);
+    JSONObject getAllFavor2(String id,Long cnt,Long page,String keyword);
 
-    JSONObject searchFavor(String id,String keyword,Long cnt,Long page);
+    //JSONObject searchFavor(String id,String keyword,Long cnt,Long page);
 
     JSONObject searchGoods(String fromId,String keyword,Double low,Double high,Long cnt,Long page,String label1,String label2,String label3);
 }

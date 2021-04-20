@@ -92,6 +92,51 @@ public class UserServiceImpl implements UserService{
         return "success";
     }
 
+
+    @Override
+    public String changePassword(String id, String oldPassword, String newPassword) {
+        User user = userMapper.selectUserWhenever(id);
+        //无论封号与否都可以修改密码
+        if(user == null){
+            //用户不存在
+            log.warn("修改密码失败，用户不存在：" + id);
+            return "existWrong";
+        }
+        //数据库已经加密过，现在转成密文
+        String realOldPassword = new BCryptPasswordEncoder().encode(oldPassword);
+        if(!user.getPassword().equals(realOldPassword)){
+            //旧密码错误
+            log.warn("修改密码失败，旧密码错误：" + oldPassword);
+            return "oldPasswordWrong";
+        }
+        //更新密码，被冻结也可以更新，记得加密
+        String realNewPassword = new BCryptPasswordEncoder().encode(newPassword);
+        userMapper.changePassword(id,realNewPassword);
+        log.info("密码更新成功：" + newPassword);
+        return "success";
+    }
+
+    @Override
+    public String findPassword(String id, String newPassword) {
+        User user = userMapper.selectUserWhenever(id);
+        //无论封号与否都可以找回密码
+        if(user == null){
+            //用户不存在
+            log.warn("找回密码失败，用户不存在：" + id);
+            return "existWrong";
+        }
+        //加密成密文存入
+        String realNewPassword = new BCryptPasswordEncoder().encode(newPassword);
+        userMapper.changePassword(id,realNewPassword);
+        log.info("找回密码成功：" + newPassword);
+        return "success";
+    }
+
+    @Override
+    public User getUserWhenever(String id) {
+        return userMapper.selectUserWhenever(id);
+    }
+
     @Override
     public String login(User user) {
         User user1 = userMapper.selectById(user.getId());
@@ -583,7 +628,7 @@ public class UserServiceImpl implements UserService{
         List<History> historyList = page1.getRecords();
         List<HistoryMsg> historyMsgList = new ArrayList<>();
         long sum = page1.getTotal();
-        //手动分页
+        //手动分页，待完成
         for(History x:historyList){
             Goods goods = goodsMapper.selectById(x.getGoodsId());
             if(goods == null){

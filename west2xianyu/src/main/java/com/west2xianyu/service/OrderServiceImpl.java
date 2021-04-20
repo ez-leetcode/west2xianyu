@@ -42,7 +42,11 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private MessageMapper messageMapper;
 
+    @Autowired
+    private FavorMapper favorMapper;
 
+
+    //生成订单后，通知卖家，通知伪删除商品，不再让人搜到
     @Override
     public String generateOrder(Long number, String toId) {
         Goods goods = goodsMapper.selectById(number);
@@ -73,6 +77,21 @@ public class OrderServiceImpl implements OrderService{
         orders.setPrice(goods.getPrice());
         ordersMapper.insert(orders);
         log.info("订单生成成功，订单：" + orders.toString());
+        goodsMapper.deleteById(number);
+        log.info("商品伪删除成功");
+        //伪删除所有收藏此商品的数据
+        QueryWrapper<Favor> wrapper1 = new QueryWrapper<>();
+        wrapper1.eq("goods_id",number);
+        int result = favorMapper.delete(wrapper1);
+        log.info("伪删除所有收藏成功：" + result + "条");
+        //通知卖家
+        Message message = new Message();
+        message.setId(goods.getFromId());
+        message.setIsRead(0);
+        message.setTitle("您的商品" + number + "已被人拍下，请及时确认");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + number + "已被买家" + toId + "拍下，请及时与买家取得联系");
         return "success";
     }
 
@@ -173,7 +192,7 @@ public class OrderServiceImpl implements OrderService{
         List<Orders> ordersList = page1.getRecords();
         List<OrderMsg> orderMsgList = new LinkedList<>();
         for(Orders x:ordersList){
-            //bug:用户被封了
+            //bug:用户被封了  所以就算被封号也能查到
             User user = userMapper.selectUser(x.getFromId());
             orderMsgList.add(new OrderMsg(x.getNumber(),x.getFromId(),user.getUsername(),
                     x.getGoodsName(),x.getPrice(),x.getFreight(),x.getPhoto(),x.getOrderTime()));

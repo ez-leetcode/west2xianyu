@@ -66,6 +66,9 @@ public class Goods {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
 
+    @ApiModelProperty("是否被审核通过")
+    private Integer isPass;
+
     @ApiModelProperty("乐观锁")
     @Version
     private Integer version;

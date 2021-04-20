@@ -23,8 +23,8 @@ public class GoodsController {
     //pass
     @ApiOperation(value = "获取闲置物品详细信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "id",value = "访问者id",required = true,paramType = "string")
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "id",value = "访问者id",required = true,dataType = "string",paramType = "query")
     })
     @GetMapping("/goods")
     public Result<JSONObject> getGoods(@RequestParam("number") Long number, @RequestParam("id") String id){
@@ -47,7 +47,7 @@ public class GoodsController {
 
 
     //pass
-    @ApiImplicitParam(name = "photo",value = "商品图片",required = true,paramType = "file")
+    @ApiImplicitParam(name = "photo",value = "商品图片",required = true,dataType = "file",paramType = "body")
     @ApiOperation(value = "上传商品图片")
     @PostMapping("/goodsPhoto")
     public Result<JSONObject> uploadGoodsPhoto(@RequestParam("photo")MultipartFile file){
@@ -59,34 +59,37 @@ public class GoodsController {
     }
 
 
+    //pass
     @ApiOperation(value = "创建新的闲置物品")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "price",value = "价格",required = true,paramType = "double"),
-            @ApiImplicitParam(name = "goodsName",value = "物品名",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "description",value = "物品描述",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "photo",value = "图片url",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "reason",value = "转手原因",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "label1",value = "标签1",paramType = "string"),
-            @ApiImplicitParam(name = "label2",value = "标签2",paramType = "string"),
-            @ApiImplicitParam(name = "label3",value = "标签3",paramType = "string")
+            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "price",value = "价格",required = true,dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "goodsName",value = "物品名",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "description",value = "物品描述",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "photo",value = "图片url",dataType = "string",paramType = "query"),  //可以没有图片描述
+            @ApiImplicitParam(name = "reason",value = "转手原因",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label1",value = "标签1",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label2",value = "标签2",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label3",value = "标签3",dataType = "string",paramType = "query")
     })
     @PostMapping("/goods")
     public Result<JSONObject> createGoods(@RequestParam("fromId") String fromId,@RequestParam("price") Double price,
                                   @RequestParam("goodsName") String goodsName,@RequestParam("description") String description,
-                                  @RequestParam("photo") String photo,@RequestParam("reason") String reason,
+                                  @RequestParam(value = "photo",required = false) String photo,@RequestParam("reason") String reason,
                                   @RequestParam(value = "label1",required = false) String label1,
                                   @RequestParam(value = "label2",required = false) String label2,
                                   @RequestParam(value = "label3",required = false) String label3){
         JSONObject jsonObject = new JSONObject();
         Goods goods = new Goods(null,fromId,price,null,goodsName,reason,description,null,null,photo,label1,label2,label3,null,
-                null,null,null,null);
+                null,null,null,null,null);
         log.info("正在创建新商品：" + goods.toString());
         String status = goodsService.saveGoods(goods);
         return ResultUtils.getResult(jsonObject,status);
     }
 
-    @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,paramType = "long")
+
+    //可能要用户id
+    @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query")
     @ApiOperation(value = "下架自己原有的闲置物品")
     @DeleteMapping("/goods")
     public Result<JSONObject> deleteGoods(@RequestParam("number") Long number){
@@ -97,16 +100,17 @@ public class GoodsController {
     }
 
 
+    //pass 可以降价后告诉收藏者，降价
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "商品编号",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "price",value = "价格",paramType = "double"),
-            @ApiImplicitParam(name = "goodsName",value = "商品名称",paramType = "string"),
-            @ApiImplicitParam(name = "description",value = "描述",paramType = "string"),
-            @ApiImplicitParam(name = "reason",value = "转手原因",paramType = "string"),
-            @ApiImplicitParam(name = "photo",value = "图片url",paramType = "string"),
-            @ApiImplicitParam(name = "label1",value = "标签1",paramType = "string"),
-            @ApiImplicitParam(name = "label2",value = "标签2",paramType = "string"),
-            @ApiImplicitParam(name = "label3",value = "标签3",paramType = "string")
+            @ApiImplicitParam(name = "number",value = "商品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "price",value = "价格",dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "goodsName",value = "商品名称",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "description",value = "描述",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "reason",value = "转手原因",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "photo",value = "图片url",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label1",value = "标签1",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label2",value = "标签2",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label3",value = "标签3",dataType = "string",paramType = "query")
     })
     @ApiOperation("修改商品信息")
     @PatchMapping("/goods")
@@ -121,7 +125,7 @@ public class GoodsController {
         //注意历史价格
         JSONObject jsonObject = new JSONObject();
         Goods goods = new Goods(number,null,price,null,goodsName,reason,description,null,null,photo,label1,
-                label2,label3,null,null,null,null,null);
+                label2,label3,null,null,null,null,null,null);
         log.info("正在修改商品信息：" + goods.toString());
         String status = goodsService.changeGoods(goods);
         return ResultUtils.getResult(jsonObject,status);
@@ -129,11 +133,10 @@ public class GoodsController {
 
 
 
-
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation("收藏商品")
     @PostMapping("/favor")
@@ -147,8 +150,8 @@ public class GoodsController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,paramType = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation("移除商品收藏")
     @DeleteMapping("/favor")
@@ -159,49 +162,55 @@ public class GoodsController {
         return ResultUtils.getResult(jsonObject,status);
     }
 
-
+    //失效的获取不到
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long")
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query")
     })
     @ApiOperation("获取全部收藏列表")
     @GetMapping("/favor")
     public Result<JSONObject> getFavor(@RequestParam("id") String id, @RequestParam("cnt") Long cnt,
-                                       @RequestParam("page") Long page){
+                                       @RequestParam("page") Long page,
+                                       @RequestParam(value = "keyword",required = false) String keyword){
         log.info("正在获取全部收藏列表：" + id);
-        return ResultUtils.getResult(goodsService.getAllFavor(id,cnt,page),"success");
+        return ResultUtils.getResult(goodsService.getAllFavor(id,cnt,page,keyword),"success");
     }
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query")
     })
     @ApiOperation("获取收藏失效列表")
     @GetMapping("/favor1")
     public Result<JSONObject> getFavor1(@RequestParam("id") String id, @RequestParam("cnt") Long cnt,
-                                        @RequestParam("page") Long page){
+                                        @RequestParam("page") Long page,
+                                        @RequestParam(value = "keyword",required = false) String keyword){
         log.info("正在获取失效的收藏列表：" + id);
-        return ResultUtils.getResult(goodsService.getAllFavor1(id,cnt,page),"success");
+        return ResultUtils.getResult(goodsService.getAllFavor1(id,cnt,page,keyword),"success");
     }
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,paramType = "long"),
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query")
     })
     @ApiOperation("获取收藏降价列表")
     @GetMapping("/favor2")
     public Result<JSONObject> getFavor2(@RequestParam("id") String id, @RequestParam("cnt") Long cnt,
-                                        @RequestParam("page") Long page){
+                                        @RequestParam("page") Long page,
+                                        @RequestParam(value = "keyword",required = false) String keyword){
         log.info("正在获取降价的收藏列表：" + id);
-        return ResultUtils.getResult(goodsService.getAllFavor2(id,cnt,page),"success");
+        return ResultUtils.getResult(goodsService.getAllFavor2(id,cnt,page,keyword),"success");
     }
 
 
-
+/*
     //4.6
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,paramType = "string"),
@@ -218,17 +227,19 @@ public class GoodsController {
     }
 
 
+ */
+
     //4.7
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "low",value = "价格最低",required = true,paramType = "double"),
-            @ApiImplicitParam(name = "high",value = "价格最高",required = true,paramType = "double"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "page",value = "当前页数",required = true,paramType = "long"),
-            @ApiImplicitParam(name = "fromId",value = "商家id，没有就是主页搜索",paramType = "string"),
-            @ApiImplicitParam(name = "keyword",value = "搜索关键词",paramType = "string"),
-            @ApiImplicitParam(name = "label1",value = "标签1",paramType = "string"),
-            @ApiImplicitParam(name = "label2",value = "标签2",paramType = "string"),
-            @ApiImplicitParam(name = "label3",value = "标签3",paramType = "string")
+            @ApiImplicitParam(name = "low",value = "价格最低",required = true,dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "high",value = "价格最高",required = true,dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页数",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "fromId",value = "商家id，没有就是主页搜索",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label1",value = "标签1",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label2",value = "标签2",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "label3",value = "标签3",dataType = "string",paramType = "query")
     })
     @ApiOperation("主页/商家关键词获取")
     @GetMapping("/searchGoods")

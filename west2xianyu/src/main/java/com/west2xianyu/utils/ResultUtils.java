@@ -13,19 +13,25 @@ public class ResultUtils {
 
 
     static{
+        //成功码 200
         resultMap.put("success",200);
-        resultMap.put("userWrong",1);
-        resultMap.put("statusWrong",2);
-        resultMap.put("repeatWrong",3);
-        resultMap.put("yzmWrong",401);
-        resultMap.put("existWrong",1);
-        resultMap.put("authorityWrong",403);
         resultMap.put("logoutSuccess",200);
         resultMap.put("loginSuccess",200);
         resultMap.put("paySuccess",200);
+        //一般的失败码 -1
+        resultMap.put("userWrong",-1);
+        resultMap.put("statusWrong",-1);
+        resultMap.put("repeatWrong",-1);
+        resultMap.put("existWrong",-1);
+        resultMap.put("oldPasswordWrong",-1);
+        //登录权限等相关失败码403
         resultMap.put("tokenWrong",403);
-        resultMap.put("payFail",-1);
-        resultMap.put("refundFail",-1);
+        resultMap.put("authorityWrong",403);
+        resultMap.put("yzmWrong",403);
+        resultMap.put("codeWrong",403);
+        //支付过程中失败 -2
+        resultMap.put("payFail",-2);
+        resultMap.put("refundFail",-2);
     }
 
 

@@ -27,9 +27,9 @@ public class AlipayController {
     private AlipayService alipayService;
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "goodsName",value = "商品名",required = true,paramType = "string"),
-            @ApiImplicitParam(name = "price",value = "价格",required = true,paramType = "double"),
-            @ApiImplicitParam(name = "number",value = "商品编号",required = true,paramType = "long")
+            @ApiImplicitParam(name = "goodsName",value = "商品名",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "price",value = "价格",required = true,dataType = "double",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "商品编号",required = true,dataType = "long",paramType = "query")
     })
     @ApiOperation("支付测试")
     @GetMapping("/payBill")

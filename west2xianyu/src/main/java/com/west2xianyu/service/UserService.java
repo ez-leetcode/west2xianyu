@@ -61,4 +61,10 @@ public interface UserService {
     String readAllMessage(String id);
 
     String deleteAllShopping(String id);
+
+    User getUserWhenever(String id);
+
+    String changePassword(String id,String oldPassword,String newPassword);
+
+    String findPassword(String id,String newPassword);
 }

@@ -19,8 +19,12 @@ class West2xianyuApplicationTests {
 
     @Test
     void fun(){
-        redisUtils.delete("ycy");
-        System.out.println(1);
+        String yzm = null;
+        if(yzm == null || yzm.equals("12")){
+            System.out.println(11111111);
+        }
+       // redisUtils.delete("ycy");
+       // System.out.println(1);
         //redisUtils.saveByTime("ycy","yyds",1);
     }
 

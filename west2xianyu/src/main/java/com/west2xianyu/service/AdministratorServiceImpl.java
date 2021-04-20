@@ -250,7 +250,7 @@ public class AdministratorServiceImpl implements AdministratorService{
     }
 
 
-    //审核失败状态 9
+    //审核在用户看到前进行
     @Override
     public String judgeGoods(Long number, String id,int isPass) {
         //判断更新审核情况
@@ -266,6 +266,7 @@ public class AdministratorServiceImpl implements AdministratorService{
         if(isPass == 1){
             //审核通过，更新状态，通知卖家
             goods.setIsFrozen(0);
+            goods.setIsPass(1);
             //ordersMapper.updateById(orders);
             //通知用户待完成
             message.setTitle("您的商品审核已通过");
@@ -305,12 +306,30 @@ public class AdministratorServiceImpl implements AdministratorService{
             log.warn("处理退款失败，订单状态不符合要求：" + number);
             return "statusWrong";
         }
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
         //符合要求情况
         if(isPass == 1){
             //同意退款
             orders.setStatus(11);
             ordersMapper.updateById(orders);
+            //可能还要退款service
+            //通知买卖双方
+            //通知买家退款成功
+            Message message = new Message();
+            message.setIsRead(0);
+            message.setId(orders.getToId());
+            message.setTitle("您申请的订单退款" + refund.getNumber() + "已被管理员审核后通过");
+            message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您申请的订单" + orders.getNumber() + "的退款管理员已审核通过，钱款会在24小时内退回支付宝，请关注");
+            messageMapper.insert(message);
+            //通知卖家退款成功
+            Message message1 = new Message();
+            message1.setIsRead(0);
+            message1.setId(orders.getFromId());
+            message1.setTitle("您的订单" + orders.getNumber() + "买家退款申请管理员已审核通过");
+            message1.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + orders.getNumber() + "经管理员审核，已同意买家" + orders.getToId() + "退款，如有疑虑，请联系管理员");
             log.info("退款申请成功，管理员：" + id  + " 订单：" + number);
+            messageMapper.insert(message1);
         }else{
             //不同意退款，恢复原来的订单状态
             if(orders.getSendTime() == null){
@@ -321,12 +340,25 @@ public class AdministratorServiceImpl implements AdministratorService{
                 orders.setStatus(4);
             }
             ordersMapper.updateById(orders);
+            //通知买家退款失败
+            Message message = new Message();
+            message.setId(orders.getToId());
+            message.setIsRead(0);
+            message.setTitle("您申请的订单退款" + refund.getNumber() + "已被管理员审核后拒绝");
+            message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您申请的订单" + orders.getNumber() + "的退款，管理员审核后未通过，如有疑虑请联系管理员");
+            messageMapper.insert(message);
+            //通知卖家退款失败
+            Message message1 = new Message();
+            message1.setId(orders.getFromId());
+            message1.setIsRead(0);
+            message1.setTitle("您的订单" + orders.getNumber() + "买家退款申请管理员审核后已拒绝");
+            message1.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + orders.getNumber() + "经管理员审核，拒绝买家退款，请悉知");
+            messageMapper.insert(message1);
             log.info("退款申请失败，管理员：" + id + "订单：" + number);
         }
-        //处理完申请伪删除退款数据，不知道能不能行
+        //处理完申请伪删除退款数据，不知道能不能行，自己写好了
         refund.setDeleted(1);
         refundMapper.updateById(refund);
-        //通知买卖双方 4.20
         return "success";
     }
 

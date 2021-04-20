@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.west2xianyu.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -45,4 +46,8 @@ public interface UserMapper extends BaseMapper<User> {
 
     @Select("SELECT * FROM user WHERE id = #{id}")
     User selectUser(String id);
+
+    @Update("UPDATE user SET password = #{password} WHERE id = #{id}")
+    void changePassword(String id,String password);
+
 }
