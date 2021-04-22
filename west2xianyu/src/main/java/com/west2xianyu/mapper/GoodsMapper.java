@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.west2xianyu.pojo.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 
 @Mapper
@@ -15,5 +16,8 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     @Select("SELECT * FROM goods WHERE number = #{number} AND deleted = 1")
     Goods selectGoodsWhenDelete(Long number);
+
+    @Update("UPDATE goods SET deleted = 0 WHERE number = #{number}")
+    void reopenGoods(Long number);
 
 }

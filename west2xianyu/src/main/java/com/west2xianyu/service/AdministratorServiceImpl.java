@@ -58,7 +58,7 @@ public class AdministratorServiceImpl implements AdministratorService{
         List<FeedbackMsg> feedbackMsgList = new LinkedList<>();
         for(Feedback x:feedbackList){
             //先获取用户实例
-            User user = userMapper.selectById(x.getId());
+            User user = userMapper.selectUser(x.getId());
             //更新消息
             feedbackMsgList.add(new FeedbackMsg(x.getNumber(),x.getId(),user.getUsername(),user.getPhoto(),x.getTitle(),
                     null,x.getIsRead(),x.getCreateTime()));
@@ -74,7 +74,8 @@ public class AdministratorServiceImpl implements AdministratorService{
     public JSONObject getFeedback(String id, Long number) {
         JSONObject jsonObject = new JSONObject();
         Feedback feedback = feedbackMapper.selectById(number);
-        User user = userMapper.selectById(feedback.getId());
+        //无论封号与否
+        User user = userMapper.selectUser(feedback.getId());
         FeedbackMsg feedbackMsg = new FeedbackMsg(number,user.getId(),user.getUsername(),user.getPhoto(),
                 feedback.getTitle(),feedback.getFeedbacks(),feedback.getIsRead(),feedback.getCreateTime());
         log.info("获取详细反馈信息成功：" + feedbackMsg.toString());
@@ -195,9 +196,9 @@ public class AdministratorServiceImpl implements AdministratorService{
             date = calendar.getTime();
             //解封时间
             user.setReopenDate(date);
-            //设置封号
-            user.setDeleted(1);
             userMapper.updateById(user);
+            //封号
+            userMapper.deleteById(user.getId());
             log.info("封号成功，账号：" + id + " 时间：" + days);
         }
         //封号之后，因为用户登录不上去收不到通知，用邮件通知用户
@@ -214,9 +215,14 @@ public class AdministratorServiceImpl implements AdministratorService{
         }
         //用户已被封禁情况下，获取用户信息
         User user1 = userMapper.selectUserWhenever(id);
-        user1.setDeleted(0);
+        //解封（mybatis-plus逻辑删除更新不了的）
+        userMapper.reopenId(id);
         //管理员解封会清除违规次数
         user1.setFrozenCounts(0);
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        //把重开时间设置为现在，登录就不会再显示被冻结了
+        user1.setReopenDate(date);
         //更新用户信息
         userMapper.updateById(user1);
         log.info("用户解封成功：" + userMapper.selectById(id).toString());
@@ -234,7 +240,7 @@ public class AdministratorServiceImpl implements AdministratorService{
             wrapper.like("number",keyword);
         }
         //根据商品状态排序（可能要排除状态，待完成）
-        wrapper.orderByDesc("status");
+        wrapper.orderByAsc("is_pass");
         List<GoodsMsg> goodsMsgList = new LinkedList<>();
         goodsMapper.selectPage(page1,wrapper);
         List<Goods> goodsList = page1.getRecords();
@@ -295,8 +301,12 @@ public class AdministratorServiceImpl implements AdministratorService{
     //10：申请退款 11：退款成功 12：退款失败
     @Override
     public String judgeRefund(Long number, String id, int isPass) {
+        //奇怪了
         Orders orders = ordersMapper.selectById(number);
         Refund refund = refundMapper.selectById(number);
+        if(refund == null){
+            log.info("refund null");
+        }
         if(orders == null || refund == null){
             log.warn("处理退款失败，订单失效或没有退款：" + number);
             return "existWrong";
@@ -356,9 +366,8 @@ public class AdministratorServiceImpl implements AdministratorService{
             messageMapper.insert(message1);
             log.info("退款申请失败，管理员：" + id + "订单：" + number);
         }
-        //处理完申请伪删除退款数据，不知道能不能行，自己写好了
-        refund.setDeleted(1);
-        refundMapper.updateById(refund);
+        //处理完申请伪删除退款数据
+        refundMapper.deletedRefund(number);
         return "success";
     }
 

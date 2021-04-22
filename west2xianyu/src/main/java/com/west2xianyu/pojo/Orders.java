@@ -46,6 +46,12 @@ public class Orders {
     @ApiModelProperty(value = "运费",notes = "跨校区6元，不跨校区免费")
     private Double freight;
 
+    @ApiModelProperty(value = "买家留言")
+    private String message;
+
+    @ApiModelProperty(value = "地址编号")
+    private Long address;
+
     @ApiModelProperty(value = "当前订单状态，订单从1开始",notes = "0：未拍下 1：已拍下 2：买家已付款 3：卖家已发货 4：买家确认收货 5：订单完成")
     private Integer status;
 

@@ -1,6 +1,7 @@
 package com.west2xianyu.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.msg.OrderMsg;
 import com.west2xianyu.pojo.Orders;
 import com.west2xianyu.pojo.Result;
 import com.west2xianyu.service.AlipayService;
@@ -21,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags = "订单控制类",protocols = "https")
 @Slf4j
-@RestController
+ @RestController
 public class OrderController {
 
 
@@ -35,25 +36,30 @@ public class OrderController {
     @ApiOperation(value = "生成订单请求",notes = "订单生成后，状态初始为1（物品被拍下）")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "toId",value = "买家id",required = true,dataType = "string",paramType = "query")
+            @ApiImplicitParam(name = "toId",value = "买家id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "address",value = "地址编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "message",value = "卖家留言",dataType = "string",paramType = "query"),
     })
     @PostMapping("/order")
-    public Result<JSONObject> generateOrder(@RequestParam("number") Long number, @RequestParam("toId") String toId){
+    public Result<JSONObject> generateOrder(@RequestParam("number") Long number, @RequestParam("toId") String toId,
+                                            @RequestParam(value = "message",required = false) String message,
+                                            @RequestParam("address") Long address){
         JSONObject jsonObject = new JSONObject();
         log.info("正在生成订单：" + number);
-        String status = orderService.generateOrder(number,toId);
+        String status = orderService.generateOrder(number,toId,message,address);
         return ResultUtils.getResult(jsonObject,status);
     }
 
 
     //pass
+    //应该校验买卖家，不能让别人看到
     @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query")
     @ApiOperation("获取订单详细信息")
     @GetMapping("/order")
     public Result<JSONObject> getOrder(@RequestParam("number") Long number){
         JSONObject jsonObject = new JSONObject();
         log.info("正在获取订单信息，订单：" + number);
-        Orders orders = orderService.getOrder(number);
+        OrderMsg orders = orderService.getOrder(number);
         String status;
         if(orders == null){
             log.warn("获取订单信息失败，订单不存在");
@@ -216,6 +222,7 @@ public class OrderController {
         String status = orderService.refundPhotoUpload(file);
         return ResultUtils.getResult(jsonObject,status);
     }
+
 
 
 }

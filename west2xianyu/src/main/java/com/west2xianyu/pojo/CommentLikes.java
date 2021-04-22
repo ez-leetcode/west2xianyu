@@ -28,6 +28,9 @@ public class CommentLikes {
     @ApiModelProperty("评论用户id")
     private String id;
 
+    @ApiModelProperty("用户评论的时间")
+    private Date commentTime;
+
     @ApiModelProperty("点赞时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

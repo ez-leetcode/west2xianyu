@@ -27,6 +27,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
         //相应状态，可能会有权限问题
         //返回json格式
         //登录失败情况，可能用户名或者密码错误
+        //
         httpServletResponse.setHeader("Content-Type","application/json;charset=utf-8");
         JSONObject jsonObject = new JSONObject();
         PrintWriter printWriter = httpServletResponse.getWriter();

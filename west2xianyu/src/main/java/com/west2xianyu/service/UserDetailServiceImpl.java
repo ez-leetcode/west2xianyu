@@ -41,6 +41,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
             log.warn("用户名不存在：" + s);
             throw new UsernameNotFoundException("用户名不存在：" + s);
         }
+        //查询用户是否被冻结，待完成，获取用户信息，判断解封时间是否比当前时间久
         //用户名存在的情况下，比较密码，待完成
         QueryWrapper<UserRole> wrapper = new QueryWrapper<>();
         wrapper.eq("user",user.getId());

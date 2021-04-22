@@ -1,14 +1,15 @@
 package com.west2xianyu.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.msg.OrderMsg;
 import com.west2xianyu.pojo.Orders;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface OrderService {
 
-    String generateOrder(Long number,String toId);
+    String generateOrder(Long number,String toId,String message,long address);
 
-    Orders getOrder(Long number);
+    OrderMsg getOrder(Long number);
 
     String deleteOrder(Long number,String id,int flag);
 
@@ -25,4 +26,6 @@ public interface OrderService {
     String sendOrder(Long number,String fromId);
 
     String refundPhotoUpload(MultipartFile file);
+
+    Orders getOrders(Long number);
 }

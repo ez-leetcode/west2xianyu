@@ -44,10 +44,13 @@ public interface UserMapper extends BaseMapper<User> {
     @Select("SELECT * FROM user WHERE id = #{id} AND deleted = 1")
     User selectUserWhenever(String id);
 
+    //获取任何状态下用户信息
     @Select("SELECT * FROM user WHERE id = #{id}")
     User selectUser(String id);
 
     @Update("UPDATE user SET password = #{password} WHERE id = #{id}")
     void changePassword(String id,String password);
 
+    @Update("UPDATE user SET deleted = 0 WHERE id = #{id}")
+    void reopenId(String id);
 }

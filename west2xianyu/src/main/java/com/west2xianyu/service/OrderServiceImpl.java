@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
 import com.west2xianyu.msg.OrderMsg;
+import com.west2xianyu.msg.OrderMsg1;
 import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -45,15 +47,20 @@ public class OrderServiceImpl implements OrderService{
     @Autowired
     private FavorMapper favorMapper;
 
+    @Autowired
+    private AddressMapper addressMapper;
+
 
     //生成订单后，通知卖家，通知伪删除商品，不再让人搜到
     @Override
-    public String generateOrder(Long number, String toId) {
+    public String generateOrder(Long number, String toId,String message,long address) {
         Goods goods = goodsMapper.selectById(number);
         QueryWrapper<Orders> wrapper = new QueryWrapper<>();
         wrapper.eq("goods_number",number);
         List<Orders> ordersList = ordersMapper.selectList(wrapper);
-        if(ordersList != null){
+        //获取用户选择的地址
+        Address address1 = addressMapper.selectById(address);
+        if(!ordersList.isEmpty()){
             log.warn("闲置物品已被下单，请重试：" + number);
             return "repeatWrong";
         }
@@ -65,12 +72,29 @@ public class OrderServiceImpl implements OrderService{
             log.warn("该闲置物品已被冻结，编号：" + number);
             return "frozenWrong";
         }
+        if(address1 == null){
+            log.warn("用户保存地址不存在，编号：" + address);
+            return "addressWrong";
+        }
         Orders orders = new Orders();
         //设置订单卖家和买家
         orders.setFromId(goods.getFromId());
         orders.setToId(toId);
         orders.setGoodsNumber(number);
         orders.setGoodsName(goods.getGoodsName());
+        if(message != null){
+            //如果买家有留言，加上留言
+            orders.setMessage(message);
+        }
+        //获取卖家的默认地址
+        Address address2 = addressMapper.getAddress(userMapper.selectById(goods.getFromId()).getAddress());
+        if(!address2.getCampus().equals(address1.getCampus())){
+            //校区不同，运费6块钱
+            orders.setFreight(6.0);
+        }else{
+            //同校区，免运费
+            orders.setFreight(0.0);
+        }
         //图片url
         orders.setPhoto(goods.getPhoto());
         //设置价格
@@ -85,21 +109,40 @@ public class OrderServiceImpl implements OrderService{
         int result = favorMapper.delete(wrapper1);
         log.info("伪删除所有收藏成功：" + result + "条");
         //通知卖家
-        Message message = new Message();
-        message.setId(goods.getFromId());
-        message.setIsRead(0);
-        message.setTitle("您的商品" + number + "已被人拍下，请及时确认");
+        Message message1 = new Message();
+        message1.setId(goods.getFromId());
+        message1.setIsRead(0);
+        message1.setTitle("您的商品" + number + "已被人拍下，请及时确认");
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-        message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + number + "已被买家" + toId + "拍下，请及时与买家取得联系");
+        if(message != null){
+            //有留言附上买家留言
+            message1.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + number + "已被买家" + toId + "拍下，请及时与买家取得联系 \n" +
+                    "买家留言：" + message);
+        }else{
+            message1.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + number + "已被买家" + toId + "拍下，请及时与买家取得联系");
+        }
         return "success";
     }
 
     @Override
-    public Orders getOrder(Long number) {
-        return ordersMapper.selectById(number);
+    public OrderMsg getOrder(Long number) {
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null || orders.getAddress() == null){
+            return null;
+        }
+        //获取地址信息（无条件）
+        Address address = addressMapper.getAddress(orders.getAddress());
+        //获取卖家信息
+        User user = userMapper.selectUser(orders.getFromId());
+        if(address == null || user == null){
+            return null;
+        }
+        return new OrderMsg(number,orders.getFromId(),orders.getToId(),user.getUsername(),orders.getGoodsName(),orders.getPrice(),
+                orders.getFreight(),address.getCampus(),address.getRealAddress(),address.getPhone(),address.getName(),orders.getPhoto(),orders.getOrderTime());
     }
 
+    //暂时不用
     @Override
     public String deleteOrder(Long number,String id,int flag) {
         Orders orders = ordersMapper.selectById(number);
@@ -176,6 +219,12 @@ public class OrderServiceImpl implements OrderService{
         QueryWrapper<Orders> wrapper = new QueryWrapper<>();
         Page<Orders> page1 = new Page<>(page,cnt);
         //添加查询条件，用户是买家或者卖家都能查到
+
+
+        //这里有bug
+        if(status != -1){
+            wrapper.eq("status",status);
+        }
         wrapper.eq("to_id",id)
                 .or()
                 .eq("from_id",id)
@@ -185,16 +234,13 @@ public class OrderServiceImpl implements OrderService{
                     .like("goods_name",keyword);
         }
         //全部查询status = -1
-        if(status != -1){
-            wrapper.eq("status",status);
-        }
         ordersMapper.selectPage(page1,wrapper);
         List<Orders> ordersList = page1.getRecords();
-        List<OrderMsg> orderMsgList = new LinkedList<>();
+        List<OrderMsg1> orderMsgList = new LinkedList<>();
         for(Orders x:ordersList){
             //bug:用户被封了  所以就算被封号也能查到
             User user = userMapper.selectUser(x.getFromId());
-            orderMsgList.add(new OrderMsg(x.getNumber(),x.getFromId(),user.getUsername(),
+            orderMsgList.add(new OrderMsg1(x.getNumber(),x.getFromId(),user.getUsername(),
                     x.getGoodsName(),x.getPrice(),x.getFreight(),x.getPhoto(),x.getOrderTime()));
         }
         log.info("获取订单列表成功：" + orderMsgList.toString());
@@ -223,8 +269,9 @@ public class OrderServiceImpl implements OrderService{
         ordersMapper.updateById(orders);
         Goods goods = new Goods();
         goods.setNumber(orders.getNumber());
-        goods.setDeleted(0);
-        //解冻商品，可能不行
+        //解冻商品
+        goodsMapper.reopenGoods(number);
+        //更新商品状态
         goodsMapper.updateById(goods);
         log.info("取消订单成功，订单：" + number);
         //通知卖家
@@ -238,6 +285,15 @@ public class OrderServiceImpl implements OrderService{
         messageMapper.insert(message);
         return "success";
     }
+
+    @Override
+    public Orders getOrders(Long number) {
+        return ordersMapper.selectById(number);
+    }
+
+    //差12小时的bug！！！！！！
+
+
 
     //确认收货3-4
     @Override

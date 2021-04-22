@@ -255,4 +255,25 @@ public class GoodsController {
     }
 
 
+
+    //记得评论和点赞推送
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
+    })
+    @ApiOperation("获取该商品下所有用户评论")
+    @GetMapping("/comments")
+    public Result<JSONObject> getComments(@RequestParam("goodsId") String goodsId,@RequestParam("cnt") Long cnt,
+                                          @RequestParam("page") Long page){
+        log.info("正在获取所有用户评论及点赞信息：" + goodsId);
+        JSONObject jsonObject = goodsService.getComments(goodsId,cnt,page);
+        if(jsonObject == null){
+            //返回null，说明商品不存在
+            return ResultUtils.getResult(new JSONObject(),"existWrong");
+        }
+        //商品存在
+        return ResultUtils.getResult(jsonObject,"success");
+    }
+
 }

@@ -3,15 +3,11 @@ package com.west2xianyu.service;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.west2xianyu.mapper.FavorMapper;
-import com.west2xianyu.mapper.GoodsMapper;
-import com.west2xianyu.mapper.HistoryMapper;
+import com.west2xianyu.mapper.*;
+import com.west2xianyu.msg.CommentMsg;
 import com.west2xianyu.msg.FavorMsg;
 import com.west2xianyu.msg.GoodsMsg;
-import com.west2xianyu.pojo.Favor;
-import com.west2xianyu.pojo.Goods;
-import com.west2xianyu.pojo.History;
-import com.west2xianyu.pojo.Message;
+import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +30,15 @@ public class GoodsServiceImpl implements GoodsService{
 
     @Autowired
     private FavorMapper favorMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
+    private CommentLikesMapper commentLikesMapper;
 
 
     @Override
@@ -365,5 +370,46 @@ public class GoodsServiceImpl implements GoodsService{
         String url = OssUtils.uploadPhoto(file,"goodsPhoto");
         log.info("上传商品图片成功：" + url);
         return url;
+    }
+
+
+    @Override
+    public JSONObject getComments(String goodsId, Long cnt, Long page) {
+        Goods goods = goodsMapper.selectById(goodsId);
+        if(goods == null || goods.getIsFrozen() == 1){
+            //商品不存在或已失效，返回null在前台判断
+            log.warn("获取评论失败，商品不存在或已失效");
+            return null;
+        }
+        //先到这里
+        Page<Comment> page1 = new Page<>(page,cnt);
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("goods_id",goodsId)
+                //时间倒序排列
+                .orderByDesc("create_time");
+        commentMapper.selectPage(page1,wrapper);
+        List<Comment> commentList = page1.getRecords();
+        List<CommentMsg> commentMsgList = new LinkedList<>();
+        for(Comment x:commentList){
+            //先查找用户昵称和头像
+            User user = userMapper.selectUser(x.getId());
+            //获取点赞数
+            QueryWrapper<CommentLikes> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("goods_id",goodsId)
+                    .eq("comments",x.getComments())
+                    //用户的评论时间也要，不然有人评论两次相同的内容
+                    .eq("comment_time",x.getCreateTime());
+            List<CommentLikes> commentLikesList = commentLikesMapper.selectList(wrapper1);
+            commentMsgList.add(new CommentMsg(x.getId(),user.getUsername(),x.getComments(),user.getPhoto(),commentLikesList.size(),x.getCreateTime()));
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("commentList",commentMsgList);
+        jsonObject.put("count",page1.getTotal());
+        jsonObject.put("pages",page1.getPages());
+        log.info("获取商品评论成功：");
+        if(!commentMsgList.isEmpty()){
+            log.info(commentMsgList.toString());
+        }
+        return jsonObject;
     }
 }

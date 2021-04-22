@@ -17,7 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -95,16 +97,17 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String changePassword(String id, String oldPassword, String newPassword) {
-        User user = userMapper.selectUserWhenever(id);
+        User user = userMapper.selectUser(id);
         //无论封号与否都可以修改密码
         if(user == null){
             //用户不存在
             log.warn("修改密码失败，用户不存在：" + id);
             return "existWrong";
         }
-        //数据库已经加密过，现在转成密文
-        String realOldPassword = new BCryptPasswordEncoder().encode(oldPassword);
-        if(!user.getPassword().equals(realOldPassword)){
+        //数据库已经加密过，现在比较
+        boolean judge = new BCryptPasswordEncoder().matches(oldPassword,user.getPassword());
+        log.info("oldPassword" + oldPassword);
+        if(!judge){
             //旧密码错误
             log.warn("修改密码失败，旧密码错误：" + oldPassword);
             return "oldPasswordWrong";
@@ -118,7 +121,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String findPassword(String id, String newPassword) {
-        User user = userMapper.selectUserWhenever(id);
+        User user = userMapper.selectUser(id);
         //无论封号与否都可以找回密码
         if(user == null){
             //用户不存在
@@ -228,7 +231,15 @@ public class UserServiceImpl implements UserService{
         log.info("关注列表更新成功，id：" + id + " fansId：" + fansId);
         fansMapper.insert(fans1);
         //中间要有消息推送，待完成
-
+        Message message = new Message();
+        message.setId(id);
+        message.setIsRead(0);
+        message.setTitle("您有新的粉丝关注哦~");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您有新的粉丝关注您啦！用户：" + user1.getUsername() + "（ " + user1.getId() + "）");
+        //发送消息
+        messageMapper.insert(message);
         //修改粉丝数和关注数
         user.setFansCounts(user.getFansCounts() + 1);
         user1.setFollowCounts(user1.getFollowCounts() + 1);
@@ -250,11 +261,7 @@ public class UserServiceImpl implements UserService{
             log.warn("取消关注失败，用户未被关注：" + id);
             return "existWrong";
         }
-        int result = fansMapper.delete(wrapper);
-        if(result != 1){
-            log.warn("服务器错误");
-            return "unknownWrong";
-        }
+        fansMapper.delete(wrapper);
         User user = userMapper.selectById(id);
         int cnt = user.getFansCounts() - 1;
         user.setFansCounts(cnt);
@@ -315,6 +322,15 @@ public class UserServiceImpl implements UserService{
         }
         Comment comment = new Comment(goodsId,comments,id,user.getUsername(),null,null,null);
         commentMapper.insert(comment);
+        //评论消息推送
+        Message message = new Message();
+        message.setIsRead(0);
+        message.setId(goods.getFromId());
+        message.setTitle("有一个用户新评论了您的商品：" + goods.getGoodsName());
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + goods.getGoodsName() + "被用户：" + user.getUsername() +
+                "评论，评论内容： \n" + comments);
         log.info("评论成功，用户：" + id + " 评论："+ comments);
         return "success";
     }
@@ -373,7 +389,7 @@ public class UserServiceImpl implements UserService{
             log.warn("点赞失败，评论已被点赞");
             return "repeatWrong";
         }
-        CommentLikes commentLikes1 = new CommentLikes(goodsId,comments,id,null);
+        CommentLikes commentLikes1 = new CommentLikes(goodsId,comments,id,comment.getCreateTime(),null);
         commentLikesMapper.insert(commentLikes1);
         log.info("插入点赞信息成功：" + commentLikes1.toString());
         comment.setLikes(comment.getLikes() + 1);
@@ -477,7 +493,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String addAddress(String id, String campus, String realAddress, String name, String phone, int isDefault) {
-        Address address = new Address(null,id,campus,realAddress,name,phone,null,null);
+        Address address = new Address(null,id,campus,realAddress,name,phone,null,null,null);
         QueryWrapper<Address> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
                 .eq("campus",campus)

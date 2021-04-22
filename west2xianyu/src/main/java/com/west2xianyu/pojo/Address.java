@@ -1,10 +1,7 @@
 package com.west2xianyu.pojo;
 
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.*;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -39,6 +36,10 @@ public class Address {
 
     @ApiModelProperty(value = "手机号码")
     private String phone;
+
+    @ApiModelProperty("地址是否被删除，因为订单的地址索引，所以伪删除，保证在用户把地址删了的情况下，也能获取地址信息")
+    @TableLogic
+    private Integer deleted;
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)

@@ -56,7 +56,7 @@ public class AdministratorController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "isDeleted",value = "禁用/正常",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "isDeleted",value = "禁用/正常,1禁用 0正常",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
@@ -184,7 +184,10 @@ public class AdministratorController {
     @GetMapping("/getRefund")
     public Result<JSONObject> getRefund(@RequestParam("number") Long number,@RequestParam("id") String id){
         log.info("正在获取退款详细信息，管理员：" + id + " 订单：" + number);
-        return ResultUtils.getResult(administratorService.getRefund(number),"success");
+        JSONObject jsonObject = administratorService.getRefund(number);
+        String status = jsonObject.get("getRefundStatus").toString();
+        jsonObject.remove("getRefundStatus");
+        return ResultUtils.getResult(jsonObject,status);
     }
 
 
@@ -205,7 +208,7 @@ public class AdministratorController {
         //阿里云退款待完成  4.20
         if(isPass == 1 && status.equals("success")){
             //退款
-            Orders orders = orderService.getOrder(number);
+            Orders orders = orderService.getOrders(number);
             String status1 = alipayService.refundBill(number,orders.getPrice());
             if(status1.equals("success")){
                 log.info("退款成功");

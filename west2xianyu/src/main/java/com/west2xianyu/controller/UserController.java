@@ -502,7 +502,7 @@ public class UserController {
                                     @RequestParam(value = "name",required = false) String name){
         JSONObject jsonObject = new JSONObject();
         log.info("正在修改用户地址配置，用户：" + id + " 地址编号：" + number);
-        String status = userService.changeAddress(new Address(number,id,campus,realAddress,name,phone,null,null));
+        String status = userService.changeAddress(new Address(number,id,campus,realAddress,name,phone,null,null,null));
         return ResultUtils.getResult(jsonObject,status);
     }
 
