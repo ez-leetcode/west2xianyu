@@ -179,7 +179,9 @@ public class UserServiceImpl implements UserService{
         wrapper.eq("number",number);
         wrapper.eq("id",Id);
         List<Shopping> shoppingList = shoppingMapper.selectList(wrapper);
-        log.info("购物车：" + shoppingList.toString());
+        if(!shoppingList.isEmpty()){
+            log.info("购物车：" + shoppingList.toString());
+        }
         if(shoppingList.size() != 0){
             log.warn("添加购物车失败，该商品已被收藏");
             return "repeatWrong";
@@ -202,10 +204,7 @@ public class UserServiceImpl implements UserService{
             log.warn("移除购物车失败，该商品不在购物车：" + number);
             return "existWrong";
         }
-        int result = shoppingMapper.delete(wrapper);
-        if(result != 1){
-            return "unknownWrong";
-        }
+        shoppingMapper.delete(wrapper);
         log.info("商品移除购物车成功：" + number);
         return "success";
     }
@@ -269,7 +268,7 @@ public class UserServiceImpl implements UserService{
         userMapper.updateById(user);
         log.info("更新被关注用户粉丝数成功，id：" + id + " 粉丝数：" + cnt);
         User user1 = userMapper.selectById(fansId);
-        int cnt1 = user1.getFansCounts() - 1;
+        int cnt1 = user1.getFollowCounts() - 1;
         user1.setFollowCounts(cnt1);
         userMapper.updateById(user1);
         log.info("更新用户关注数成功，id：" + id + "粉丝数：" + cnt1);
@@ -347,22 +346,14 @@ public class UserServiceImpl implements UserService{
             log.info("删除评论失败，评论不存在：" + comments);
             return "existWrong";
         }
-        int result = commentMapper.delete(wrapper);
-        if(result != 1){
-            log.warn("服务器错误");
-            return "unknownWrong";
-        }
+        commentMapper.delete(wrapper);
         log.info("删除评论成功，用户：" + goodsId + " 评论：" + comments);
         return "success";
     }
 
     @Override
     public String addFeedback(String id,String phone,String feedbacks,String title) {
-        int result = feedbackMapper.insert(new Feedback(null,id,phone,title,feedbacks,0,null));
-        if(result != 1){
-            log.warn("用户反馈失败");
-            return "unknownWrong";
-        }
+        feedbackMapper.insert(new Feedback(null,id,phone,title,feedbacks,0,null));
         log.info("用户反馈成功，用户：" + id + " 反馈：" + feedbacks);
         return "success";
     }
@@ -417,7 +408,7 @@ public class UserServiceImpl implements UserService{
         CommentLikes commentLikes = commentLikesMapper.selectOne(wrapper1);
         if(commentLikes == null){
             log.warn("取消点赞失败，评论未被点赞");
-            return "existWrong";
+            return "repeatWrong";
         }
         commentLikesMapper.delete(wrapper1);
         log.info("删除点赞信息成功");
@@ -469,7 +460,7 @@ public class UserServiceImpl implements UserService{
         User user = userMapper.selectById(id);
         if(user == null){
             log.warn("上传头像失败，用户不存在：" + id);
-            return "userWrong";
+            return "existWrong";
         }
         //现在使用oss存储
         String url = OssUtils.uploadPhoto(file,"userPhoto");
@@ -500,9 +491,9 @@ public class UserServiceImpl implements UserService{
                 .eq("real_address",realAddress)
                 .eq("name",name)
                 .eq("phone",phone);
-        Address address1 = addressMapper.selectOne(wrapper);
-        if(address1 != null){
-            log.warn("添加地址失败，地址信息重复");
+        List<Address> addressList = addressMapper.selectList(wrapper);
+        if(!addressList.isEmpty()){
+            log.warn("添加地址失败，地址信息重复：" + addressList.toString());
             return "repeatWrong";
         }
         addressMapper.insert(address);
@@ -582,9 +573,9 @@ public class UserServiceImpl implements UserService{
         for(Shopping x:shoppingList){
             //获取购物车商品实例
             log.info(x.getNumber().toString());
-            Goods goods = goodsMapper.selectById(x.getNumber());
+            Goods goods = goodsMapper.selectGoodsWhenever(x.getNumber());
             //获取卖家实例
-            User user1 = userMapper.selectById(goods.getFromId());
+            User user1 = userMapper.selectUser(goods.getFromId());
             double freight = 6.0;
             if(user.getCampus().equals(user1.getCampus())){
                 //校区一样，免运费
@@ -626,7 +617,7 @@ public class UserServiceImpl implements UserService{
         Page<Address> page1 = new Page<>(page,cnt);
         addressMapper.selectPage(page1,wrapper);
         List<Address> addressList = page1.getRecords();
-        jsonObject.put("addressMsgList",addressList);
+        jsonObject.put("addressList",addressList);
         jsonObject.put("pages",page1.getPages());
         jsonObject.put("count",page1.getTotal());
         return jsonObject;
@@ -643,16 +634,9 @@ public class UserServiceImpl implements UserService{
         historyMapper.selectPage(page1,wrapper);
         List<History> historyList = page1.getRecords();
         List<HistoryMsg> historyMsgList = new ArrayList<>();
-        long sum = page1.getTotal();
-        //手动分页，待完成
         for(History x:historyList){
-            Goods goods = goodsMapper.selectById(x.getGoodsId());
-            if(goods == null){
-                sum --;
-            }else{
-                //加入进来，可能不行
-                historyMsgList.add(new HistoryMsg(goods.getNumber(),id,goods.getGoodsName(),goods.getPrice(),goods.getPhoto(),goods.getUpdateTime()));
-            }
+            Goods goods = goodsMapper.selectGoodsWhenever(x.getGoodsId());
+            historyMsgList.add(new HistoryMsg(goods.getNumber(),id,goods.getGoodsName(),goods.getPrice(),goods.getPhoto(),goods.getUpdateTime()));
         }
         jsonObject.put("historyList",historyMsgList);
         jsonObject.put("pages",page1.getPages());
@@ -743,7 +727,7 @@ public class UserServiceImpl implements UserService{
         List<Message> messageList = messageMapper.selectList(wrapper);
         if(messageList.isEmpty()){
             //没有要已读的可能前台连续申请，返回existWrong
-            log.warn("已已读所有消息：" + id);
+            log.warn("已读所有消息：" + id);
             return "existWrong";
         }
         //更新所有消息为已读
@@ -760,7 +744,7 @@ public class UserServiceImpl implements UserService{
         QueryWrapper<Shopping> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id);
         List<Shopping> shoppingList = shoppingMapper.selectList(wrapper);
-        if(shoppingList == null){
+        if(shoppingList.isEmpty()){
             //购物车已被清空
             log.warn("购物车已被清空：" + id);
             return "existWrong";

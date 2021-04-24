@@ -42,14 +42,13 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "注册帐号请求",notes = "管理员注册请多带一个isAdministrator为1")
+    @ApiOperation(value = "注册帐号请求",notes = "repeatWrong：用户名重复，verifyWrong：验证码错误，success：成功" )
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "password",value = "用户密码",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "code",value = "验证码",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "isAdministrator",value = "是否是管理员",required = true,dataType = "int",paramType = "query")
     })
-    @ApiResponse(code = 200, message = "返回registerStatus，repeatWrong：用户名重复，verifyWrong：验证码错误，success：成功")
     @PostMapping("/register")
     public Result<JSONObject> register(@RequestParam("id") String id,@RequestParam("password") String password,
                                @RequestParam("isAdministrator") int isAdministrator,@RequestParam("code") String code){
@@ -80,7 +79,7 @@ public class UserController {
             @ApiImplicitParam(name = "newPassword",value = "新密码",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "code",value = "验证码",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation("修改密码")
+    @ApiOperation(value = "修改密码",notes = "existWrong：用户不存在 codeWrong：验证码错误 oldPasswordWrong：旧密码错误")
     @PostMapping("/changePassword")
     public Result<JSONObject> changePassword(@RequestParam("id") String id,@RequestParam("oldPassword") String oldPassword,
                                              @RequestParam("newPassword") String newPassword,@RequestParam("code") String code){
@@ -104,7 +103,7 @@ public class UserController {
             @ApiImplicitParam(name = "newPassword",value = "新密码",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "code",value = "验证码",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation("找回密码")
+    @ApiOperation(value = "找回密码",notes = "existWrong：用户不存在 codeWrong：验证码错误 success：成功")
     @PostMapping("/findPassword")
     public Result<JSONObject> findPassword(@RequestParam("id") String id,@RequestParam("newPassword") String newPassword,
                                            @RequestParam("code") String code){
@@ -127,7 +126,7 @@ public class UserController {
             @ApiImplicitParam(name = "status",value = "获取哪一种验证码 1.注册 2.找回密码 3.修改密码",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation("获取验证码")
+    @ApiOperation(value = "获取验证码",notes = "existWrong：用户不存在 success：成功")
     @PostMapping("/code")
     public Result<JSONObject> getMailCode(@RequestParam("status") Integer status,@RequestParam("id") String id){
         log.info("正在获取验证码，状态：" + status);
@@ -181,7 +180,7 @@ public class UserController {
             @ApiImplicitParam(name = "photo",value = "头像文件",required = true,dataType = "file",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "用户上传头像")
+    @ApiOperation(value = "用户上传头像",notes = "existWrong：用户不存在 success：成功，成功后json会带头像的url")
     @PostMapping("/userPhoto")
     public Result<JSONObject> uploadPhoto(@RequestParam("photo") MultipartFile file, @RequestParam("id") String id) {
         JSONObject jsonObject = new JSONObject();
@@ -201,7 +200,7 @@ public class UserController {
 
 
     //pass
-    @ApiOperation(value = "获取用户信息")
+    @ApiOperation(value = "获取用户信息",notes = "existWrong：用户不存在 success：成功，成功json返回一个user")
     @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string",paramType = "query")
     @GetMapping("/user")
     public Result<JSONObject> getUser(@RequestParam("id") String id){
@@ -211,7 +210,7 @@ public class UserController {
         User user = userService.getUser(id);
         if(user == null){
             log.warn("获取用户信息失败，用户不存在：" + id);
-            result = ResultUtils.getResult(jsonObject,"userWrong");
+            result = ResultUtils.getResult(jsonObject,"existWrong");
             return result;
         }
         log.info("获取用户信息成功，用户：" + user.toString());
@@ -221,7 +220,7 @@ public class UserController {
     }
 
     //pass
-    @ApiOperation(value = "用于修改界面，保存用户信息",notes = "必带id，可以修改：username,sex,campus,address,email,phone,introduction")
+    @ApiOperation(value = "用于修改界面，保存用户信息",notes = "repeatWrong：重复修改（可能是提交了两次同样的请求） success：成功")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "username",dataType = "string",paramType = "query"),
@@ -261,7 +260,7 @@ public class UserController {
             @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation(value = "获取用户购物车内容")
+    @ApiOperation(value = "获取用户购物车内容",notes = "返回success：成功  成功返回json数据内有shoppingList：购物车商品列表 pages：页面数 count：总数")
     @GetMapping("/shopping")
     public Result<JSONObject> getShopping(@RequestParam("id") String id,@RequestParam("cnt") long cnt,
                                   @RequestParam("page") long page){
@@ -276,7 +275,7 @@ public class UserController {
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "用户添加闲置物品到购物车",notes = "闲置物品被冻结，不能添加进购物车")
+    @ApiOperation(value = "用户添加闲置物品到购物车",notes = "existWrong：商品不存在（已被下架）frozenWrong：商品已被冻结 repeatWrong：商品已被添加（可能是重复请求）success：成功")
     @PostMapping("/shopping")
     public Result<JSONObject> addShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
@@ -291,7 +290,7 @@ public class UserController {
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "用户从购物车移除闲置物品")
+    @ApiOperation(value = "用户从购物车移除闲置物品",notes = "existWrong：物品不存在（可能是重复请求） success：成功")
     @DeleteMapping("/shopping")
     public Result<JSONObject> deleteShopping(@RequestParam("number") Long number,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
@@ -302,7 +301,7 @@ public class UserController {
 
     //pass
     @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
-    @ApiOperation(value = "用户清空购物车")
+    @ApiOperation(value = "用户清空购物车",notes = "existWrong：购物车已被清空（可能是重复请求） success：成功")
     @DeleteMapping("/deleteAllShopping")
     public Result<JSONObject> deleteAllShopping(@RequestParam("id") String id){
         log.info("正在清空购物车：" + id);
@@ -317,7 +316,7 @@ public class UserController {
             @ApiImplicitParam(name = "id",value = "被关注者id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "添加关注")
+    @ApiOperation(value = "添加关注",notes = "existWrong：用户已被冻结 repeatWrong：用户已被关注（可能是重复请求） success：成功")
     @PostMapping("/fans")
     public Result<JSONObject> addFans(@RequestParam("id") String id,@RequestParam("fansId") String fansId){
         //因为被封号的用户不会显示，所以能加的都是没被封的，不用判断是否被封号
@@ -333,7 +332,7 @@ public class UserController {
             @ApiImplicitParam(name = "id",value = "被关注者id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "fansId",value = "关注者id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "取消关注")
+    @ApiOperation(value = "取消关注",notes = "existWrong：用户未被关注（可能是重复请求） success：成功")
     @DeleteMapping("/fans")
     public Result<JSONObject> deleteFans(@RequestParam("id") String id,@RequestParam("fansId") String fansId){
         JSONObject jsonObject = new JSONObject();
@@ -349,7 +348,7 @@ public class UserController {
             @ApiImplicitParam(name = "cnt",value = "一页数据量",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation(value = "获取粉丝列表")
+    @ApiOperation(value = "获取粉丝列表",notes = "success：成功 成功返回json fansList：粉丝列表 pages：页面数 count：总数")
     @GetMapping("/fans")
     public Result<JSONObject> getFollow(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                 @RequestParam("page") Long page){
@@ -366,7 +365,7 @@ public class UserController {
             @ApiImplicitParam(name = "id",value = "评论者id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "comments",value = "用户评论",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "添加用户评论")
+    @ApiOperation(value = "添加用户评论",notes = "frozenWrong：商品不存在或者已经被冻结 userWrong：评论者可能已被封号 success：成功")
     @PostMapping("/comment")
     public Result<JSONObject> addComment(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id,
                                  @RequestParam("comments") String comments){
@@ -384,7 +383,7 @@ public class UserController {
             @ApiImplicitParam(name = "comments",value = "评论",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,dataType = "Date",paramType = "query")
     })
-    @ApiOperation(value = "用户自己删除评论",notes = "用户自己才可以删除")
+    @ApiOperation(value = "用户自己删除评论",notes = "existWrong：评论不存在（可能是重复请求） success：成功")
     @DeleteMapping("/comment")
     public Result<JSONObject> deleteComment(@RequestParam("goodsId") Long goodsId, @RequestParam("id") String id,
                                     @RequestParam("comments") String comments, @RequestParam("createTime") String createTime){
@@ -402,7 +401,7 @@ public class UserController {
             @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "createTime",value = "评论时间（有可能会出现一个用户评论相同内容）",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "对评论点赞")
+    @ApiOperation(value = "对评论点赞",notes = "existWrong：评论不存在 repeatWrong：评论已被点赞（可能是重复请求） success：成功")
     @PostMapping("/likes")
     public Result<JSONObject> addLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
                                @RequestParam("comments") String comments,@RequestParam("createTime") String createTime){
@@ -419,7 +418,7 @@ public class UserController {
             @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "取消评论点赞")
+    @ApiOperation(value = "取消评论点赞",notes = "existWrong：评论不存在 repeatWrong：点赞已被取消（可能是重复请求） success：成功")
     @DeleteMapping("/likes")
     public Result<JSONObject> deleteLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
                                   @RequestParam("comments") String comments,@RequestParam("createTime") String createTime){
@@ -437,7 +436,7 @@ public class UserController {
             @ApiImplicitParam(name = "title",value = "标题（不超过30字）",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "feedbacks",value = "用户反馈（不超过200个字）",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "添加用户反馈")
+    @ApiOperation(value = "添加用户反馈",notes = "success：成功")
     @PostMapping("/feedback")
     public Result<JSONObject> addFeedback(@RequestParam("id") String id,@RequestParam("phone") String phone,
                                   @RequestParam("feedbacks") String feedbacks,@RequestParam("title") String title){
@@ -457,7 +456,7 @@ public class UserController {
             @ApiImplicitParam(name = "phone",value = "电话",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "isDefault",value = "是否是默认地址1是0不是",required = true,dataType = "int",paramType = "query")
     })
-    @ApiOperation(value = "保存用户收货地址")
+    @ApiOperation(value = "保存用户收货地址",notes = "repeatWrong：地址信息重复 existWrong：用户不存在 success：成功")
     @PostMapping("/address")
     public Result<JSONObject> addAddress(@RequestParam("id") String id,@RequestParam("campus") String campus,
                                  @RequestParam("realAddress") String realAddress,@RequestParam("name") String name,
@@ -474,7 +473,7 @@ public class UserController {
             @ApiImplicitParam(name = "number",value = "地址编号",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "删除用户的地址配置")
+    @ApiOperation(value = "删除用户的地址配置",notes = "existWrong：地址不存在（可能是重复请求） userWrong：用户不存在 addressWrong：地址至少保留一个（不能删） success：成功")
     @DeleteMapping("/address")
     public Result<JSONObject> deleteAddress(@RequestParam("number") Long number,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
@@ -493,7 +492,7 @@ public class UserController {
             @ApiImplicitParam(name = "phone",value = "电话",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "name",value = "收件人姓名",dataType = "string",paramType = "query")
     })
-    @ApiOperation("修改用户地址配置")
+    @ApiOperation(value = "修改用户地址配置",notes = "existWrong：地址设置不存在 success：成功")
     @PatchMapping("/address")
     public Result<JSONObject> changeAddress(@RequestParam("id") String id,@RequestParam("number") Long number,
                                     @RequestParam(value = "campus",required = false) String campus,
@@ -513,7 +512,7 @@ public class UserController {
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation("获取用户地址列表")
+    @ApiOperation(value = "获取用户地址列表",notes = "success：成功 成功返回json addressList：地址列表 pages：页面数 count：总数")
     @GetMapping("/address")
     public Result<JSONObject> getAddress(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                     @RequestParam("page") Long page){
@@ -528,7 +527,7 @@ public class UserController {
             @ApiImplicitParam(name = "goodsId",value = "物品编号",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "用户删除历史记录",notes = "单个删除接口")
+    @ApiOperation(value = "用户删除单个历史记录",notes = "existWrong：该历史记录不存在（可能是重复删除） success：成功")
     @DeleteMapping("/history")
     public Result<JSONObject> deleteHistory(@RequestParam("goodsId") Long goodsId,@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
@@ -545,7 +544,7 @@ public class UserController {
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation(value = "获取用户全部历史记录")
+    @ApiOperation(value = "获取用户全部历史记录",notes = "success：成功 成功返回json historyList：历史记录列表 pages：页面数 count：总数")
     @GetMapping("/allHistory")
     public Result<JSONObject> getHistory(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                  @RequestParam("page") Long page){
@@ -557,7 +556,7 @@ public class UserController {
 
     //pass
     @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
-    @ApiOperation(value = "清空历史记录")
+    @ApiOperation(value = "清空历史记录",notes = "existWrong：历史记录不存在（可能是重复请求） success：成功")
     @DeleteMapping("/allHistory")
     public Result<JSONObject> deleteAllHistory(@RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
@@ -576,7 +575,7 @@ public class UserController {
             @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "isRead",value = "是否已读",required = true,dataType = "int",paramType = "query")
     })
-    @ApiOperation("获取消息盒子列表内容")
+    @ApiOperation(value = "获取消息盒子列表内容",notes = "success：成功")
     @GetMapping("/message")
     public Result<JSONObject> getMessage(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                          @RequestParam("page") Long page,@RequestParam("isRead") Integer isRead){
@@ -588,7 +587,7 @@ public class UserController {
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "number",value = "消息编号",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation("获取消息具体内容")
+    @ApiOperation(value = "获取消息具体内容",notes = "existWrong：消息不存在（可能是重复请求） success：成功")
     @GetMapping("/getMessage")
     public Result<JSONObject> readMessage(@RequestParam("id") String id,@RequestParam("number") Long number){
         log.info("正在获取消息具体内容：" + number);
@@ -600,10 +599,12 @@ public class UserController {
     }
 
     @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
-    @ApiOperation("将所有消息通知已读")
+    @ApiOperation(value = "将所有消息通知已读",notes = "existWrong：消息已经全部已读（可能是重复请求） success：成功")
     @PostMapping("/message")
     public Result<JSONObject> deleteMessage(@RequestParam("id") String id){
         log.info("正在已读所有消息：" + id);
         return ResultUtils.getResult(new JSONObject(),userService.readAllMessage(id));
     }
+
+
 }

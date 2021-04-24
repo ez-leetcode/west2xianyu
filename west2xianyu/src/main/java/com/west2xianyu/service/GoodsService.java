@@ -31,4 +31,6 @@ public interface GoodsService {
     JSONObject getComments(String goodsId,Long cnt,Long page);
 
     JSONObject searchGoods(String fromId,String keyword,Double low,Double high,Long cnt,Long page,String label1,String label2,String label3);
+
+    JSONObject getGoodsList(String id,Long cnt,Long page);
 }

@@ -25,6 +25,8 @@ public class ResultUtils {
         resultMap.put("existWrong",-1);
         resultMap.put("oldPasswordWrong",-1);
         resultMap.put("addressWrong",-1);
+        resultMap.put("typeWrong",-1);
+        resultMap.put("fileWrong",-1);
         //登录权限等相关失败码403
         resultMap.put("tokenWrong",403);
         resultMap.put("authorityWrong",403);

@@ -21,7 +21,7 @@ public class GoodsController {
     private GoodsService goodsService;
 
     //pass
-    @ApiOperation(value = "获取闲置物品详细信息")
+    @ApiOperation(value = "获取闲置物品详细信息",notes = "existWrong：商品不存在或已被下单 frozenWrong：商品已被冻结 success：成功 成功返回json goods：商品信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "访问者id",required = true,dataType = "string",paramType = "query")
@@ -41,26 +41,30 @@ public class GoodsController {
             return ResultUtils.getResult(jsonObject,"frozenWrong");
         }
         log.info("获取闲置物品详细信息成功，物品：" + goods.toString());
-        jsonObject.put("Goods",goods);
+        jsonObject.put("goods",goods);
         return ResultUtils.getResult(jsonObject,"success");
     }
 
 
     //pass
     @ApiImplicitParam(name = "photo",value = "商品图片",required = true,dataType = "file",paramType = "body")
-    @ApiOperation(value = "上传商品图片")
+    @ApiOperation(value = "上传商品图片",notes = "typeWrong：上传文件类型有误 fileWrong：上传文件为空 success：成功 成功返回json url：商品图片url")
     @PostMapping("/goodsPhoto")
     public Result<JSONObject> uploadGoodsPhoto(@RequestParam("photo")MultipartFile file){
         JSONObject jsonObject = new JSONObject();
         log.info("正在上传商品图片");
         String url = goodsService.uploadGoodsPhoto(file);
-        jsonObject.put("url",url);
-        return ResultUtils.getResult(jsonObject,"success");
+        if(url.length() > 12){
+            //上传成功
+            jsonObject.put("url",url);
+            return ResultUtils.getResult(jsonObject,"success");
+        }
+        return ResultUtils.getResult(jsonObject,url);
     }
 
 
     //pass
-    @ApiOperation(value = "创建新的闲置物品")
+    @ApiOperation(value = "创建新的闲置物品",notes = "existWrong：用户不存在或已被冻结 success：成功")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "price",value = "价格",required = true,dataType = "double",paramType = "query"),
@@ -90,7 +94,7 @@ public class GoodsController {
 
     //可能要用户id
     @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query")
-    @ApiOperation(value = "下架自己原有的闲置物品")
+    @ApiOperation(value = "下架自己原有的闲置物品",notes = "existWrong：商品不存在（可能是重复请求） success：成功")
     @DeleteMapping("/goods")
     public Result<JSONObject> deleteGoods(@RequestParam("number") Long number){
         JSONObject jsonObject = new JSONObject();
@@ -112,7 +116,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "label2",value = "标签2",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "label3",value = "标签3",dataType = "string",paramType = "query")
     })
-    @ApiOperation("修改商品信息")
+    @ApiOperation(value = "修改商品信息",notes = "existWrong：商品不存在或已被冻结 success：成功")
     @PatchMapping("/goods")
     public Result<JSONObject> changeGoods(@RequestParam("number") Long number,@RequestParam(value = "price",required = false) Double price,
                                   @RequestParam(value = "goodsName",required = false) String goodsName,
@@ -138,7 +142,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation("收藏商品")
+    @ApiOperation(value = "收藏商品",notes = "existWrong：商品不存在或已被冻结 repeatWrong：商品已被收藏（可能是重复请求） success：成功")
     @PostMapping("/favor")
     public Result<JSONObject> addFavor(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId){
         JSONObject jsonObject = new JSONObject();
@@ -153,7 +157,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation("移除商品收藏")
+    @ApiOperation(value = "移除商品收藏",notes = "existWrong：该商品未被收藏（可能是重复请求） success：成功")
     @DeleteMapping("/favor")
     public Result<JSONObject> deleteFavor(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId){
         JSONObject jsonObject = new JSONObject();
@@ -169,9 +173,9 @@ public class GoodsController {
             @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query")
     })
-    @ApiOperation("获取全部收藏列表")
+    @ApiOperation(value = "获取全部收藏列表",notes = "success：成功 成功返回json favorList：收藏商品信息列表 pages：页面数 count：总数")
     @GetMapping("/favor")
-    public Result<JSONObject> getFavor(@RequestParam("id") String id, @RequestParam("cnt") Long cnt,
+    public Result<JSONObject> getAllFavor(@RequestParam("id") String id, @RequestParam("cnt") Long cnt,
                                        @RequestParam("page") Long page,
                                        @RequestParam(value = "keyword",required = false) String keyword){
         log.info("正在获取全部收藏列表：" + id);
@@ -184,7 +188,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query")
     })
-    @ApiOperation("获取收藏失效列表")
+    @ApiOperation(value = "获取收藏失效列表",notes = "success：成功 favorList：收藏商品信息列表 pages：页面数 count：总数")
     @GetMapping("/favor1")
     public Result<JSONObject> getFavor1(@RequestParam("id") String id, @RequestParam("cnt") Long cnt,
                                         @RequestParam("page") Long page,
@@ -200,7 +204,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query")
     })
-    @ApiOperation("获取收藏降价列表")
+    @ApiOperation(value = "获取收藏降价列表",notes = "success：成功  favorList：收藏商品信息列表 pages：页面数 count：总数")
     @GetMapping("/favor2")
     public Result<JSONObject> getFavor2(@RequestParam("id") String id, @RequestParam("cnt") Long cnt,
                                         @RequestParam("page") Long page,
@@ -241,7 +245,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "label2",value = "标签2",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "label3",value = "标签3",dataType = "string",paramType = "query")
     })
-    @ApiOperation("主页/商家关键词获取")
+    @ApiOperation(value = "主页/商家关键词获取",notes = "success：成功 成功返回json goodsList：商品信息列表 pages：页面数 count：总数")
     @GetMapping("/searchGoods")
     public Result<JSONObject> searchGoods(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
                                   @RequestParam(value = "fromId",required = false) String fromId,
@@ -262,7 +266,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation("获取该商品下所有用户评论")
+    @ApiOperation(value = "获取该商品下所有用户评论",notes = "success：成功 成功返回json commentList：评论列表 pages：页面数 count：总数")
     @GetMapping("/comments")
     public Result<JSONObject> getComments(@RequestParam("goodsId") String goodsId,@RequestParam("cnt") Long cnt,
                                           @RequestParam("page") Long page){
@@ -275,5 +279,24 @@ public class GoodsController {
         //商品存在
         return ResultUtils.getResult(jsonObject,"success");
     }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
+    })
+    @ApiOperation(value = "获取用户拥有的所有闲置物品信息",notes = "success：成功 成功返回json goodsList：商品列表 pages：页面数 count：总数")
+    @GetMapping("/goodsList1")
+    public Result<JSONObject> getGoodsList(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                                           @RequestParam("page") Long page){
+        log.info("正在获取该用户所有上架的闲置物品信息：" + id);
+        return ResultUtils.getResult(goodsService.getGoodsList(id,cnt,page),"success");
+    }
+
+
+
+
+
 
 }

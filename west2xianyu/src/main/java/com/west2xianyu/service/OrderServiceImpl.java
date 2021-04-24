@@ -261,7 +261,7 @@ public class OrderServiceImpl implements OrderService{
         //商品存在，检查状态是否相同
         if(orders.getStatus() != 1){
             log.warn("取消订单失败，订单状态不符合要求：" + orders.getStatus());
-            return "orderWrong";
+            return "statusWrong";
         }
         //状态也符合要求，更改状态，商品解冻，通知卖家
         orders.setStatus(0);
@@ -306,7 +306,7 @@ public class OrderServiceImpl implements OrderService{
         }
         if(orders.getStatus() != 3){
             log.warn("订单状态错误：" + orders.getStatus());
-            return "orderWrong";
+            return "statusWrong";
         }
         //设置订单状态
         orders.setStatus(4);

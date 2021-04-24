@@ -17,6 +17,7 @@ class West2xianyuApplicationTests {
     private RedisUtils redisUtils;
 
 
+    /*
     @Test
     void fun(){
         String yzm = null;

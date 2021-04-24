@@ -72,6 +72,11 @@ public class GoodsServiceImpl implements GoodsService{
     @Override
     public String saveGoods(Goods goods) {
         log.info("正在上传闲置物品");
+        User user = userMapper.selectById(goods.getFromId());
+        if(user == null){
+            log.info("上传闲置物品失败，用户不存在：" + goods.getFromId());
+            return "userWrong";
+        }
         goodsMapper.insert(goods);
         log.info("上传成功，物品：" + goods.toString());
         return "success";
@@ -98,7 +103,6 @@ public class GoodsServiceImpl implements GoodsService{
 
     @Override
     public String changeGoods(Goods goods) {
-        //重新修改商品信息要待审核
         Goods goods1 = goodsMapper.selectById(goods.getNumber());
         if(goods1 == null){
             log.warn("修改商品信息失败，可能商品被冻结或不存在：" + goods.getNumber());
@@ -108,6 +112,7 @@ public class GoodsServiceImpl implements GoodsService{
             //把原价格作为历史价格
             goods.setHisPrice(goods1.getPrice());
         }
+        //重新修改商品信息要待审核
         goods.setIsFrozen(0);
         goodsMapper.updateById(goods);
         log.info("修改商品信息成功");
@@ -410,6 +415,21 @@ public class GoodsServiceImpl implements GoodsService{
         if(!commentMsgList.isEmpty()){
             log.info(commentMsgList.toString());
         }
+        return jsonObject;
+    }
+
+
+    @Override
+    public JSONObject getGoodsList(String id, Long cnt, Long page) {
+        Page<Goods> page1 = new Page<>(page,cnt);
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        //获取商品信息列表
+        List<Goods> goodsList = goodsMapper.selectList(wrapper);
+        log.info("获取用户商品列表成功！");
+        jsonObject.put("goodsList",goodsList);
+        jsonObject.put("count",page1.getTotal());
+        jsonObject.put("pages",page1.getPages());
         return jsonObject;
     }
 }

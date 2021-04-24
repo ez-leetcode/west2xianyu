@@ -74,12 +74,16 @@ public class AdministratorServiceImpl implements AdministratorService{
     public JSONObject getFeedback(String id, Long number) {
         JSONObject jsonObject = new JSONObject();
         Feedback feedback = feedbackMapper.selectById(number);
+        if(feedback == null){
+            log.warn("获取反馈信息失败，反馈信息不存在");
+            return null;
+        }
         //无论封号与否
         User user = userMapper.selectUser(feedback.getId());
         FeedbackMsg feedbackMsg = new FeedbackMsg(number,user.getId(),user.getUsername(),user.getPhoto(),
                 feedback.getTitle(),feedback.getFeedbacks(),feedback.getIsRead(),feedback.getCreateTime());
         log.info("获取详细反馈信息成功：" + feedbackMsg.toString());
-        jsonObject.put("feedbackMsg",feedbackMsg);
+        jsonObject.put("feedback",feedbackMsg);
         //更新为已读
         feedback.setIsRead(1);
         feedbackMapper.updateById(feedback);
