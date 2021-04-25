@@ -8,9 +8,9 @@ import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeRefundResponse;
-import com.mysql.cj.util.StringUtils;
 import com.west2xianyu.config.AlipayConfig;
 import com.west2xianyu.mapper.OrdersMapper;
+import com.west2xianyu.pojo.Message;
 import com.west2xianyu.pojo.Orders;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -101,13 +103,23 @@ public class AlipayServiceImpl implements AlipayService{
             //商户订单号
             String out_trade_no = new String(request.getParameter("out_trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             Orders orders = ordersMapper.selectById(out_trade_no);
-            log.info("获取订单成功，下面开始更新状态");
+            log.info("获取订单成功，下面开始更新状态，订单：" + out_trade_no);
+            //成功的话会自动更新订单状态
             if(orders != null){
-                if(orders.getStatus() == 3){
+                if(orders.getStatus() == 1){
                     //已付款
-                    orders.setStatus(4);
+                    orders.setStatus(2);
                     ordersMapper.updateById(orders);
                     log.info("更新订单成功：" + orders.toString());
+                    //告诉卖家买家已经付款
+                    Message message = new Message();
+                    message.setId(orders.getFromId());
+                    Calendar calendar= Calendar.getInstance();
+                    SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+                    message.setTitle("您的订单：" + orders.getNumber() + "已被买家付款，请及时处理");
+                    message.setIsRead(0);
+                    message.setMsg(dateFormat.format(calendar.getTime()) + " \n" + " 您的订单：" + orders.getNumber() + "已被买家" + orders.getToId() +
+                            "成功付款，请及时与买家取得联系");
                 }
             }
             //支付宝交易号
@@ -127,6 +139,15 @@ public class AlipayServiceImpl implements AlipayService{
 
     @Override
     public String refundBill(Long number, Double price) throws Exception{
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null){
+            log.warn("退款失败，订单不存在");
+            return "existWrong";
+        }
+        if(orders.getStatus() != 11){
+            log.warn("退款失败，订单状态有误");
+            return "statusWrong";
+        }
         //初始化Alipay
         AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl,
                 AlipayConfig.app_id,

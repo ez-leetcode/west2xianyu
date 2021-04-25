@@ -266,7 +266,7 @@ public class AdministratorServiceImpl implements AdministratorService{
         //判断更新审核情况
         Goods goods = goodsMapper.selectById(number);
         if(goods == null){
-            log.warn("审核失败，订单不存在：" + number);
+            log.warn("审核失败，商品不存在：" + number);
             return "existWrong";
         }
         Calendar calendar = Calendar.getInstance();
@@ -277,6 +277,7 @@ public class AdministratorServiceImpl implements AdministratorService{
             //审核通过，更新状态，通知卖家
             goods.setIsFrozen(0);
             goods.setIsPass(1);
+            goodsMapper.updateById(goods);
             //ordersMapper.updateById(orders);
             //通知用户待完成
             message.setTitle("您的商品审核已通过");
@@ -399,4 +400,5 @@ public class AdministratorServiceImpl implements AdministratorService{
         jsonObject.put("getRefundStatus","success");
         return jsonObject;
     }
+
 }

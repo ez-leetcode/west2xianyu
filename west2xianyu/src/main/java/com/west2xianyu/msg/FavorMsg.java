@@ -2,6 +2,7 @@ package com.west2xianyu.msg;
 
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.Date;
 @ApiModel(description = "收藏商品消息对象")
 public class FavorMsg {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(value = "收藏物品编号")
     private Long goodsId;
 

@@ -1,10 +1,9 @@
-package com.west2xianyu.pojo;
+package com.west2xianyu.msg;
 
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -15,11 +14,11 @@ import lombok.ToString;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
-@ApiModel(description = "用户购买后评论")
-public class Evaluate {
+@ApiModel(description = "商家商品评价消息类")
+public class EvaluateMsg {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(value = "订单编号")
@@ -31,11 +30,17 @@ public class Evaluate {
     @ApiModelProperty(value = "买家id")
     private String toId;
 
+    @ApiModelProperty(value = "买家昵称")
+    private String username;
+
+    @ApiModelProperty(value = "用户头像url")
+    private String userPhoto;
+
+    @ApiModelProperty(value = "评价图片url")
+    private String evaluatePhoto;
+
     @ApiModelProperty(value = "评价")
     private String evaluation;
-
-    @ApiModelProperty(value = "图片url")
-    private String photo;
 
     @ApiModelProperty(value = "描述评分")
     private Double describe;
@@ -49,7 +54,7 @@ public class Evaluate {
     @ApiModelProperty(value = "是否匿名",notes = "0：否 1：是")
     private Integer isNoname;
 
-    @TableField(fill = FieldFill.INSERT)
     @ApiModelProperty(value = "评价时间")
     private Date createTime;
+
 }

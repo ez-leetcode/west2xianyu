@@ -42,8 +42,8 @@ public class AdministratorController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
     })
     @ApiOperation(value = "获取所有用户信息",notes = "success：成功 成功返回json userList：用户信息列表 pages：页面数 count：总数")
     @GetMapping("/getUser")
@@ -58,8 +58,8 @@ public class AdministratorController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "isDeleted",value = "禁用/正常,1禁用 0正常",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
     })
     @ApiOperation(value = "获取正常或者已禁用的用户信息",notes = "success：成功 成功返回json userList：用户信息列表 pages：页面数 count：总数")
     @GetMapping("/getUser1")
@@ -114,7 +114,7 @@ public class AdministratorController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "isPass",value = "是否通过",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
@@ -132,8 +132,8 @@ public class AdministratorController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "isHide",value = "是否隐藏已读",required = true,dataType = "int",paramType = "query")
     })
@@ -148,7 +148,7 @@ public class AdministratorController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "反馈编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "反馈编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "获取单个具体反馈信息",notes = "existWrong：反馈信息不存在 success：成功 成功返回json feedback：反馈信息")
@@ -167,8 +167,8 @@ public class AdministratorController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "获取所有商品列表",notes = "success：成功 成功返回json goodsList：商品列表信息  pages：页面数 count：数据量")
@@ -182,7 +182,7 @@ public class AdministratorController {
 
     //获取退款详细信息待完成
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "获取退款详细信息",notes = "existWrong：订单不存在或没有申请退款 statusWrong：订单状态错误 success：成功 成功返回json refund：退款详细信息")
@@ -199,7 +199,7 @@ public class AdministratorController {
 
 
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "isPass",value = "是否同意",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })

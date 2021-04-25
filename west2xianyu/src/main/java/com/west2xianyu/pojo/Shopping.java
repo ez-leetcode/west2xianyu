@@ -3,6 +3,7 @@ package com.west2xianyu.pojo;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,8 @@ import java.util.Date;
 @ToString
 public class Shopping {
 
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(value = "闲置物品编号",notes = "和闲置物品编号一致，不是订单编号")
     private Long number;
 

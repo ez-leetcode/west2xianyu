@@ -2,6 +2,7 @@ package com.west2xianyu.pojo;
 
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.Date;
 @ApiModel(description = "闲置物品类")
 public class Goods {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(value = "物品编号",notes = "(类似Twitter的雪花算法，编号不唯一)")
     @TableId(type = IdType.ID_WORKER)
     private Long number;

@@ -1,6 +1,5 @@
 package com.west2xianyu.pojo;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

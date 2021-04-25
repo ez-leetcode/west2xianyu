@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,7 @@ import java.util.Date;
 @ApiModel(description = "用户反馈实例")
 public class Feedback {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @TableId(type = IdType.ID_WORKER)
     @ApiModelProperty(value = "反馈内容编号")
     private Long number;

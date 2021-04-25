@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
+import com.west2xianyu.msg.EvaluateMsg;
 import com.west2xianyu.msg.FansMsg;
 import com.west2xianyu.msg.HistoryMsg;
 import com.west2xianyu.msg.ShoppingMsg;
@@ -41,6 +42,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private FansMapper fansMapper;
+
+    @Autowired
+    private EvaluateMapper evaluateMapper;
 
     @Autowired
     private FeedbackMapper feedbackMapper;
@@ -753,5 +757,31 @@ public class UserServiceImpl implements UserService{
         shoppingMapper.delete(wrapper);
         log.info("清空购物车成功：" + id);
         return "success";
+    }
+
+    @Override
+    public JSONObject getEvaluate(String id, long cnt, long page) {
+        JSONObject jsonObject = new JSONObject();
+        //用户账号被冻结也可以查到
+        Page<Evaluate> page1 = new Page<>(page,cnt);
+        QueryWrapper<Evaluate> wrapper = new QueryWrapper<>();
+        //注意是卖家出售货物
+        wrapper.eq("from_id",id)
+                .orderByDesc("create_time");
+        //获取评价
+        evaluateMapper.selectPage(page1,wrapper);
+        List<Evaluate> evaluateList = page1.getRecords();
+        List<EvaluateMsg> evaluateMsgList = new LinkedList<>();
+        for(Evaluate x:evaluateList){
+            //获取买家信息
+            User user = userMapper.selectUser(x.getToId());
+            evaluateMsgList.add(new EvaluateMsg(x.getNumber(),x.getFromId(),x.getToId(),user.getUsername(),user.getPhoto(),x.getPhoto(),
+                    x.getEvaluation(),x.getDescribe(),x.getService(),x.getLogistics(),x.getIsNoname(),x.getCreateTime()));
+        }
+        log.info("获取用户评价列表成功：" + id);
+        jsonObject.put("evaluateList",evaluateMsgList);
+        jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getTotal());
+        return jsonObject;
     }
 }

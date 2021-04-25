@@ -13,7 +13,7 @@ public interface OrderService {
 
     String deleteOrder(Long number,String id,int flag);
 
-    String evaluateOrder(Long number,String fromId,String toId,double describe,double service,double logistics,int isNoname,String evaluation);
+    String evaluateOrder(Long number,String fromId,String toId,double describe,double service,double logistics,int isNoname,String evaluation,String photo);
 
     JSONObject getOrderList(String id,String keyword,int status,long cnt,long page);
 
@@ -26,6 +26,8 @@ public interface OrderService {
     String sendOrder(Long number,String fromId);
 
     String refundPhotoUpload(MultipartFile file);
+
+    String evaluatePhotoUpload(MultipartFile file);
 
     Orders getOrders(Long number);
 }

@@ -1,10 +1,7 @@
 package com.west2xianyu.filter;
 
-import com.alibaba.fastjson.JSONObject;
-import com.google.code.kaptcha.Constants;
 import com.west2xianyu.utils.JwtUtils;
 import com.west2xianyu.utils.RedisUtils;
-import com.west2xianyu.utils.ResultUtils;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.context.WebApplicationContext;
@@ -16,8 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Locale;
 
 @Slf4j
 @Setter

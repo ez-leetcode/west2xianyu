@@ -1,6 +1,7 @@
 package com.west2xianyu.msg;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.Date;
 @ApiModel(description = "购物车列表消息对象")
 public class ShoppingMsg {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty("商品编号")
     private Long number;
 

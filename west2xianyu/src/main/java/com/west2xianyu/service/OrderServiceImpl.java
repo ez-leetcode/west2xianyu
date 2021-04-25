@@ -19,7 +19,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 @Slf4j
@@ -155,10 +154,10 @@ public class OrderServiceImpl implements OrderService{
         return "success";
     }
 
-    //评价订单5-6
+    //评价订单4-5
     @Override
     public String evaluateOrder(Long number, String fromId, String toId, double describe,
-                                double service, double logistics, int isNoname, String evaluation) {
+                                double service, double logistics, int isNoname, String evaluation,String photo) {
         //1.判断是否可以评价  2.改变商品状态  3.保存评价  4.更新商家3项分数及销售量
         Orders orders = ordersMapper.selectById(number);
         if(orders == null){
@@ -179,7 +178,7 @@ public class OrderServiceImpl implements OrderService{
         orders.setFinishTime(date);
         ordersMapper.updateById(orders);
         log.info("改变商品状态成功");
-        Evaluate evaluate = new Evaluate(number,fromId,toId,evaluation,describe,service,logistics,isNoname,null);
+        Evaluate evaluate = new Evaluate(number,fromId,toId,evaluation,photo,describe,service,logistics,isNoname,null);
         evaluateMapper.insert(evaluate);
         log.info("保存评价成功");
         int cnt = user.getSaleCounts();
@@ -400,5 +399,11 @@ public class OrderServiceImpl implements OrderService{
     public String refundPhotoUpload(MultipartFile file) {
         log.info("正在上传退款图片描述");
         return OssUtils.uploadPhoto(file,"refundPhoto");
+    }
+
+    @Override
+    public String evaluatePhotoUpload(MultipartFile file) {
+        log.info("正在上传评价图片描述");
+        return OssUtils.uploadPhoto(file,"evaluatePhoto");
     }
 }

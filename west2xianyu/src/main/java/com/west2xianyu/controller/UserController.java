@@ -257,8 +257,8 @@ public class UserController {
     //删除商品或者冻结时还会有，但是可以点进去，不然异步被下单的商品点进去会有问题
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query")
+            @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "Long",paramType = "query")
     })
     @ApiOperation(value = "获取用户购物车内容",notes = "返回success：成功  成功返回json数据内有shoppingList：购物车商品列表 pages：页面数 count：总数")
     @GetMapping("/shopping")
@@ -272,7 +272,7 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "用户添加闲置物品到购物车",notes = "existWrong：商品不存在（已被下架）frozenWrong：商品已被冻结 repeatWrong：商品已被添加（可能是重复请求）success：成功")
@@ -287,7 +287,7 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "用户从购物车移除闲置物品",notes = "existWrong：物品不存在（可能是重复请求） success：成功")
@@ -345,8 +345,8 @@ public class UserController {
     //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "cnt",value = "一页数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
+            @ApiImplicitParam(name = "cnt",value = "一页数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
     })
     @ApiOperation(value = "获取粉丝列表",notes = "success：成功 成功返回json fansList：粉丝列表 pages：页面数 count：总数")
     @GetMapping("/fans")
@@ -361,7 +361,7 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "评论者id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "comments",value = "用户评论",required = true,dataType = "string",paramType = "query")
     })
@@ -378,7 +378,7 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "用户学号",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "comments",value = "评论",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,dataType = "Date",paramType = "query")
@@ -397,7 +397,7 @@ public class UserController {
     //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "createTime",value = "评论时间（有可能会出现一个用户评论相同内容）",required = true,dataType = "string",paramType = "query")
     })
@@ -414,7 +414,7 @@ public class UserController {
     //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "createTime",value = "评论时间",required = true,dataType = "string",paramType = "query")
     })
@@ -486,7 +486,7 @@ public class UserController {
     //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "number",value = "用户地址编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "用户地址编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "campus",value = "校区",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "realAddress",value = "具体地址",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "phone",value = "电话",dataType = "string",paramType = "query"),
@@ -509,8 +509,8 @@ public class UserController {
     //pass
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "long",paramType = "query")
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
     })
     @ApiOperation(value = "获取用户地址列表",notes = "success：成功 成功返回json addressList：地址列表 pages：页面数 count：总数")
     @GetMapping("/address")
@@ -524,7 +524,7 @@ public class UserController {
 
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "goodsId",value = "物品编号",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "goodsId",value = "物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "用户删除单个历史记录",notes = "existWrong：该历史记录不存在（可能是重复删除） success：成功")
@@ -541,8 +541,8 @@ public class UserController {
     //4.6到这，可以加HistoryMsg，还不行
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query")
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "Long",paramType = "query")
     })
     @ApiOperation(value = "获取用户全部历史记录",notes = "success：成功 成功返回json historyList：历史记录列表 pages：页面数 count：总数")
     @GetMapping("/allHistory")
@@ -571,8 +571,8 @@ public class UserController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "long",paramType = "query"),
-            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "long",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "isRead",value = "是否已读",required = true,dataType = "int",paramType = "query")
     })
     @ApiOperation(value = "获取消息盒子列表内容",notes = "success：成功")
@@ -585,7 +585,7 @@ public class UserController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "number",value = "消息编号",required = true,dataType = "long",paramType = "query")
+            @ApiImplicitParam(name = "number",value = "消息编号",required = true,dataType = "Long",paramType = "query")
     })
     @ApiOperation(value = "获取消息具体内容",notes = "existWrong：消息不存在（可能是重复请求） success：成功")
     @GetMapping("/getMessage")
@@ -605,6 +605,22 @@ public class UserController {
         log.info("正在已读所有消息：" + id);
         return ResultUtils.getResult(new JSONObject(),userService.readAllMessage(id));
     }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "获取用户所有的评价",notes = "success：成功  成功返回json evaluateList：用户评价列表 pages：页面数 count：总数")
+    @GetMapping("/evaluateList")
+    public Result<JSONObject> getEvaluate(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                                          @RequestParam("page") Long page){
+        log.info("正在获取用户所有的评价：" + id);
+        JSONObject jsonObject = userService.getEvaluate(id,cnt,page);
+        return ResultUtils.getResult(jsonObject,"success");
+    }
+
+
 
 
 }

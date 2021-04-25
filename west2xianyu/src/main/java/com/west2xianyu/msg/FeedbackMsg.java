@@ -3,6 +3,7 @@ package com.west2xianyu.msg;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.Date;
 @ApiModel(description = "用户反馈消息类")
 public class FeedbackMsg {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(value = "反馈内容编号")
     private Long number;
 

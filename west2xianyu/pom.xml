@@ -136,6 +136,11 @@
             <version>3.0.0</version>
         </dependency>
 
+        <!-- quartz实现定时任务 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+        </dependency>
 
         <!-- 奇奇怪怪的包 -->
         <!-- 解决对象和xml序列化问题 -->

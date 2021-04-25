@@ -52,6 +52,8 @@ public interface UserService {
 
     JSONObject getMessage(String id,long cnt,long page,int isRead);
 
+    JSONObject getEvaluate(String id,long cnt,long page);
+
     JSONObject getOneMessage(String id,Long number);
 
     String deleteHistory(Long goodsId,String id);

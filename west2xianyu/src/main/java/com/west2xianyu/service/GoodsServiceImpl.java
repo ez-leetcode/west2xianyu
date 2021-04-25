@@ -9,6 +9,7 @@ import com.west2xianyu.msg.FavorMsg;
 import com.west2xianyu.msg.GoodsMsg;
 import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
+import com.west2xianyu.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,9 @@ public class GoodsServiceImpl implements GoodsService{
     @Autowired
     private CommentLikesMapper commentLikesMapper;
 
+    @Autowired
+    private RedisUtils redisUtils;
+
 
     @Override
     public Goods getGoods(Long number,String id) {
@@ -63,9 +67,9 @@ public class GoodsServiceImpl implements GoodsService{
             log.info("正在保存历史记录信息，商品编号：" + number + " 用户id：" + id);
             historyMapper.insert(new History(number,id,null,null));
         }
-        log.info("正在更新商品浏览信息");
-        goods.setScanCounts(goods.getScanCounts() + 1);
-        goodsMapper.updateById(goods);
+        //更新商品浏览信息用redis实现5分钟刷新一次
+        //保存浏览信息在redis里
+        redisUtils.saveScan(number.toString());
         return goods;
     }
 

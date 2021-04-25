@@ -17,13 +17,11 @@ class West2xianyuApplicationTests {
     private RedisUtils redisUtils;
 
 
-    /*
+/*
     @Test
     void fun(){
-        String yzm = null;
-        if(yzm == null || yzm.equals("12")){
-            System.out.println(11111111);
-        }
+        String abc = "asda_2341";
+        System.out.println(abc.substring(abc.lastIndexOf("_") + 1));
        // redisUtils.delete("ycy");
        // System.out.println(1);
         //redisUtils.saveByTime("ycy","yyds",1);

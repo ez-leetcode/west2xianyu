@@ -2,6 +2,7 @@ package com.west2xianyu.pojo;
 
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,7 @@ import java.util.Date;
 @ApiModel(description = "用户地址类")
 public class Address {
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(value = "用户保存地址编号")
     @TableId(type = IdType.ID_WORKER)
     private Long number;

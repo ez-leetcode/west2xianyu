@@ -29,9 +29,9 @@ public class AlipayController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "goodsName",value = "商品名",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "price",value = "价格",required = true,dataType = "double",paramType = "query"),
-            @ApiImplicitParam(name = "number",value = "商品编号",required = true,dataType = "long",paramType = "query")
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "long",paramType = "query")
     })
-    @ApiOperation("支付测试")
+    @ApiOperation(value = "支付订单",notes = "请求会返回一段js代码可以自动跳转到支付宝支付页面")
     @GetMapping("/payBill")
     public void payBill(HttpServletResponse response, HttpServletRequest request,
                            @RequestParam("goodsName") String goodsName,
@@ -45,18 +45,20 @@ public class AlipayController {
     }
 
 
-    @ApiOperation("回调判断是否成功付款")
+    @ApiOperation(value = "回调判断是否成功付款",notes = "这个接口付完款会自动调用，自动改变订单状态，不用你调用哈~")
     @PostMapping("/notifyBill")
     public Result<JSONObject> notifyBill(HttpServletRequest request) throws Exception{
-        log.info("进来了");
+        log.info("正在回调付款信息");
         String status = alipayService.notifyPay(request);
         return ResultUtils.getResult(new JSONObject(),status);
     }
 
 
-
-
-    @ApiOperation("退款商品")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "price",value = "price",required = true,dataType = "Double",paramType = "query")
+    })
+    @ApiOperation(value = "退款商品",notes = "existWrong：订单不存在 statusWrong：订单状态有误 refundWrong：系统退款错误（一般不会有） success：超功")
     @PostMapping("/refundBill")
     public Result<JSONObject> refundBill(@RequestParam("number") Long number,
                                          @RequestParam("price") Double price) throws Exception{
