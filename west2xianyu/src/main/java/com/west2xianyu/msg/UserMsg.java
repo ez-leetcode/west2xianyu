@@ -19,6 +19,9 @@ public class UserMsg {
     @ApiModelProperty("用户id")
     private String id;
 
+    @ApiModelProperty(value = "自我介绍",notes = "在查看个人信息和粉丝列表的粉丝简介中呈现")
+    private String introduction;
+
     @ApiModelProperty("创建账号时间")
     private Date createTime;
 

@@ -1,5 +1,12 @@
 package com.west2xianyu;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.west2xianyu.mapper.RefundMapper;
+import com.west2xianyu.mapper.RoleMapper;
+import com.west2xianyu.mapper.UserRoleMapper;
+import com.west2xianyu.pojo.Refund;
+import com.west2xianyu.pojo.Role;
+import com.west2xianyu.pojo.UserRole;
 import com.west2xianyu.utils.JwtUtils;
 import com.west2xianyu.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
@@ -8,7 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.awt.geom.QuadCurve2D;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Random;
 
 @SpringBootTest
 class West2xianyuApplicationTests {
@@ -17,14 +28,24 @@ class West2xianyuApplicationTests {
     private RedisUtils redisUtils;
 
 
-/*
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private UserRoleMapper userRoleMapper;
+
+    @Autowired
+    private RefundMapper refundMapper;
+
+    /*
     @Test
-    void fun(){
-        String abc = "asda_2341";
-        System.out.println(abc.substring(abc.lastIndexOf("_") + 1));
-       // redisUtils.delete("ycy");
-       // System.out.println(1);
-        //redisUtils.saveByTime("ycy","yyds",1);
+    void fun() {
+        QueryWrapper<Refund> wrapper = new QueryWrapper<>();
+        wrapper.eq("number","1386951846640848877");
+        Refund refund = refundMapper.selectOne(wrapper);
+        if(refund != null){
+            System.out.println(refund);
+        }
     }
 
 

@@ -169,14 +169,16 @@ public class AdministratorController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "cnt",value = "每页数据量",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query"),
-            @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query")
+            @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "isPass",value = "是否已经通过审核",required = true,dataType = "int",paramType = "query"),
     })
     @ApiOperation(value = "获取所有商品列表",notes = "success：成功 成功返回json goodsList：商品列表信息  pages：页面数 count：数据量")
     @GetMapping("/goodsList")
     public Result<JSONObject> getGoodsList(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
-                               @RequestParam(value = "keyword",required = false) String keyword){
+                               @RequestParam(value = "keyword",required = false) String keyword,
+                                           @RequestParam("isPass") Integer isPass){
         log.info("正在获取所有订单");
-        return ResultUtils.getResult(administratorService.getGoodsList(keyword,cnt,page),"success");
+        return ResultUtils.getResult(administratorService.getGoodsList(keyword,cnt,page,isPass),"success");
     }
 
 
@@ -210,11 +212,11 @@ public class AdministratorController {
         JSONObject jsonObject = new JSONObject();
         log.info("正在处理退款：" + number);
         String status = administratorService.judgeRefund(number,id,isPass);
-        //阿里云退款待完成  4.20
         if(isPass == 1 && status.equals("success")){
             //退款
             Orders orders = orderService.getOrders(number);
-            String status1 = alipayService.refundBill(number,orders.getPrice());
+            //原价和运费一并退回
+            String status1 = alipayService.refundBill(number,orders.getPrice() + orders.getFreight());
             if(status1.equals("success")){
                 log.info("退款成功");
             }else{

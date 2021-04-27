@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Setter
@@ -30,11 +27,17 @@ public class RedisUtils {
 
     //存带有过期时间的key-value
     public void saveByTime(String key,String value,int hours){
-        redisTemplate.opsForValue().set(key,value,hours,TimeUnit.MINUTES);
+        //为防止缓存雪崩  加一个随机时间
+        Random random = new Random();
+        long minute = hours * 60L + random.nextInt(10);
+        redisTemplate.opsForValue().set(key,value,minute,TimeUnit.MINUTES);
     }
 
     public void saveByMinutesTime(String key,String value,int minutes){
-        redisTemplate.opsForValue().set(key,value,minutes,TimeUnit.MINUTES);
+        //同理
+        Random random = new Random();
+        long seconds = minutes * 60L + random.nextInt(10);
+        redisTemplate.opsForValue().set(key,value,seconds,TimeUnit.SECONDS);
     }
 
     //保存浏览量信息
@@ -74,8 +77,6 @@ public class RedisUtils {
         log.info("map:" + map.toString());
         return map;
     }
-
-
 
     //删除key
     public void delete(String key){

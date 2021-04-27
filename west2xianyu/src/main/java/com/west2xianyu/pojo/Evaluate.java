@@ -38,10 +38,10 @@ public class Evaluate {
     private String photo;
 
     @ApiModelProperty(value = "描述评分")
-    private Double describe;
+    private Double describes;
 
     @ApiModelProperty(value = "服务评分")
-    private Double service;
+    private Double services;
 
     @ApiModelProperty(value = "物流评分")
     private Double logistics;

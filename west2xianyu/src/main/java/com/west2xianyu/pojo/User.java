@@ -42,7 +42,7 @@ public class User {
     @ApiModelProperty("手机号码")
     private String phone;
 
-    @ApiModelProperty(value = "头像url",notes = "头像资源统一存放在服务器路径：/xy/photo中")
+    @ApiModelProperty(value = "头像url",notes = "头像资源统一存放在阿里云oss /userPhoto中")
     private String photo;
 
     @ApiModelProperty(value = "自我介绍",notes = "在查看个人信息和粉丝列表的粉丝简介中呈现")

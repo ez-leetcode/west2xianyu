@@ -51,7 +51,7 @@ public class GoodsServiceImpl implements GoodsService{
         if(goods == null){
             return null;
         }
-        if(goods.getIsFrozen() == 1 || goods.getIsPass() == 0){
+        if(goods.getIsFrozen() == 1){
             log.warn("获取商品详细信息失败，商品已被冻结或未审核");
             return null;
         }
@@ -108,7 +108,7 @@ public class GoodsServiceImpl implements GoodsService{
     @Override
     public String changeGoods(Goods goods) {
         Goods goods1 = goodsMapper.selectById(goods.getNumber());
-        if(goods1 == null){
+        if(goods1 == null || goods1.getIsFrozen() == 1){
             log.warn("修改商品信息失败，可能商品被冻结或不存在：" + goods.getNumber());
             return "existWrong";
         }
@@ -436,4 +436,19 @@ public class GoodsServiceImpl implements GoodsService{
         jsonObject.put("pages",page1.getPages());
         return jsonObject;
     }
+
+
+    @Override
+    public JSONObject getGoodsWhenever(Long number) {
+        Goods goods = goodsMapper.selectGoodsWhenever(number);
+        if(goods == null){
+            log.warn("这个商品真的不存在呀！！！ 编号：" + number);
+            return null;
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("goods",goods);
+        return jsonObject;
+    }
+
+
 }

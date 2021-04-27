@@ -9,6 +9,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import com.alipay.api.request.AlipayTradeRefundRequest;
 import com.alipay.api.response.AlipayTradeRefundResponse;
 import com.west2xianyu.config.AlipayConfig;
+import com.west2xianyu.mapper.MessageMapper;
 import com.west2xianyu.mapper.OrdersMapper;
 import com.west2xianyu.pojo.Message;
 import com.west2xianyu.pojo.Orders;
@@ -23,6 +24,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,6 +35,9 @@ public class AlipayServiceImpl implements AlipayService{
 
     @Autowired
     private OrdersMapper ordersMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
 
     @Override
@@ -57,6 +62,8 @@ public class AlipayServiceImpl implements AlipayService{
         String order_number = number.toString();
         //付款金额，从前台获取，必填
         String total_amount = price.toString();
+        //这里一定要转码  不然支付宝订单回调的时候回乱码，导致验签错误
+        goodsName = new String(goodsName.getBytes(), StandardCharsets.UTF_8);
         //订单名称，必填
         //String subject = goodsName;
         alipayTradePagePayRequest.setBizContent("{\"out_trade_no\":\"" + order_number + "\","
@@ -93,7 +100,9 @@ public class AlipayServiceImpl implements AlipayService{
                         : valueStr + values[i] + ",";
             }
             //乱码解决，这段代码在出现乱码时使用
-            valueStr = new String(valueStr.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
+            //这段代码会把正确的中文转成乱码，导致中文名称的商品不能正确反馈，坑死我了。。。
+            //valueStr = new String(valueStr.getBytes("ISO_8859_1"), StandardCharsets.UTF_8);
+
             params.put(name, valueStr);
         }
         //是否认证成功
@@ -109,24 +118,26 @@ public class AlipayServiceImpl implements AlipayService{
                 if(orders.getStatus() == 1){
                     //已付款
                     orders.setStatus(2);
+                    orders.setPayTime(new Date());
                     ordersMapper.updateById(orders);
                     log.info("更新订单成功：" + orders.toString());
                     //告诉卖家买家已经付款
                     Message message = new Message();
                     message.setId(orders.getFromId());
                     Calendar calendar= Calendar.getInstance();
-                    SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
-                    message.setTitle("您的订单：" + orders.getNumber() + "已被买家付款，请及时处理");
+                    SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    message.setTitle("您的订单" + orders.getNumber() + "已被买家付款，请及时处理");
                     message.setIsRead(0);
                     message.setMsg(dateFormat.format(calendar.getTime()) + " \n" + " 您的订单：" + orders.getNumber() + "已被买家" + orders.getToId() +
                             "成功付款，请及时与买家取得联系");
+                    messageMapper.insert(message);
                 }
             }
             //支付宝交易号
             String trade_no = new String(request.getParameter("trade_no").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
             //交易状态
             String trade_status = new String(request.getParameter("trade_status").getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);
-            log.info("支付成功，订单号：" + out_trade_no + "支付宝交易号：" + trade_no + "交易状态：" + trade_status);
+            log.info("支付成功，订单号：" + out_trade_no + " 支付宝交易号：" + trade_no + "交易状态：" + trade_status);
             //更新订单号
             return "paySuccess";
         }else{
@@ -174,4 +185,5 @@ public class AlipayServiceImpl implements AlipayService{
             return "refundFail";
         }
     }
+
 }

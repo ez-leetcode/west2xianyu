@@ -21,7 +21,7 @@ public class GoodsController {
     private GoodsService goodsService;
 
     //pass
-    @ApiOperation(value = "获取闲置物品详细信息",notes = "existWrong：商品不存在或已被下单或未过审核 frozenWrong：商品已被冻结 success：成功 成功返回json goods：商品信息")
+    @ApiOperation(value = "获取闲置物品详细信息",notes = "existWrong：商品不存在或已被下单（现在未审核的可以看了） frozenWrong：商品已被冻结 success：成功 成功返回json goods：商品信息")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "访问者id",required = true,dataType = "string",paramType = "query")
@@ -44,6 +44,23 @@ public class GoodsController {
         jsonObject.put("goods",goods);
         return ResultUtils.getResult(jsonObject,"success");
     }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "在任何情况下获取商品信息的接口",notes = "existWrong：商品真的不存在  success：成功  成功返回json goods：商品信息（这个接口不会增加页面浏览量）")
+    @GetMapping("/goodsWhenever")
+    public Result<JSONObject> getGoodsWhenever(@RequestParam("number") Long number){
+        log.info("正在获取闲置物品详细信息（任何条件下） 商品编号：" + number);
+        JSONObject jsonObject = goodsService.getGoodsWhenever(number);
+        if(jsonObject == null){
+            return ResultUtils.getResult(new JSONObject(),"existWrong");
+        }
+        return ResultUtils.getResult(jsonObject,"success");
+    }
+
+
 
 
     //pass
@@ -142,7 +159,7 @@ public class GoodsController {
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "goodsId",value = "商品编号",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "收藏商品",notes = "existWrong：商品不存在或已被冻结 repeatWrong：商品已被收藏（可能是重复请求） success：成功")
+    @ApiOperation(value = "收藏商品",notes = "existWrong：商品不存在或已被冻结  repeatWrong：商品已被收藏（可能是重复请求） success：成功")
     @PostMapping("/favor")
     public Result<JSONObject> addFavor(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId){
         JSONObject jsonObject = new JSONObject();
@@ -181,6 +198,8 @@ public class GoodsController {
         log.info("正在获取全部收藏列表：" + id);
         return ResultUtils.getResult(goodsService.getAllFavor(id,cnt,page,keyword),"success");
     }
+
+
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),

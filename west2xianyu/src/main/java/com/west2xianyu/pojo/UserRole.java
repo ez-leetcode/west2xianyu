@@ -31,8 +31,8 @@ public class UserRole {
     @ApiModelProperty(value = "用户id")
     private String user;
 
-    @ApiModelProperty(value = "角色")
-    private String role;
+    @ApiModelProperty(value = "角色编号id")
+    private Integer role;
 
     @ApiModelProperty("创建时间")
     @TableField(fill = FieldFill.INSERT)

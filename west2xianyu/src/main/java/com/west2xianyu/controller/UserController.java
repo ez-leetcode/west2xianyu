@@ -394,20 +394,38 @@ public class UserController {
     }
 
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "查看的用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "number",value = "商品编号",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "获取商品下面的评论列表",notes = "success：成功  成功返回json commentList：评论列表 pages：页面数 count：总数")
+    @GetMapping("/commentList")
+    public Result<JSONObject> getCommentList(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                                             @RequestParam("page") Long page,@RequestParam("number") Long number){
+        log.info("正在获取商品评论列表：" + id);
+        return ResultUtils.getResult(userService.getCommentList(id,cnt,page,number),"success");
+    }
+
+
+
     //pass
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "fromId",value = "评论用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "likeId",value = "点赞用户id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "goodsId",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "comments",value = "用户评论内容",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "createTime",value = "评论时间（有可能会出现一个用户评论相同内容）",required = true,dataType = "string",paramType = "query")
     })
     @ApiOperation(value = "对评论点赞",notes = "existWrong：评论不存在 repeatWrong：评论已被点赞（可能是重复请求） success：成功")
     @PostMapping("/likes")
-    public Result<JSONObject> addLikes(@RequestParam("id") String id,@RequestParam("goodsId") Long goodsId,
-                               @RequestParam("comments") String comments,@RequestParam("createTime") String createTime){
+    public Result<JSONObject> addLikes(@RequestParam("fromId") String fromId,@RequestParam("goodsId") Long goodsId,
+                               @RequestParam("comments") String comments,@RequestParam("createTime") String createTime,
+                                       @RequestParam("likeId") String likeId){
         JSONObject jsonObject = new JSONObject();
         log.info("正在给评论点赞：" + comments);
-        String status = userService.addLikes(goodsId,id,comments,createTime);
+        String status = userService.addLikes(goodsId,fromId,likeId,comments,createTime);
         return ResultUtils.getResult(jsonObject,status);
     }
 
@@ -554,6 +572,8 @@ public class UserController {
         return ResultUtils.getResult(jsonObject,"success");
     }
 
+
+
     //pass
     @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     @ApiOperation(value = "清空历史记录",notes = "existWrong：历史记录不存在（可能是重复请求） success：成功")
@@ -621,6 +641,20 @@ public class UserController {
     }
 
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fromId",value = "投诉者id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "toId",value = "被投诉者id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "reason",value = "投诉理由",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "specificReason",value = "具体原因",required = true,dataType = "string",paramType = "query")
+    })
+    @ApiOperation(value = "投诉用户",notes = "userWrong：用户不存在 success：成功")
+    @PostMapping("/complain")
+    public Result<JSONObject> complainUser(@RequestParam("fromId") String fromId,@RequestParam("toId") String toId,
+                                           @RequestParam("reason") String reason,@RequestParam("specificReason") String specificReason){
+        log.info("正在投诉用户，投诉者：" + fromId);
+        String status = userService.complainUser(fromId,toId,reason,specificReason);
+        return ResultUtils.getResult(new JSONObject(),status);
+    }
 
 
 }

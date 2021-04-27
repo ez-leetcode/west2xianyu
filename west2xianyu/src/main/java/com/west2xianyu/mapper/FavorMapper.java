@@ -32,8 +32,6 @@ public interface FavorMapper extends BaseMapper<Favor> {
     List<Favor> selectAllFavorDeleted1(String id,String keyword);
 
 
-
-
     @Select("SELECT * FROM favor WHERE goods_id = #{goods_id}")
     Favor selectByGoodsId(Long goods_id);
 

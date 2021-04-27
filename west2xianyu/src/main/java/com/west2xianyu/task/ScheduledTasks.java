@@ -45,7 +45,7 @@ public class ScheduledTasks {
             goods.setScanCounts(goods.getScanCounts() + inc);
             //更新商品浏览量数据
             goodsMapper.updateById(goods);
-            //删除redis中对应的数据
+            //删除redis中对应的数据（为防止缓存雪崩，遍历删除）
             redisUtils.delete("scan_" + key);
             log.info("商品浏览量更新成功，商品：" + key + " 新增浏览量：" + inc);
         }

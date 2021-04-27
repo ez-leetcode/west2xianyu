@@ -67,6 +67,12 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private MessageMapper messageMapper;
 
+    @Autowired
+    private RoleMapper roleMapper;
+
+    @Autowired
+    private ComplainMapper complainMapper;
+
     //有时间加邮箱验证码
     @Override
     public String register(User user) {
@@ -87,13 +93,27 @@ public class UserServiceImpl implements UserService{
         user.setUsername(user.getId());
         userMapper.insert(user);
         log.info("新账号：" + user.toString());
+        //给予用户角色
+        QueryWrapper<Role> wrapper = new QueryWrapper<>();
+        wrapper.eq("role_name","USER");
+        //获取角色编号
+        Role role = roleMapper.selectOne(wrapper);
+        UserRole userRole = new UserRole();
+        userRole.setUser(user.getId());
+        userRole.setRole(role.getId());
+        //创建新的用户角色
+        userRoleMapper.insert(userRole);
         if(user.getIsAdministrator() == 1){
             //用户是管理员
-            UserRole userRole = new UserRole();
-            userRole.setUser(user.getId());
-            userRole.setRole("admin");
-            userRoleMapper.insert(userRole);
-            log.info("创建管理员成功：" + userRole.getUser());
+            QueryWrapper<Role> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("role_name","ADMIN");
+            Role role1 = roleMapper.selectOne(wrapper1);
+            UserRole userRole1 = new UserRole();
+            userRole1.setUser(user.getId());
+            userRole1.setRole(role1.getId());
+            //创建新的用户角色
+            userRoleMapper.insert(userRole1);
+            log.info("创建管理员成功：" + userRole1.getUser());
         }
         return "success";
     }
@@ -239,7 +259,7 @@ public class UserServiceImpl implements UserService{
         message.setIsRead(0);
         message.setTitle("您有新的粉丝关注哦~");
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您有新的粉丝关注您啦！用户：" + user1.getUsername() + "（ " + user1.getId() + "）");
         //发送消息
         messageMapper.insert(message);
@@ -331,7 +351,7 @@ public class UserServiceImpl implements UserService{
         message.setId(goods.getFromId());
         message.setTitle("有一个用户新评论了您的商品：" + goods.getGoodsName());
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + goods.getGoodsName() + "被用户：" + user.getUsername() +
                 "评论，评论内容： \n" + comments);
         log.info("评论成功，用户：" + id + " 评论："+ comments);
@@ -364,10 +384,10 @@ public class UserServiceImpl implements UserService{
 
     //商品冻结检查和id检查暂时不做
     @Override
-    public String addLikes(Long goodsId, String id, String comments, String createTime) {
+    public String addLikes(Long goodsId, String fromId, String likeId,String comments, String createTime) {
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("goods_id",goodsId)
-                .eq("id",id)
+                .eq("from_id",fromId)
                 .eq("comments",comments)
                 .eq("create_time",createTime);
         Comment comment = commentMapper.selectOne(wrapper);
@@ -377,14 +397,15 @@ public class UserServiceImpl implements UserService{
         }
         QueryWrapper<CommentLikes> wrapper1 = new QueryWrapper<>();
         wrapper1.eq("goods_id",goodsId)
-                .eq("id",id)
+                .eq("from_id",fromId)
+                .eq("like_id",likeId)
                 .eq("comments",comments);
         CommentLikes commentLikes = commentLikesMapper.selectOne(wrapper1);
         if(commentLikes != null){
             log.warn("点赞失败，评论已被点赞");
             return "repeatWrong";
         }
-        CommentLikes commentLikes1 = new CommentLikes(goodsId,comments,id,comment.getCreateTime(),null);
+        CommentLikes commentLikes1 = new CommentLikes(goodsId,comments,fromId,likeId,comment.getCreateTime(),null);
         commentLikesMapper.insert(commentLikes1);
         log.info("插入点赞信息成功：" + commentLikes1.toString());
         comment.setLikes(comment.getLikes() + 1);
@@ -560,7 +581,7 @@ public class UserServiceImpl implements UserService{
         return "success";
     }
 
-    //在冻结商品的时候就要把购物车里的删了！！！！！！！！！！！！！！！！
+
     @Override
     public JSONObject getShopping(String id, long cnt, long page) {
         JSONObject jsonObject = new JSONObject();
@@ -776,7 +797,7 @@ public class UserServiceImpl implements UserService{
             //获取买家信息
             User user = userMapper.selectUser(x.getToId());
             evaluateMsgList.add(new EvaluateMsg(x.getNumber(),x.getFromId(),x.getToId(),user.getUsername(),user.getPhoto(),x.getPhoto(),
-                    x.getEvaluation(),x.getDescribe(),x.getService(),x.getLogistics(),x.getIsNoname(),x.getCreateTime()));
+                    x.getEvaluation(),x.getDescribes(),x.getServices(),x.getLogistics(),x.getIsNoname(),x.getCreateTime()));
         }
         log.info("获取用户评价列表成功：" + id);
         jsonObject.put("evaluateList",evaluateMsgList);
@@ -784,4 +805,36 @@ public class UserServiceImpl implements UserService{
         jsonObject.put("count",page1.getTotal());
         return jsonObject;
     }
+
+
+    @Override
+    public String complainUser(String fromId, String toId, String reason, String specificReason) {
+        User user = userMapper.selectById(fromId);
+        User user1 = userMapper.selectById(toId);
+        if(user == null || user1 == null){
+            log.warn("投诉失败，用户帐号不存在或已被冻结");
+            return "existWrong";
+        }
+        Complain complain = new Complain(null,fromId,toId,reason,specificReason,null,null,null);
+        complainMapper.insert(complain);
+        log.info("投诉用户成功：" + complain.toString());
+        return "success";
+    }
+
+
+    @Override
+    public JSONObject getCommentList(String id, long cnt, long page, long number) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("goods_id",number)
+                .orderByDesc("create_time");
+        Page<Comment> page1 = new Page<>(page,cnt);
+        List<Comment> commentList = page1.getRecords();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("commentList",commentList);
+        jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getTotal());
+        return jsonObject;
+    }
+
+
 }

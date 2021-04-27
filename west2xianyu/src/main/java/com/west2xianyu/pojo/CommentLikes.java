@@ -28,7 +28,10 @@ public class CommentLikes {
     private String comments;
 
     @ApiModelProperty("评论用户id")
-    private String id;
+    private String fromId;
+
+    @ApiModelProperty("点赞用户id")
+    private String likeId;
 
     @ApiModelProperty("用户评论的时间")
     private Date commentTime;

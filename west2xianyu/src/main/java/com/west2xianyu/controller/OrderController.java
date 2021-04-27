@@ -145,7 +145,7 @@ public class OrderController {
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "status",value = "订单状态",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "status",value = "订单状态,-1代表全部状态",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
@@ -183,7 +183,7 @@ public class OrderController {
             @ApiImplicitParam(name = "toId",value = "买家",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "number",value = "订单id",required = true,dataType = "Long",paramType = "query"),
     })
-    @ApiOperation(value = "确认收货",notes = "existWrong：订单不存在或被冻结 statusWrong：订单状态有误 success：成功")
+    @ApiOperation(value = "确认收货",notes = "userWrong：买家id或卖家id不正确 existWrong：订单不存在或被冻结 statusWrong：订单状态有误 success：成功")
     @PostMapping("/confirmOrder")
     public Result<JSONObject> confirmOrder(@RequestParam("fromId") String fromId,@RequestParam("toId") String toId,
                                    @RequestParam("number") Long number){

@@ -81,12 +81,17 @@ public class OrderServiceImpl implements OrderService{
         orders.setToId(toId);
         orders.setGoodsNumber(number);
         orders.setGoodsName(goods.getGoodsName());
+        orders.setAddress(address);
         if(message != null){
             //如果买家有留言，加上留言
             orders.setMessage(message);
         }
         //获取卖家的默认地址
         Address address2 = addressMapper.getAddress(userMapper.selectById(goods.getFromId()).getAddress());
+        if(address2 == null){
+            log.warn("用户保存地址不存在，编号：" + address);
+            return "addressWrong";
+        }
         if(!address2.getCampus().equals(address1.getCampus())){
             //校区不同，运费6块钱
             orders.setFreight(6.0);
@@ -113,7 +118,7 @@ public class OrderServiceImpl implements OrderService{
         message1.setIsRead(0);
         message1.setTitle("您的商品" + number + "已被人拍下，请及时确认");
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if(message != null){
             //有留言附上买家留言
             message1.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + number + "已被买家" + toId + "拍下，请及时与买家取得联系 \n" +
@@ -121,6 +126,7 @@ public class OrderServiceImpl implements OrderService{
         }else{
             message1.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + number + "已被买家" + toId + "拍下，请及时与买家取得联系");
         }
+        messageMapper.insert(message1);
         return "success";
     }
 
@@ -128,6 +134,7 @@ public class OrderServiceImpl implements OrderService{
     public OrderMsg getOrder(Long number) {
         Orders orders = ordersMapper.selectById(number);
         if(orders == null || orders.getAddress() == null){
+            log.warn("获取订单信息失败，订单不存在或买家地址不存在");
             return null;
         }
         //获取地址信息（无条件）
@@ -135,6 +142,7 @@ public class OrderServiceImpl implements OrderService{
         //获取卖家信息
         User user = userMapper.selectUser(orders.getFromId());
         if(address == null || user == null){
+            log.warn("获取订单信息失败，卖家地址或用户不存在");
             return null;
         }
         return new OrderMsg(number,orders.getFromId(),orders.getToId(),user.getUsername(),orders.getGoodsName(),orders.getPrice(),
@@ -201,9 +209,9 @@ public class OrderServiceImpl implements OrderService{
         message.setId(orders.getFromId());
         //未读
         message.setIsRead(0);
-        message.setTitle("您的订单：" + number + " 已被评价，请及时确认");
+        message.setTitle("您的订单" + number + " 已被评价，请及时确认");
         Calendar calendar= Calendar.getInstance();
-        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "  您的订单" + orders.getNumber() + "已被用户评价：" + " 描述：" + describe +
                 " 服务：" + service + " 物流：" + logistics + " \n" + "  具体评价：" + evaluation);
         messageMapper.insert(message);
@@ -218,20 +226,22 @@ public class OrderServiceImpl implements OrderService{
         QueryWrapper<Orders> wrapper = new QueryWrapper<>();
         Page<Orders> page1 = new Page<>(page,cnt);
         //添加查询条件，用户是买家或者卖家都能查到
-
-
-        //这里有bug
         if(status != -1){
             wrapper.eq("status",status);
         }
         wrapper.eq("to_id",id)
                 .or()
-                .eq("from_id",id)
-                .orderByDesc("order_time");
+                .eq("from_id",id);
+        if(status != -1){
+            wrapper.eq("status",status);
+        }
         if(keyword != null){
-            wrapper.like("number",keyword)
+            wrapper.or()
+                    .like("number",keyword)
+                    .or()
                     .like("goods_name",keyword);
         }
+        wrapper.orderByDesc("order_time");
         //全部查询status = -1
         ordersMapper.selectPage(page1,wrapper);
         List<Orders> ordersList = page1.getRecords();
@@ -275,7 +285,7 @@ public class OrderServiceImpl implements OrderService{
         log.info("取消订单成功，订单：" + number);
         //通知卖家
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Message message = new Message();
         message.setId(orders.getFromId());
         message.setIsRead(0);
@@ -290,7 +300,7 @@ public class OrderServiceImpl implements OrderService{
         return ordersMapper.selectById(number);
     }
 
-    //差12小时的bug！！！！！！
+
 
 
 
@@ -307,8 +317,13 @@ public class OrderServiceImpl implements OrderService{
             log.warn("订单状态错误：" + orders.getStatus());
             return "statusWrong";
         }
+        if(!orders.getToId().equals(toId) || !orders.getFromId().equals(fromId)){
+            log.warn("买家和卖家信息不正确");
+            return "userWrong";
+        }
         //设置订单状态
         orders.setStatus(4);
+        orders.setConfirmTime(new Date());
         //更新状态
         ordersMapper.updateById(orders);
         //通知卖家待完成
@@ -316,7 +331,7 @@ public class OrderServiceImpl implements OrderService{
         //卖家
         message.setId(fromId);
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         message.setTitle("您的订单" + number + "已被确认收货，请及时确认");
         message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单已被买家" + toId + "确认收货");
         message.setIsRead(0);
@@ -352,7 +367,7 @@ public class OrderServiceImpl implements OrderService{
         message.setId(orders.getFromId());
         message.setTitle("您的订单" + number + "被申请退款，请及时处理");
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + number + "被用户" + id + "申请退款" + money + "元 \n" +
                 " 具体原因：" + description);
         message.setIsRead(0);
@@ -379,15 +394,16 @@ public class OrderServiceImpl implements OrderService{
         }
         //修改订单状态
         orders.setStatus(3);
+        orders.setSendTime(new Date());
         //更新
         ordersMapper.updateById(orders);
         //通知买家待完成
         Message message = new Message();
         message.setIsRead(0);
         message.setId(orders.getToId());
-        message.setTitle("您的订单：" + number + "卖家已发货，请及时关注");
+        message.setTitle("您的订单" + number + "卖家已发货，请及时关注");
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的订单" + number + "卖家" + orders.getFromId() + "已经确认发货，请及时查看物流信息");
         messageMapper.insert(message);
         log.info("通知买家发货成功");

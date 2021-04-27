@@ -25,8 +25,14 @@ public class RefundMsg {
     @ApiModelProperty(value = "买家id")
     private String toId;
 
+    @ApiModelProperty(value = "买家昵称")
+    private String toUsername;
+
     @ApiModelProperty(value = "卖家id")
     private String fromId;
+
+    @ApiModelProperty(value = "卖家昵称")
+    private String fromUsername;
 
     @ApiModelProperty(value = "退款金额")
     private Double money;

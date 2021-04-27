@@ -33,4 +33,6 @@ public interface GoodsService {
     JSONObject searchGoods(String fromId,String keyword,Double low,Double high,Long cnt,Long page,String label1,String label2,String label3);
 
     JSONObject getGoodsList(String id,Long cnt,Long page);
+
+    JSONObject getGoodsWhenever(Long number);
 }

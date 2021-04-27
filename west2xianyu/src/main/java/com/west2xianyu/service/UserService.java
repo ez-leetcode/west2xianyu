@@ -30,7 +30,7 @@ public interface UserService {
 
     String addFeedback(String id,String phone,String feedbacks,String title);
 
-    String addLikes(Long goodsId,String id,String comments,String createTime);
+    String addLikes(Long goodsId,String fromId,String likeId,String comments,String createTime);
 
     String deleteLikes(Long goodsId,String id,String comments,String createTime);
 
@@ -56,6 +56,8 @@ public interface UserService {
 
     JSONObject getOneMessage(String id,Long number);
 
+    JSONObject getCommentList(String id,long cnt,long page,long number);
+
     String deleteHistory(Long goodsId,String id);
 
     String deleteAllHistory(String id);
@@ -69,4 +71,6 @@ public interface UserService {
     String changePassword(String id,String oldPassword,String newPassword);
 
     String findPassword(String id,String newPassword);
+
+    String complainUser(String fromId,String toId,String reason,String specificReason);
 }

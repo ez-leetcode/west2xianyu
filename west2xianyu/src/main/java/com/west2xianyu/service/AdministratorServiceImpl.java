@@ -119,7 +119,8 @@ public class AdministratorServiceImpl implements AdministratorService{
         }
         List<UserMsg> userMsgList = new LinkedList<>();
         for(User x:userList){
-            userMsgList.add(new UserMsg(x.getId(),x.getCreateTime(),x.getDeleted(),x.getFrozenCounts(),x.getFrozenDate(),x.getReopenDate()));
+            userMsgList.add(new UserMsg(x.getId(),x.getIntroduction(),x.getCreateTime(),x.getDeleted(),
+                    x.getFrozenCounts(),x.getFrozenDate(),x.getReopenDate()));
         }
         log.info("获取用户信息成功：" + userMsgList.toString());
         jsonObject.put("userList",userMsgList);
@@ -143,7 +144,8 @@ public class AdministratorServiceImpl implements AdministratorService{
             List<User> userList = page1.getRecords();
             List<UserMsg> userMsgList = new LinkedList<>();
             for(User user:userList){
-                userMsgList.add(new UserMsg(user.getId(),user.getCreateTime(),user.getDeleted(),user.getFrozenCounts(),user.getFrozenDate(),user.getReopenDate()));
+                userMsgList.add(new UserMsg(user.getId(),user.getIntroduction(),user.getCreateTime(),user.getDeleted(),
+                        user.getFrozenCounts(),user.getFrozenDate(),user.getReopenDate()));
             }
             log.info("获取正常账号信息成功：" + userMsgList.toString());
             jsonObject.put("userList",userMsgList);
@@ -173,7 +175,8 @@ public class AdministratorServiceImpl implements AdministratorService{
                 userList1 = userMapper.selectDeletedUser3((page - 1) * cnt,cnt);
             }
             for(User user:userList1){
-                userMsgList.add(new UserMsg(user.getId(),user.getCreateTime(),user.getDeleted(),user.getFrozenCounts(),user.getFrozenDate(),user.getReopenDate()));
+                userMsgList.add(new UserMsg(user.getId(),user.getIntroduction(),user.getCreateTime(),user.getDeleted(),
+                        user.getFrozenCounts(),user.getFrozenDate(),user.getReopenDate()));
             }
             log.info("获取冻结账号信息成功：" + userMsgList.toString());
             jsonObject.put("userList",userMsgList);
@@ -236,15 +239,18 @@ public class AdministratorServiceImpl implements AdministratorService{
 
 
     @Override
-    public JSONObject getGoodsList(String keyword, Long cnt, Long page) {
+    public JSONObject getGoodsList(String keyword, Long cnt, Long page,Integer isPass) {
         JSONObject jsonObject = new JSONObject();
         Page<Goods> page1 = new Page<>(page,cnt);
         QueryWrapper<Goods> wrapper = new QueryWrapper<>();
+        wrapper.eq("is_pass",isPass);
         if(keyword != null){
             wrapper.like("number",keyword);
         }
         //根据商品状态排序（可能要排除状态，待完成）
-        wrapper.orderByAsc("is_pass");
+        wrapper.orderByAsc("is_pass")
+                //已被冻结的不能
+                .ne("is_frozen",1);
         List<GoodsMsg> goodsMsgList = new LinkedList<>();
         goodsMapper.selectPage(page1,wrapper);
         List<Goods> goodsList = page1.getRecords();
@@ -270,7 +276,7 @@ public class AdministratorServiceImpl implements AdministratorService{
             return "existWrong";
         }
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Message message = new Message();
         message.setId(id);
         if(isPass == 1){
@@ -308,10 +314,9 @@ public class AdministratorServiceImpl implements AdministratorService{
     public String judgeRefund(Long number, String id, int isPass) {
         //奇怪了
         Orders orders = ordersMapper.selectById(number);
-        Refund refund = refundMapper.selectById(number);
-        if(refund == null){
-            log.info("refund null");
-        }
+        QueryWrapper<Refund> wrapper = new QueryWrapper<>();
+        wrapper.eq("number",number);
+        Refund refund = refundMapper.selectOne(wrapper);
         if(orders == null || refund == null){
             log.warn("处理退款失败，订单失效或没有退款：" + number);
             return "existWrong";
@@ -322,7 +327,7 @@ public class AdministratorServiceImpl implements AdministratorService{
             return "statusWrong";
         }
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd :hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //符合要求情况
         if(isPass == 1){
             //同意退款
@@ -380,7 +385,9 @@ public class AdministratorServiceImpl implements AdministratorService{
     public JSONObject getRefund(Long number) {
         JSONObject jsonObject = new JSONObject();
         Orders orders = ordersMapper.selectById(number);
-        Refund refund = refundMapper.selectById(number);
+        QueryWrapper<Refund> wrapper = new QueryWrapper<>();
+        wrapper.eq("number",number);
+        Refund refund = refundMapper.selectOne(wrapper);
         if(orders == null || refund == null){
             log.warn("获取退款订单信息失败，订单或退款信息不存在：" + number);
             jsonObject.put("getRefundStatus","existWrong");
@@ -391,8 +398,10 @@ public class AdministratorServiceImpl implements AdministratorService{
             log.warn("处理退款失败，订单状态不符合要求：" + orders.getStatus());
             jsonObject.put("getRefundStatus","statusWrong");
         }else{
-            //状态没问题
-            RefundMsg refundMsg = new RefundMsg(refund.getNumber(),refund.getToId(),orders.getFromId(),refund.getMoney(),
+            //状态没问题，获取用户信息
+            User user = userMapper.selectUser(orders.getFromId());
+            User user1 = userMapper.selectUser(orders.getToId());
+            RefundMsg refundMsg = new RefundMsg(refund.getNumber(),refund.getToId(),user1.getUsername(),orders.getFromId(),user.getUsername(),refund.getMoney(),
                     refund.getReason(),refund.getDescription(),refund.getPhoto(),refund.getCreateTime());
             jsonObject.put("refund",refundMsg);
             log.info("获取退款信息成功：" + refundMsg.toString());

@@ -1,46 +1,47 @@
-2021-04-25 13:05:17.368  INFO 15424 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 15424 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
-2021-04-25 13:05:17.398  INFO 15424 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
-2021-04-25 13:05:25.673  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.690  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.692  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.694  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.696  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.698  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.700  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.702  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.703  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.704  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.705  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.706  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.707  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.708  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.709  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:05:25.712  WARN 15424 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
-2021-04-25 13:05:28.161  INFO 15424 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
-2021-04-25 13:05:28.178  INFO 15424 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2021-04-25 13:05:28.415  INFO 15424 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 186 ms. Found 0 Redis repository interfaces.
-2021-04-25 13:05:30.480  INFO 15424 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@1537e43' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-04-25 13:05:30.641  INFO 15424 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-04-25 13:05:34.603  INFO 15424 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
-2021-04-25 13:05:34.957  INFO 15424 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
-2021-04-25 13:05:37.152  INFO 15424 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
-2021-04-25 13:05:50.913  INFO 15424 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
-2021-04-25 13:05:52.809  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
-2021-04-25 13:05:52.813  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
-2021-04-25 13:05:52.816  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
-2021-04-25 13:05:52.817  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
-2021-04-25 13:05:52.818  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
-2021-04-25 13:05:52.819  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
-2021-04-25 13:05:52.820  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
-2021-04-25 13:05:52.821  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
-2021-04-25 13:05:53.842  INFO 15424 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2021-04-25 13:05:54.713  INFO 15424 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@544300a6, org.springframework.security.web.context.SecurityContextPersistenceFilter@da11873, org.springframework.security.web.header.HeaderWriterFilter@1ea19c97, org.springframework.web.filter.CorsFilter@4c12f54a, org.springframework.security.web.authentication.logout.LogoutFilter@29d563bd, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3911fec8, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@3794b7b1, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@334d825c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@43b2e7db, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@495f7ca4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@42a7e7e1, org.springframework.security.web.session.SessionManagementFilter@36857d32, org.springframework.security.web.access.ExceptionTranslationFilter@64908ab9, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@240df292]
-2021-04-25 13:05:55.966  INFO 15424 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2021-04-25 13:05:58.318  INFO 15424 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
-2021-04-25 13:05:58.379  INFO 15424 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2021-04-25 13:05:58.380  INFO 15424 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
-2021-04-25 13:05:58.384  INFO 15424 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
-2021-04-25 13:05:58.387  INFO 15424 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2021-04-27 14:56:33.639  INFO 7468 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 7468 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 14:56:33.660  INFO 7468 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 14:56:37.747  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.757  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.758  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.760  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.760  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.761  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.761  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.763  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.764  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.765  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.766  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.766  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.766  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.767  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.767  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.768  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:56:37.769  WARN 7468 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 14:56:39.114  INFO 7468 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 14:56:39.123  INFO 7468 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 14:56:39.296  INFO 7468 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 135 ms. Found 0 Redis repository interfaces.
+2021-04-27 14:56:41.237  INFO 7468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@77aea' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 14:56:41.341  INFO 7468 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 14:56:44.445  INFO 7468 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 14:56:44.769  INFO 7468 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 14:56:46.159  INFO 7468 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 14:56:53.190  INFO 7468 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 14:56:54.636  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 14:56:54.637  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 14:56:54.639  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 14:56:54.640  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 14:56:54.641  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 14:56:54.642  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 14:56:54.643  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 14:56:54.643  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 14:56:55.800  INFO 7468 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 14:56:56.859  INFO 7468 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7aa1fb0e, org.springframework.security.web.context.SecurityContextPersistenceFilter@aaa7000, org.springframework.security.web.header.HeaderWriterFilter@da11873, org.springframework.web.filter.CorsFilter@5e663ab, org.springframework.security.web.authentication.logout.LogoutFilter@35d3202b, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@e2d9923, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@669daa93, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@4b74a67a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@102c24d1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1be427b4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4e25282d, org.springframework.security.web.session.SessionManagementFilter@43b2e7db, org.springframework.security.web.access.ExceptionTranslationFilter@64cdc310, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@67b09e34]
+2021-04-27 14:56:57.944  INFO 7468 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 14:57:00.149  INFO 7468 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 14:57:00.202  INFO 7468 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 14:57:00.205  INFO 7468 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 14:57:00.209  INFO 7468 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 14:57:00.213  INFO 7468 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -48,69 +49,72 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2021-04-25 13:05:58.388  INFO 15424 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2021-04-25 13:05:58.388  INFO 15424 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
-2021-04-25 13:05:58.389  INFO 15424 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@5f3c866c
-2021-04-25 13:05:58.536  INFO 15424 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
-2021-04-25 13:05:58.893  INFO 15424 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2021-04-25 13:05:59.018  INFO 15424 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2021-04-25 13:05:59.329  INFO 15424 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2021-04-25 13:06:00.375  INFO 15424 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
-2021-04-25 13:06:00.994  INFO 15424 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
-2021-04-25 13:06:00.995  INFO 15424 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2021-04-25 13:06:01.043  INFO 15424 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 45.474 seconds (JVM running for 50.565)
-2021-04-25 13:06:02.617  INFO 15424 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2021-04-25 13:06:02.620  INFO 15424 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
-2021-04-25 13:06:02.622  INFO 15424 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
-2021-04-25 13:06:02.623  INFO 15424 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
-2021-04-25 13:06:02.624  INFO 15424 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2021-04-25 13:06:02.625  INFO 15424 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
-2021-04-25 13:06:02.630  INFO 15424 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
-2021-04-25 13:06:02.639  INFO 15424 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
-2021-04-25 13:06:02.660  INFO 15424 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
-2021-04-25 13:06:41.948  INFO 21044 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 21044 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
-2021-04-25 13:06:41.953  INFO 21044 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
-2021-04-25 13:06:46.001  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.003  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.005  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.005  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.005  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.006  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.007  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.008  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.009  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.009  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.009  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.010  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.011  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.012  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.014  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:06:46.014  WARN 21044 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
-2021-04-25 13:06:47.430  INFO 21044 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
-2021-04-25 13:06:47.444  INFO 21044 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2021-04-25 13:06:47.668  INFO 21044 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 180 ms. Found 0 Redis repository interfaces.
-2021-04-25 13:06:49.486  INFO 21044 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@79e10fb4' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-04-25 13:06:49.596  INFO 21044 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-04-25 13:06:52.604  INFO 21044 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
-2021-04-25 13:06:52.889  INFO 21044 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
-2021-04-25 13:06:54.386  INFO 21044 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
-2021-04-25 13:07:01.378  INFO 21044 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
-2021-04-25 13:07:02.946  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
-2021-04-25 13:07:02.948  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
-2021-04-25 13:07:02.949  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
-2021-04-25 13:07:02.951  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
-2021-04-25 13:07:02.951  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
-2021-04-25 13:07:02.952  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
-2021-04-25 13:07:02.952  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
-2021-04-25 13:07:02.952  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
-2021-04-25 13:07:03.945  INFO 21044 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2021-04-25 13:07:04.837  INFO 21044 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5693d1d2, org.springframework.security.web.context.SecurityContextPersistenceFilter@5b80b41d, org.springframework.security.web.header.HeaderWriterFilter@3ebc6d8b, org.springframework.web.filter.CorsFilter@571c7572, org.springframework.security.web.authentication.logout.LogoutFilter@57ab4b33, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@758311ed, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@747e8659, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@c6a3f47, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@478fe415, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@673605ef, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@15a0f9, org.springframework.security.web.session.SessionManagementFilter@1fa44f66, org.springframework.security.web.access.ExceptionTranslationFilter@3fcc7f5c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@27575bcd]
-2021-04-25 13:07:05.946  INFO 21044 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2021-04-25 13:07:08.151  INFO 21044 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
-2021-04-25 13:07:08.191  INFO 21044 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2021-04-25 13:07:08.192  INFO 21044 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
-2021-04-25 13:07:08.194  INFO 21044 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
-2021-04-25 13:07:08.197  INFO 21044 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2021-04-27 14:57:00.214  INFO 7468 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 14:57:00.215  INFO 7468 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 14:57:00.216  INFO 7468 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@743f58c3
+2021-04-27 14:57:00.338  INFO 7468 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 14:57:00.851  INFO 7468 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 14:57:00.968  INFO 7468 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 14:57:01.193  INFO 7468 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 14:57:02.152  INFO 7468 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 14:57:02.706  INFO 7468 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 14:57:02.709  INFO 7468 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 14:57:02.784  INFO 7468 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 30.384 seconds (JVM running for 34.504)
+2021-04-27 14:57:04.372  INFO 7468 --- [main] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-27 14:57:04.374  INFO 7468 --- [main] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-27 14:57:04.862  INFO 7468 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 14:57:04.865  INFO 7468 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 14:57:04.873  INFO 7468 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 14:57:04.874  INFO 7468 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 14:57:04.876  INFO 7468 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 14:57:04.879  INFO 7468 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 14:57:04.886  INFO 7468 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 14:57:04.902  INFO 7468 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 14:57:04.935  INFO 7468 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 14:58:06.092  INFO 26308 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 26308 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 14:58:06.098  INFO 26308 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 14:58:09.983  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.984  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.985  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.987  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.987  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.987  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.988  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.989  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.989  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.989  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.989  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.990  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.990  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.990  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.991  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.992  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:58:09.992  WARN 26308 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 14:58:11.338  INFO 26308 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 14:58:11.348  INFO 26308 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 14:58:11.533  INFO 26308 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 144 ms. Found 0 Redis repository interfaces.
+2021-04-27 14:58:13.358  INFO 26308 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@65bd19bf' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 14:58:13.427  INFO 26308 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 14:58:16.360  INFO 26308 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 14:58:16.789  INFO 26308 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 14:58:18.585  INFO 26308 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 14:58:25.704  INFO 26308 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 14:58:27.312  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 14:58:27.320  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 14:58:27.323  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 14:58:27.325  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 14:58:27.328  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 14:58:27.329  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 14:58:27.329  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 14:58:27.330  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 14:58:28.459  INFO 26308 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 14:58:29.360  INFO 26308 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@626b9092, org.springframework.security.web.context.SecurityContextPersistenceFilter@2ae88712, org.springframework.security.web.header.HeaderWriterFilter@510a2c7, org.springframework.web.filter.CorsFilter@1ac2829e, org.springframework.security.web.authentication.logout.LogoutFilter@7f53a31f, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6bd28e4a, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@65698020, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@7a7f2247, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@39159b14, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@58d79479, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4946dfde, org.springframework.security.web.session.SessionManagementFilter@525b9df4, org.springframework.security.web.access.ExceptionTranslationFilter@3e8fe7db, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@418bdde9]
+2021-04-27 14:58:30.396  INFO 26308 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 14:58:32.419  INFO 26308 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 14:58:32.459  INFO 26308 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 14:58:32.460  INFO 26308 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 14:58:32.463  INFO 26308 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 14:58:32.465  INFO 26308 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -118,74 +122,72 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2021-04-25 13:07:08.198  INFO 21044 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2021-04-25 13:07:08.199  INFO 21044 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
-2021-04-25 13:07:08.200  INFO 21044 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@63d14dbf
-2021-04-25 13:07:08.327  INFO 21044 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
-2021-04-25 13:07:08.673  INFO 21044 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2021-04-25 13:07:08.819  INFO 21044 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2021-04-25 13:07:09.065  INFO 21044 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2021-04-25 13:07:09.883  INFO 21044 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
-2021-04-25 13:07:10.330  INFO 21044 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
-2021-04-25 13:07:10.332  INFO 21044 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2021-04-25 13:07:10.368  INFO 21044 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 29.751 seconds (JVM running for 34.237)
-2021-04-25 13:07:11.856  INFO 21044 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2021-04-25 13:07:11.859  INFO 21044 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
-2021-04-25 13:07:11.862  INFO 21044 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
-2021-04-25 13:07:11.863  INFO 21044 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
-2021-04-25 13:07:11.864  INFO 21044 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
-2021-04-25 13:07:11.865  INFO 21044 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
-2021-04-25 13:07:11.870  INFO 21044 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
-2021-04-25 13:07:11.883  INFO 21044 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
-2021-04-25 13:07:11.921  INFO 21044 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
-2021-04-25 13:21:34.603  INFO 3700 --- [main] com.west2xianyu.West2xianyuApplication   : Starting West2xianyuApplication using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 3700 (C:\Users\10060\IdeaProjects\west2xianyu\target\classes started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
-2021-04-25 13:21:34.620  INFO 3700 --- [main] com.west2xianyu.West2xianyuApplication   : The following profiles are active: dev
-2021-04-25 13:21:41.619  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.621  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.623  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.624  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.626  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.627  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.629  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.630  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.630  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.631  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.631  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.632  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.633  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.635  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.637  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
-2021-04-25 13:21:41.638  WARN 3700 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
-2021-04-25 13:21:43.143  INFO 3700 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
-2021-04-25 13:21:43.155  INFO 3700 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
-2021-04-25 13:21:43.392  INFO 3700 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 189 ms. Found 0 Redis repository interfaces.
-2021-04-25 13:21:44.778  INFO 3700 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@73bb1337' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-04-25 13:21:44.821  INFO 3700 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2021-04-25 13:21:47.476  INFO 3700 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8082 (http)
-2021-04-25 13:21:47.526  INFO 3700 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2021-04-25 13:21:47.528  INFO 3700 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.44]
-2021-04-25 13:21:48.142  INFO 3700 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2021-04-25 13:21:48.144  INFO 3700 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 12767 ms
-2021-04-25 13:21:49.984  INFO 3700 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
-2021-04-25 13:21:50.286  INFO 3700 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
-2021-04-25 13:21:51.356  INFO 3700 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
-2021-04-25 13:21:58.735  INFO 3700 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
-2021-04-25 13:21:59.660  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
-2021-04-25 13:21:59.662  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
-2021-04-25 13:21:59.665  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
-2021-04-25 13:21:59.665  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
-2021-04-25 13:21:59.667  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
-2021-04-25 13:21:59.669  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
-2021-04-25 13:21:59.670  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
-2021-04-25 13:21:59.671  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
-2021-04-25 13:21:59.885  INFO 3700 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2021-04-25 13:22:00.452  INFO 3700 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@74cff17c, org.springframework.security.web.context.SecurityContextPersistenceFilter@6f95654c, org.springframework.security.web.header.HeaderWriterFilter@73ff7a54, org.springframework.web.filter.CorsFilter@7a053795, org.springframework.security.web.authentication.logout.LogoutFilter@3fecb076, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@29a50a11, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@59b3f162, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@328bc067, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@74c23525, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4ef28dc4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@337fb1a5, org.springframework.security.web.session.SessionManagementFilter@337c0ee4, org.springframework.security.web.access.ExceptionTranslationFilter@2c451c4a, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6d41200c]
-2021-04-25 13:22:00.938  INFO 3700 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2021-04-25 13:22:02.997  INFO 3700 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
-2021-04-25 13:22:03.067  INFO 3700 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
-2021-04-25 13:22:03.069  INFO 3700 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
-2021-04-25 13:22:03.074  INFO 3700 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
-2021-04-25 13:22:03.081  INFO 3700 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+2021-04-27 14:58:32.466  INFO 26308 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 14:58:32.466  INFO 26308 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 14:58:32.467  INFO 26308 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@53fd59d4
+2021-04-27 14:58:32.554  INFO 26308 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 14:58:32.841  INFO 26308 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 14:58:32.959  INFO 26308 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 14:58:33.154  INFO 26308 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 14:58:33.955  INFO 26308 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 14:58:34.401  INFO 26308 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 14:58:34.402  INFO 26308 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 14:58:34.460  INFO 26308 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 29.664 seconds (JVM running for 34.433)
+2021-04-27 14:58:35.949  INFO 26308 --- [main] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-27 14:58:35.951  INFO 26308 --- [main] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-27 14:58:36.263  INFO 26308 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 14:58:36.265  INFO 26308 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 14:58:36.267  INFO 26308 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 14:58:36.268  INFO 26308 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 14:58:36.269  INFO 26308 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 14:58:36.269  INFO 26308 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 14:58:36.272  INFO 26308 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 14:58:36.288  INFO 26308 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 14:58:36.312  INFO 26308 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 14:59:24.658  INFO 16160 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 16160 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 14:59:24.662  INFO 16160 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 14:59:29.025  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.026  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.028  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.028  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.029  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.029  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.030  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.031  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.031  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.032  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.032  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.033  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.033  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.034  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.035  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.035  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 14:59:29.036  WARN 16160 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 14:59:30.426  INFO 16160 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 14:59:30.442  INFO 16160 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 14:59:30.686  INFO 16160 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 189 ms. Found 0 Redis repository interfaces.
+2021-04-27 14:59:32.481  INFO 16160 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@7d7ceca8' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 14:59:32.554  INFO 16160 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 14:59:35.227  INFO 16160 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 14:59:35.636  INFO 16160 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 14:59:37.181  INFO 16160 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 14:59:44.306  INFO 16160 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 14:59:45.960  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 14:59:45.963  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 14:59:45.965  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 14:59:45.966  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 14:59:45.967  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 14:59:45.968  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 14:59:45.969  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 14:59:45.971  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 14:59:47.148  INFO 16160 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 14:59:48.331  INFO 16160 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@59bbf82e, org.springframework.security.web.context.SecurityContextPersistenceFilter@64cdc310, org.springframework.security.web.header.HeaderWriterFilter@64908ab9, org.springframework.web.filter.CorsFilter@75b3ef1a, org.springframework.security.web.authentication.logout.LogoutFilter@5d84b088, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@303db609, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@530df3ab, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@43e2b8da, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@14fe085b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@da11873, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1ac68548, org.springframework.security.web.session.SessionManagementFilter@14e83c9d, org.springframework.security.web.access.ExceptionTranslationFilter@4b360a82, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7348e75e]
+2021-04-27 14:59:49.507  INFO 16160 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 14:59:51.713  INFO 16160 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 14:59:51.765  INFO 16160 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 14:59:51.767  INFO 16160 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 14:59:51.771  INFO 16160 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 14:59:51.774  INFO 16160 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
   Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
   NOT STARTED.
   Currently in standby mode.
@@ -193,15 +195,603 @@
   Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
   Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
 
-2021-04-25 13:22:03.083  INFO 3700 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
-2021-04-25 13:22:03.084  INFO 3700 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
-2021-04-25 13:22:03.084  INFO 3700 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@7575f7e1
-2021-04-25 13:22:03.117  INFO 3700 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
-2021-04-25 13:22:03.814  INFO 3700 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8082 (http) with context path ''
-2021-04-25 13:22:03.821  INFO 3700 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
-2021-04-25 13:22:04.007  INFO 3700 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
-2021-04-25 13:22:04.493  INFO 3700 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
-2021-04-25 13:22:06.005  INFO 3700 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
-2021-04-25 13:22:06.940  INFO 3700 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
-2021-04-25 13:22:06.944  INFO 3700 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
-2021-04-25 13:22:07.049  INFO 3700 --- [main] com.west2xianyu.West2xianyuApplication   : Started West2xianyuApplication in 34.57 seconds (JVM running for 38.376)
+2021-04-27 14:59:51.776  INFO 16160 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 14:59:51.776  INFO 16160 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 14:59:51.792  INFO 16160 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@73839f22
+2021-04-27 14:59:51.937  INFO 16160 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 14:59:52.297  INFO 16160 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 14:59:52.414  INFO 16160 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 14:59:52.701  INFO 16160 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 14:59:53.695  INFO 16160 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 14:59:54.279  INFO 16160 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 14:59:54.280  INFO 16160 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 14:59:54.337  INFO 16160 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 31.187 seconds (JVM running for 36.071)
+2021-04-27 14:59:56.024  INFO 16160 --- [main] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-27 14:59:56.026  INFO 16160 --- [main] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-27 14:59:56.450  INFO 16160 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 14:59:56.459  INFO 16160 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 14:59:56.462  INFO 16160 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 14:59:56.464  INFO 16160 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 14:59:56.465  INFO 16160 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 14:59:56.467  INFO 16160 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 14:59:56.474  INFO 16160 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 14:59:56.496  INFO 16160 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 14:59:56.537  INFO 16160 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 15:06:42.228  INFO 17800 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 17800 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 15:06:42.231  INFO 17800 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 15:06:46.038  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.039  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.041  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.041  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.042  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.042  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.043  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.044  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.044  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.045  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.045  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.045  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.046  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.046  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.047  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.048  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:06:46.049  WARN 17800 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 15:06:47.343  INFO 17800 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 15:06:47.358  INFO 17800 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 15:06:47.547  INFO 17800 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 143 ms. Found 0 Redis repository interfaces.
+2021-04-27 15:06:49.157  INFO 17800 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@65bd19bf' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:06:49.228  INFO 17800 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:06:52.238  INFO 17800 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 15:06:52.646  INFO 17800 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 15:06:54.128  INFO 17800 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 15:07:01.148  INFO 17800 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 15:07:02.591  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 15:07:02.593  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 15:07:02.595  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 15:07:02.596  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 15:07:02.598  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 15:07:02.599  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 15:07:02.599  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 15:07:02.600  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 15:07:03.672  INFO 17800 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 15:07:04.639  INFO 17800 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@544300a6, org.springframework.security.web.context.SecurityContextPersistenceFilter@1b06dc57, org.springframework.security.web.header.HeaderWriterFilter@3539cf45, org.springframework.web.filter.CorsFilter@4c12f54a, org.springframework.security.web.authentication.logout.LogoutFilter@1fc8047f, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@3911fec8, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@10508ba6, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@334d825c, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@744db9fb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@525b9df4, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@42a7e7e1, org.springframework.security.web.session.SessionManagementFilter@45375bdf, org.springframework.security.web.access.ExceptionTranslationFilter@673605ef, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@4023d23f]
+2021-04-27 15:07:05.713  INFO 17800 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:07:07.843  INFO 17800 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 15:07:07.899  INFO 17800 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 15:07:07.901  INFO 17800 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 15:07:07.905  INFO 17800 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 15:07:07.908  INFO 17800 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-27 15:07:07.910  INFO 17800 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 15:07:07.910  INFO 17800 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 15:07:07.911  INFO 17800 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@39a03ccc
+2021-04-27 15:07:08.034  INFO 17800 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 15:07:08.358  INFO 17800 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 15:07:08.470  INFO 17800 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 15:07:08.719  INFO 17800 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 15:07:09.514  INFO 17800 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 15:07:09.931  INFO 17800 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 15:07:09.932  INFO 17800 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 15:07:09.979  INFO 17800 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 28.977 seconds (JVM running for 33.255)
+2021-04-27 15:07:11.587  INFO 17800 --- [main] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-27 15:07:11.590  INFO 17800 --- [main] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-27 15:07:11.891  INFO 17800 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:07:11.895  INFO 17800 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 15:07:11.896  INFO 17800 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 15:07:11.898  INFO 17800 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 15:07:11.898  INFO 17800 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:07:11.899  INFO 17800 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 15:07:11.902  INFO 17800 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:07:11.917  INFO 17800 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 15:07:11.940  INFO 17800 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 15:07:50.415  INFO 12436 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 12436 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 15:07:50.420  INFO 12436 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 15:07:54.280  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.281  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.282  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.283  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.283  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.284  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.285  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.286  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.286  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.286  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.286  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.286  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.287  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.287  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.288  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.289  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:07:54.290  WARN 12436 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 15:07:55.724  INFO 12436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 15:07:55.736  INFO 12436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 15:07:55.941  INFO 12436 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 158 ms. Found 0 Redis repository interfaces.
+2021-04-27 15:07:57.779  INFO 12436 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@74697863' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:07:57.842  INFO 12436 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:08:00.723  INFO 12436 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 15:08:01.073  INFO 12436 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 15:08:02.425  INFO 12436 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 15:08:09.312  INFO 12436 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 15:08:10.811  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 15:08:10.814  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 15:08:10.816  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 15:08:10.816  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 15:08:10.818  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 15:08:10.818  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 15:08:10.819  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 15:08:10.819  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 15:08:11.897  INFO 12436 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 15:08:12.843  INFO 12436 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@761b9314, org.springframework.security.web.context.SecurityContextPersistenceFilter@14e83c9d, org.springframework.security.web.header.HeaderWriterFilter@556a6320, org.springframework.web.filter.CorsFilter@20e9c165, org.springframework.security.web.authentication.logout.LogoutFilter@3fb1948c, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@7fcfe065, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@39159b14, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@eabecf5, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31940d6b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@36857d32, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@417b3642, org.springframework.security.web.session.SessionManagementFilter@62e586a6, org.springframework.security.web.access.ExceptionTranslationFilter@6c1a6db1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1a4ae53d]
+2021-04-27 15:08:13.900  INFO 12436 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:08:16.011  INFO 12436 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 15:08:16.084  INFO 12436 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 15:08:16.086  INFO 12436 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 15:08:16.090  INFO 12436 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 15:08:16.094  INFO 12436 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-27 15:08:16.096  INFO 12436 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 15:08:16.096  INFO 12436 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 15:08:16.097  INFO 12436 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@89178b4
+2021-04-27 15:08:16.232  INFO 12436 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 15:08:16.564  INFO 12436 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 15:08:16.692  INFO 12436 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 15:08:16.931  INFO 12436 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 15:08:17.886  INFO 12436 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 15:08:18.314  INFO 12436 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 15:08:18.315  INFO 12436 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 15:08:18.373  INFO 12436 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 29.255 seconds (JVM running for 33.684)
+2021-04-27 15:08:19.867  INFO 12436 --- [main] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-27 15:08:19.868  INFO 12436 --- [main] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-27 15:08:20.193  INFO 12436 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:08:20.196  INFO 12436 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 15:08:20.198  INFO 12436 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 15:08:20.202  INFO 12436 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 15:08:20.202  INFO 12436 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:08:20.202  INFO 12436 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 15:08:20.205  INFO 12436 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:08:20.217  INFO 12436 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 15:08:20.249  INFO 12436 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 15:09:41.262  INFO 12872 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 12872 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 15:09:41.267  INFO 12872 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 15:09:45.061  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.062  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.065  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.066  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.066  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.067  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.069  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.069  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.070  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.070  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.070  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.070  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.071  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.071  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.072  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.073  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:09:45.073  WARN 12872 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 15:09:46.415  INFO 12872 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 15:09:46.427  INFO 12872 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 15:09:46.611  INFO 12872 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 144 ms. Found 0 Redis repository interfaces.
+2021-04-27 15:09:48.431  INFO 12872 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@2bba35ef' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:09:48.502  INFO 12872 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:09:51.649  INFO 12872 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 15:09:52.034  INFO 12872 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 15:09:53.382  INFO 12872 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 15:10:00.378  INFO 12872 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 15:10:01.868  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 15:10:01.871  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 15:10:01.873  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 15:10:01.874  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 15:10:01.877  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 15:10:01.878  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 15:10:01.878  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 15:10:01.879  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 15:10:02.967  INFO 12872 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 15:10:03.965  INFO 12872 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1ac68548, org.springframework.security.web.context.SecurityContextPersistenceFilter@31940d6b, org.springframework.security.web.header.HeaderWriterFilter@62e586a6, org.springframework.web.filter.CorsFilter@1c3a64b6, org.springframework.security.web.authentication.logout.LogoutFilter@6e225c34, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@a238a8e, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@46d51d5e, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@761b9314, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@510a2c7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@10508ba6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@20e9c165, org.springframework.security.web.session.SessionManagementFilter@5af641d3, org.springframework.security.web.access.ExceptionTranslationFilter@747e8659, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3ee68eb2]
+2021-04-27 15:10:05.100  INFO 12872 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:10:07.153  INFO 12872 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 15:10:07.207  INFO 12872 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 15:10:07.210  INFO 12872 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 15:10:07.214  INFO 12872 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 15:10:07.217  INFO 12872 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-27 15:10:07.219  INFO 12872 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 15:10:07.220  INFO 12872 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 15:10:07.220  INFO 12872 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@e21d73
+2021-04-27 15:10:07.371  INFO 12872 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 15:10:07.726  INFO 12872 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 15:10:07.849  INFO 12872 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 15:10:08.090  INFO 12872 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 15:10:08.888  INFO 12872 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 15:10:09.356  INFO 12872 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 15:10:09.357  INFO 12872 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 15:10:09.414  INFO 12872 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 29.387 seconds (JVM running for 33.903)
+2021-04-27 15:10:11.039  INFO 12872 --- [main] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-27 15:10:11.041  INFO 12872 --- [main] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-27 15:10:11.344  INFO 12872 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:10:11.347  INFO 12872 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 15:10:11.349  INFO 12872 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 15:10:11.350  INFO 12872 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 15:10:11.351  INFO 12872 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:10:11.351  INFO 12872 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 15:10:11.354  INFO 12872 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:10:11.372  INFO 12872 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 15:10:11.396  INFO 12872 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 15:11:09.913  INFO 21188 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 21188 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 15:11:09.919  INFO 21188 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 15:11:13.778  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.780  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.782  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.783  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.784  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.785  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.787  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.787  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.788  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.789  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.790  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.791  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.791  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.791  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.793  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.794  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:11:13.794  WARN 21188 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 15:11:15.112  INFO 21188 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 15:11:15.129  INFO 21188 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 15:11:15.351  INFO 21188 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 158 ms. Found 0 Redis repository interfaces.
+2021-04-27 15:11:17.328  INFO 21188 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@65bd19bf' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:11:17.412  INFO 21188 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:11:20.461  INFO 21188 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 15:11:20.818  INFO 21188 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 15:11:22.150  INFO 21188 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 15:11:29.328  INFO 21188 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 15:11:30.776  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 15:11:30.778  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 15:11:30.780  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 15:11:30.781  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 15:11:30.783  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 15:11:30.784  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 15:11:30.785  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 15:11:30.785  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 15:11:31.888  INFO 21188 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 15:11:32.862  INFO 21188 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7d2baa56, org.springframework.security.web.context.SecurityContextPersistenceFilter@7d563c13, org.springframework.security.web.header.HeaderWriterFilter@1b06dc57, org.springframework.web.filter.CorsFilter@6b4a2887, org.springframework.security.web.authentication.logout.LogoutFilter@69c0bae6, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@c31419f, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@5e72c82a, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@23b087c3, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1ea19c97, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@39159b14, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@237c8718, org.springframework.security.web.session.SessionManagementFilter@744db9fb, org.springframework.security.web.access.ExceptionTranslationFilter@75fa9254, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@27e3dc9a]
+2021-04-27 15:11:33.928  INFO 21188 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:11:36.163  INFO 21188 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 15:11:36.202  INFO 21188 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 15:11:36.204  INFO 21188 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 15:11:36.207  INFO 21188 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 15:11:36.211  INFO 21188 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-27 15:11:36.212  INFO 21188 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 15:11:36.212  INFO 21188 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 15:11:36.212  INFO 21188 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@64245ca9
+2021-04-27 15:11:36.336  INFO 21188 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 15:11:36.713  INFO 21188 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 15:11:36.874  INFO 21188 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 15:11:37.207  INFO 21188 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 15:11:38.184  INFO 21188 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 15:11:38.709  INFO 21188 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 15:11:38.711  INFO 21188 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 15:11:38.800  INFO 21188 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 30.086 seconds (JVM running for 34.534)
+2021-04-27 15:11:40.239  INFO 21188 --- [main] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-27 15:11:40.241  INFO 21188 --- [main] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-27 15:11:40.572  INFO 21188 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:11:40.579  INFO 21188 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 15:11:40.582  INFO 21188 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 15:11:40.584  INFO 21188 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 15:11:40.585  INFO 21188 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:11:40.586  INFO 21188 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 15:11:40.591  INFO 21188 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:11:40.628  INFO 21188 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 15:11:40.681  INFO 21188 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 15:14:36.079  INFO 21100 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 21100 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 15:14:36.084  INFO 21100 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 15:14:40.050  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.052  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.053  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.054  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.054  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.055  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.056  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.057  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.057  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.057  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.057  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.057  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.058  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.058  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.059  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.060  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:14:40.060  WARN 21100 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 15:14:41.359  INFO 21100 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 15:14:41.372  INFO 21100 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 15:14:41.563  INFO 21100 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 150 ms. Found 0 Redis repository interfaces.
+2021-04-27 15:14:43.155  INFO 21100 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@5d2a86c0' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:14:43.224  INFO 21100 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:14:46.232  INFO 21100 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 15:14:46.580  INFO 21100 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 15:14:48.034  INFO 21100 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 15:14:55.291  INFO 21100 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 15:14:56.860  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 15:14:56.864  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 15:14:56.871  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 15:14:56.873  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 15:14:56.877  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 15:14:56.877  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 15:14:56.878  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 15:14:56.884  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 15:14:58.033  INFO 21100 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 15:14:58.996  INFO 21100 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@20a116a0, org.springframework.security.web.context.SecurityContextPersistenceFilter@14e83c9d, org.springframework.security.web.header.HeaderWriterFilter@556a6320, org.springframework.web.filter.CorsFilter@6dbdeb69, org.springframework.security.web.authentication.logout.LogoutFilter@3fb1948c, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@c6a3f47, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@39159b14, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@a238a8e, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31940d6b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@36857d32, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5773f83d, org.springframework.security.web.session.SessionManagementFilter@62e586a6, org.springframework.security.web.access.ExceptionTranslationFilter@6c1a6db1, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1a4ae53d]
+2021-04-27 15:15:00.100  INFO 21100 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:15:02.137  INFO 21100 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 15:15:02.182  INFO 21100 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 15:15:02.184  INFO 21100 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 15:15:02.187  INFO 21100 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 15:15:02.190  INFO 21100 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-27 15:15:02.191  INFO 21100 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 15:15:02.192  INFO 21100 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 15:15:02.192  INFO 21100 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@4d3bde85
+2021-04-27 15:15:02.332  INFO 21100 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 15:15:02.666  INFO 21100 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 15:15:02.796  INFO 21100 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 15:15:03.034  INFO 21100 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 15:15:03.935  INFO 21100 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 15:15:04.397  INFO 21100 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 15:15:04.398  INFO 21100 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 15:15:04.460  INFO 21100 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 29.668 seconds (JVM running for 34.07)
+2021-04-27 15:15:05.994  INFO 21100 --- [main] c.w.handler.MybatisPlusHandler           : 正在插入数据并更新时间字段
+2021-04-27 15:15:05.996  INFO 21100 --- [main] c.w.handler.MybatisPlusHandler           : 插入数据并更新时间字段成功
+2021-04-27 15:15:06.312  INFO 21100 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:15:06.316  INFO 21100 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 15:15:06.317  INFO 21100 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 15:15:06.319  INFO 21100 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 15:15:06.320  INFO 21100 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:15:06.322  INFO 21100 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 15:15:06.326  INFO 21100 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:15:06.341  INFO 21100 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 15:15:06.369  INFO 21100 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 15:33:57.092  INFO 15564 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 15564 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 15:33:57.100  INFO 15564 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 15:34:01.086  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.088  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.089  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.090  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.091  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.091  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.092  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.093  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.093  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.094  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.094  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.094  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.094  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.094  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.095  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.096  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 15:34:01.097  WARN 15564 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 15:34:02.368  INFO 15564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 15:34:02.381  INFO 15564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 15:34:02.656  INFO 15564 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 196 ms. Found 0 Redis repository interfaces.
+2021-04-27 15:34:04.499  INFO 15564 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@5d2a86c0' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:34:04.578  INFO 15564 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 15:34:07.750  INFO 15564 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 15:34:08.108  INFO 15564 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 15:34:09.582  INFO 15564 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 15:34:16.746  INFO 15564 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 15:34:18.703  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 15:34:18.705  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 15:34:18.709  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 15:34:18.711  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 15:34:18.713  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 15:34:18.714  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 15:34:18.715  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 15:34:18.715  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 15:34:20.063  INFO 15564 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 15:34:21.247  INFO 15564 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1c3a64b6, org.springframework.security.web.context.SecurityContextPersistenceFilter@62e586a6, org.springframework.security.web.header.HeaderWriterFilter@6f69e2d8, org.springframework.web.filter.CorsFilter@761b9314, org.springframework.security.web.authentication.logout.LogoutFilter@3d2b13f, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5773f83d, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@24520a51, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@20e9c165, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5af641d3, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@14fe085b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@eabecf5, org.springframework.security.web.session.SessionManagementFilter@7535307c, org.springframework.security.web.access.ExceptionTranslationFilter@6054ac20, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@361d8567]
+2021-04-27 15:34:22.516  INFO 15564 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:34:24.864  INFO 15564 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 15:34:24.926  INFO 15564 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 15:34:24.928  INFO 15564 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 15:34:24.933  INFO 15564 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 15:34:24.936  INFO 15564 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-27 15:34:24.938  INFO 15564 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 15:34:24.938  INFO 15564 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 15:34:24.939  INFO 15564 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@89178b4
+2021-04-27 15:34:25.114  INFO 15564 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 15:34:25.579  INFO 15564 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 15:34:25.725  INFO 15564 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 15:34:25.966  INFO 15564 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 15:34:26.936  INFO 15564 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 15:34:27.565  INFO 15564 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 15:34:27.567  INFO 15564 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 15:34:27.630  INFO 15564 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 31.831 seconds (JVM running for 36.109)
+2021-04-27 15:34:29.401  INFO 15564 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:34:29.404  INFO 15564 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 15:34:29.405  INFO 15564 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 15:34:29.407  INFO 15564 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 15:34:29.408  INFO 15564 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 15:34:29.409  INFO 15564 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 15:34:29.412  INFO 15564 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 15:34:29.423  INFO 15564 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 15:34:29.445  INFO 15564 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 18:29:33.732  INFO 24324 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 24324 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 18:29:33.739  INFO 24324 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 18:29:37.344  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.345  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.346  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.346  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.346  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.347  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.348  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.348  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.348  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.349  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.349  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.349  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.349  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.350  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.351  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.351  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:29:37.351  WARN 24324 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 18:29:38.402  INFO 24324 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 18:29:38.416  INFO 24324 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 18:29:38.652  INFO 24324 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 191 ms. Found 0 Redis repository interfaces.
+2021-04-27 18:29:40.097  INFO 24324 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@2bba35ef' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 18:29:40.156  INFO 24324 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 18:29:42.348  INFO 24324 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 18:29:42.620  INFO 24324 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 18:29:43.836  INFO 24324 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 18:29:49.633  INFO 24324 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 18:29:50.806  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 18:29:50.807  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 18:29:50.809  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 18:29:50.809  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 18:29:50.811  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 18:29:50.812  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 18:29:50.812  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 18:29:50.813  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 18:29:51.748  INFO 24324 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 18:29:52.579  INFO 24324 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@43e2b8da, org.springframework.security.web.context.SecurityContextPersistenceFilter@31940d6b, org.springframework.security.web.header.HeaderWriterFilter@62e586a6, org.springframework.web.filter.CorsFilter@1ac68548, org.springframework.security.web.authentication.logout.LogoutFilter@6e225c34, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@6dbdeb69, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@46d51d5e, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@1c3a64b6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@510a2c7, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@10508ba6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@761b9314, org.springframework.security.web.session.SessionManagementFilter@5af641d3, org.springframework.security.web.access.ExceptionTranslationFilter@747e8659, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3ee68eb2]
+2021-04-27 18:29:53.366  INFO 24324 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 18:29:55.051  INFO 24324 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 18:29:55.095  INFO 24324 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 18:29:55.096  INFO 24324 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 18:29:55.099  INFO 24324 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 18:29:55.101  INFO 24324 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-27 18:29:55.103  INFO 24324 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 18:29:55.103  INFO 24324 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 18:29:55.103  INFO 24324 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@363a09a2
+2021-04-27 18:29:55.195  INFO 24324 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 18:29:55.509  INFO 24324 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 18:29:55.643  INFO 24324 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 18:29:55.906  INFO 24324 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 18:29:56.583  INFO 24324 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 18:29:57.049  INFO 24324 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 18:29:57.050  INFO 24324 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 18:29:57.121  INFO 24324 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 24.464 seconds (JVM running for 28.499)
+2021-04-27 18:29:58.618  INFO 24324 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 18:29:58.622  INFO 24324 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 18:29:58.626  INFO 24324 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 18:29:58.627  INFO 24324 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 18:29:58.629  INFO 24324 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 18:29:58.635  INFO 24324 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 18:29:58.638  INFO 24324 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 18:29:58.665  INFO 24324 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 18:29:58.685  INFO 24324 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed
+2021-04-27 18:32:15.247  INFO 16704 --- [main] c.w.West2xianyuApplicationTests          : Starting West2xianyuApplicationTests using Java 15.0.1 on LAPTOP-DBKFOQVO with PID 16704 (started by 10060 in C:\Users\10060\IdeaProjects\west2xianyu)
+2021-04-27 18:32:15.250  INFO 16704 --- [main] c.w.West2xianyuApplicationTests          : The following profiles are active: dev
+2021-04-27 18:32:18.498  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'addressMapper' and 'com.west2xianyu.mapper.AddressMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.500  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentLikesMapper' and 'com.west2xianyu.mapper.CommentLikesMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.501  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'commentMapper' and 'com.west2xianyu.mapper.CommentMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.502  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'evaluateMapper' and 'com.west2xianyu.mapper.EvaluateMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.503  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'fansMapper' and 'com.west2xianyu.mapper.FansMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.503  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'favorMapper' and 'com.west2xianyu.mapper.FavorMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.504  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'feedbackMapper' and 'com.west2xianyu.mapper.FeedbackMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.505  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'goodsMapper' and 'com.west2xianyu.mapper.GoodsMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.506  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'historyMapper' and 'com.west2xianyu.mapper.HistoryMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.506  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'messageMapper' and 'com.west2xianyu.mapper.MessageMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.507  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'ordersMapper' and 'com.west2xianyu.mapper.OrdersMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.507  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'refundMapper' and 'com.west2xianyu.mapper.RefundMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.507  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'roleMapper' and 'com.west2xianyu.mapper.RoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.508  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'shoppingMapper' and 'com.west2xianyu.mapper.ShoppingMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.509  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userMapper' and 'com.west2xianyu.mapper.UserMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.509  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : Skipping MapperFactoryBean with name 'userRoleMapper' and 'com.west2xianyu.mapper.UserRoleMapper' mapperInterface. Bean already defined with the same name!
+2021-04-27 18:32:18.510  WARN 16704 --- [main] o.m.s.mapper.ClassPathMapperScanner      : No MyBatis mapper was found in '[com.west2xianyu.mapper]' package. Please check your configuration.
+2021-04-27 18:32:19.756  INFO 16704 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode!
+2021-04-27 18:32:19.769  INFO 16704 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2021-04-27 18:32:19.977  INFO 16704 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 151 ms. Found 0 Redis repository interfaces.
+2021-04-27 18:32:21.481  INFO 16704 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@65bd19bf' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 18:32:21.538  INFO 16704 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2021-04-27 18:32:23.887  INFO 16704 --- [main] com.west2xianyu.config.RedisConfig       : redis正在序列化
+2021-04-27 18:32:24.160  INFO 16704 --- [main] com.west2xianyu.config.RedisConfig       : redis序列化成功
+2021-04-27 18:32:25.409  INFO 16704 --- [main] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} inited
+2021-04-27 18:32:31.399  INFO 16704 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2021-04-27 18:32:32.543  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-ui.html'] with []
+2021-04-27 18:32:32.544  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/webjars/**'] with []
+2021-04-27 18:32:32.546  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/v2/**'] with []
+2021-04-27 18:32:32.546  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/swagger-resources/**'] with []
+2021-04-27 18:32:32.547  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/yzm.jpg'] with []
+2021-04-27 18:32:32.548  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/payBill/**'] with []
+2021-04-27 18:32:32.548  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/notifyBill/**'] with []
+2021-04-27 18:32:32.549  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure Ant [pattern='/refundBill/**'] with []
+2021-04-27 18:32:33.397  INFO 16704 --- [main] pertySourcedRequestMappingHandlerMapping : Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2021-04-27 18:32:34.235  INFO 16704 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1e38e8b6, org.springframework.security.web.context.SecurityContextPersistenceFilter@744db9fb, org.springframework.security.web.header.HeaderWriterFilter@45375bdf, org.springframework.web.filter.CorsFilter@59bbf82e, org.springframework.security.web.authentication.logout.LogoutFilter@7c39193f, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@7a13ad55, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@57ab4b33, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@75b3ef1a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@64cdc310, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@24520a51, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@43e2b8da, org.springframework.security.web.session.SessionManagementFilter@64908ab9, org.springframework.security.web.access.ExceptionTranslationFilter@5dac6bc3, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1368e2f7]
+2021-04-27 18:32:35.056  INFO 16704 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2021-04-27 18:32:36.780  INFO 16704 --- [main] org.quartz.impl.StdSchedulerFactory      : Using default implementation for ThreadExecutor
+2021-04-27 18:32:36.823  INFO 16704 --- [main] org.quartz.core.SchedulerSignalerImpl    : Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2021-04-27 18:32:36.824  INFO 16704 --- [main] org.quartz.core.QuartzScheduler          : Quartz Scheduler v.2.3.2 created.
+2021-04-27 18:32:36.827  INFO 16704 --- [main] org.quartz.simpl.RAMJobStore             : RAMJobStore initialized.
+2021-04-27 18:32:36.830  INFO 16704 --- [main] org.quartz.core.QuartzScheduler          : Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2021-04-27 18:32:36.831  INFO 16704 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2021-04-27 18:32:36.832  INFO 16704 --- [main] org.quartz.impl.StdSchedulerFactory      : Quartz scheduler version: 2.3.2
+2021-04-27 18:32:36.832  INFO 16704 --- [main] org.quartz.core.QuartzScheduler          : JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@73839f22
+2021-04-27 18:32:36.951  INFO 16704 --- [main] o.s.s.c.ThreadPoolTaskScheduler          : Initializing ExecutorService 'taskScheduler'
+2021-04-27 18:32:37.348  INFO 16704 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Context refreshed
+2021-04-27 18:32:37.465  INFO 16704 --- [main] d.s.w.p.DocumentationPluginsBootstrapper : Found 1 custom documentation plugin(s)
+2021-04-27 18:32:37.686  INFO 16704 --- [main] s.d.s.w.s.ApiListingReferenceScanner     : Scanning for api listing references
+2021-04-27 18:32:38.381  INFO 16704 --- [main] .d.s.w.r.o.CachingOperationNameGenerator : Generating unique operation named: getGoodsListUsingGET_1
+2021-04-27 18:32:38.869  INFO 16704 --- [main] o.s.s.quartz.SchedulerFactoryBean        : Starting Quartz Scheduler now
+2021-04-27 18:32:38.870  INFO 16704 --- [main] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2021-04-27 18:32:38.932  INFO 16704 --- [main] c.w.West2xianyuApplicationTests          : Started West2xianyuApplicationTests in 24.844 seconds (JVM running for 29.065)
+2021-04-27 18:32:40.715  INFO 16704 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 18:32:40.719  INFO 16704 --- [SpringContextShutdownHook] o.s.s.c.ThreadPoolTaskScheduler          : Shutting down ExecutorService 'taskScheduler'
+2021-04-27 18:32:40.721  INFO 16704 --- [SpringContextShutdownHook] o.s.s.quartz.SchedulerFactoryBean        : Shutting down Quartz Scheduler
+2021-04-27 18:32:40.722  INFO 16704 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2021-04-27 18:32:40.724  INFO 16704 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2021-04-27 18:32:40.727  INFO 16704 --- [SpringContextShutdownHook] org.quartz.core.QuartzScheduler          : Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2021-04-27 18:32:40.732  INFO 16704 --- [SpringContextShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2021-04-27 18:32:40.764  INFO 16704 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closing ...
+2021-04-27 18:32:40.795  INFO 16704 --- [SpringContextShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-1} closed

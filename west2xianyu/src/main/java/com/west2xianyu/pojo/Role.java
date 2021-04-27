@@ -1,9 +1,7 @@
 package com.west2xianyu.pojo;
 
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -13,21 +11,25 @@ import lombok.ToString;
 
 import java.util.Date;
 
-@ApiModel(description = "购物车实例类")
+@ApiModel(description = "角色实例类")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Shopping {
+public class Role {
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @ApiModelProperty(value = "闲置物品编号",notes = "和闲置物品编号一致，不是订单编号")
-    private Long number;
+    @ApiModelProperty("角色id编号")
+    private Integer id;
 
-    @ApiModelProperty(value = "用户id")
-    private String id;
+    @ApiModelProperty("角色名")
+    private String roleName;
 
-    @ApiModelProperty(value = "放入购物车时间")
+    @ApiModelProperty("创建日期")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;
+
+    @ApiModelProperty("最近更新日期")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private Date updateTime;
+
 }

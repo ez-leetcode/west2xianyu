@@ -11,7 +11,7 @@ public interface AdministratorService {
 
     JSONObject getAllUser(String keyword,Long cnt,Long page);
 
-    JSONObject getGoodsList(String keyword,Long cnt,Long page);
+    JSONObject getGoodsList(String keyword,Long cnt,Long page,Integer isPass);
 
     JSONObject getAllUser1(int isDeleted,String keyword,Long cnt,Long page);
 
