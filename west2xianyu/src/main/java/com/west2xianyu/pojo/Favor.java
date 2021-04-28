@@ -32,7 +32,6 @@ public class Favor {
     @ApiModelProperty(value = "收藏物品名称",notes = "虽然冗余，但是减少sql次数")
     private String goodsName;
 
-
     @ApiModelProperty(value = "伪删除",notes = "商品冻结后这里也会被更新，这样可以增加sql效率，移除收藏就改为直接删掉")
     @TableLogic
     private Integer deleted;

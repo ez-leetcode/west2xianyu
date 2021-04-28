@@ -412,6 +412,57 @@ public class OrderServiceImpl implements OrderService{
 
 
     @Override
+    public String judgeRefund1(Long number, String fromId, Integer isPass, String reason) {
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null){
+            log.warn("商家退款处理失败，订单不存在：" + number);
+            return "existWrong";
+        }
+        if(orders.getStatus() != 10){
+            log.warn("商家退款处理失败，订单状态错误：" + orders.getStatus());
+            return "statusWrong";
+        }
+        if(!orders.getFromId().equals(fromId)){
+            log.warn("商家处理退款失败，订单不属于该用户：" + orders.getFromId());
+            return "userWrong";
+        }
+        if(isPass == 1){
+            //退款通过
+            QueryWrapper<Refund> wrapper = new QueryWrapper<>();
+            wrapper.eq("number",number);
+            //伪删除退款信息
+            refundMapper.delete(wrapper);
+            //设置订单状态
+            orders.setStatus(11);
+            //更新订单信息
+            ordersMapper.updateById(orders);
+            //通知卖家
+            Message message = new Message();
+            message.setId(orders.getToId());
+            message.setIsRead(0);
+            message.setTitle("您的订单" + number + "卖家已同意退款");
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + number + "卖家已同意退款，钱款将在2小时内退回您的支付宝请注意查收");
+            messageMapper.insert(message);
+        }else{
+            //退款不通过
+            //给管理员审核
+            //通知卖家
+            Message message = new Message();
+            message.setId(orders.getToId());
+            message.setIsRead(0);
+            message.setTitle("您的订单" + number + "卖家拒绝退款，已转至管理员审核");
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + number + "卖家不同意退款，理由：" + reason);
+            messageMapper.insert(message);
+        }
+        log.info("卖家处理退款成功");
+        return "success";
+    }
+
+    @Override
     public String refundPhotoUpload(MultipartFile file) {
         log.info("正在上传退款图片描述");
         return OssUtils.uploadPhoto(file,"refundPhoto");
@@ -422,4 +473,5 @@ public class OrderServiceImpl implements OrderService{
         log.info("正在上传评价图片描述");
         return OssUtils.uploadPhoto(file,"evaluatePhoto");
     }
+
 }

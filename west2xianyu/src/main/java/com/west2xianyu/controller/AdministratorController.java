@@ -12,12 +12,10 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "管理员控制类",protocols = "https")
 @Slf4j
@@ -226,5 +224,32 @@ public class AdministratorController {
         }
         return ResultUtils.getResult(jsonObject,status);
     }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "keyword",value = "关键词",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "获取投诉列表",notes = "success：成功  成功返回json complainList：投诉内容列表 pages：页面数 cnt：总数")
+    @GetMapping("/complainList")
+    public Result<JSONObject> getComplainList(@RequestParam(value = "keyword",required = false) String keyword,
+                                              @RequestParam("cnt") Long cnt,@RequestParam("page") Long page){
+        log.info("正在获取用户投诉列表");
+        JSONObject jsonObject = administratorService.getComplainList(keyword,cnt,page);
+        return ResultUtils.getResult(jsonObject,"success");
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "投诉编号",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "删除投诉",notes = "existWrong：投诉内容不存在（可能已经被删除） success：成功")
+    @DeleteMapping("/complain")
+    public Result<JSONObject> deleteComplain(@RequestParam("number") Long number){
+        log.info("正在删除投诉内容：" + number);
+        String status = administratorService.deleteComplain(number);
+        return ResultUtils.getResult(new JSONObject(),status);
+    }
+
 
 }

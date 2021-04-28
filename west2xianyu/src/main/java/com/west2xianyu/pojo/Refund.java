@@ -47,4 +47,5 @@ public class Refund {
     @ApiModelProperty(value = "伪删除")
     @TableLogic
     private Integer deleted;
+
 }

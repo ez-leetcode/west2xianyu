@@ -42,6 +42,9 @@ public class AdministratorServiceImpl implements AdministratorService{
     @Autowired
     private MessageMapper messageMapper;
 
+    @Autowired
+    private ComplainMapper complainMapper;
+
 
     @Override
     public JSONObject getAllFeedback(String id, Long cnt, Long page,int isHide) {
@@ -340,7 +343,7 @@ public class AdministratorServiceImpl implements AdministratorService{
             message.setIsRead(0);
             message.setId(orders.getToId());
             message.setTitle("您申请的订单退款" + refund.getNumber() + "已被管理员审核后通过");
-            message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您申请的订单" + orders.getNumber() + "的退款管理员已审核通过，钱款会在24小时内退回支付宝，请关注");
+            message.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您申请的订单" + orders.getNumber() + "的退款管理员已审核通过，钱款会在2小时内退回支付宝，请关注");
             messageMapper.insert(message);
             //通知卖家退款成功
             Message message1 = new Message();
@@ -409,5 +412,40 @@ public class AdministratorServiceImpl implements AdministratorService{
         jsonObject.put("getRefundStatus","success");
         return jsonObject;
     }
+
+
+    @Override
+    public JSONObject getComplainList(String keyword, Long cnt, Long page) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Complain> wrapper = new QueryWrapper<>();
+        if(keyword != null){
+            wrapper.like("from_id",keyword)
+                    .or()
+                    .like("to_id",keyword);
+        }
+        wrapper.orderByDesc("create_time");
+        Page<Complain> page1 = new Page<>(page,cnt);
+        complainMapper.selectPage(page1,wrapper);
+        List<Complain> complainList = page1.getRecords();
+        log.info("获取投诉列表成功");
+        jsonObject.put("complainList",complainList);
+        jsonObject.put("page",page1.getPages());
+        jsonObject.put("count",page1.getTotal());
+        return jsonObject;
+    }
+
+
+    @Override
+    public String deleteComplain(Long number) {
+        Complain complain = complainMapper.selectById(number);
+        if(complain == null){
+            log.warn("删除投诉失败，投诉不存在或可能已被删除：" + number);
+            return "existWrong";
+        }
+        complainMapper.deleteById(number);
+        log.info("删除投诉成功：" + number);
+        return "success";
+    }
+
 
 }

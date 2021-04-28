@@ -1,6 +1,7 @@
 package com.west2xianyu.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.sun.mail.imap.ResyncData;
 import com.west2xianyu.msg.OrderMsg;
 import com.west2xianyu.pojo.Result;
 import com.west2xianyu.service.AlipayService;
@@ -244,6 +245,21 @@ public class OrderController {
             return ResultUtils.getResult(jsonObject,"success");
         }
         return ResultUtils.getResult(jsonObject,status);
+    }
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "isPass",value = "是否同意（1同意0不同意）",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "reason",value = "不同意时可以说明原因",dataType = "string",paramType = "query")
+    })
+    @ApiOperation(value = "商家同意或拒绝退款接口",notes = "existWrong：订单不存在或已退款  statusWrong：订单状态错误  userWrong：卖家id错误  success：成功")
+    @PostMapping("/judgeRefund1")
+    public Result<JSONObject> agreeRefund(@RequestParam("number") Long number,@RequestParam("fromId") String fromId,
+                                          @RequestParam("isPass") Integer isPass,@RequestParam(value = "reason",required = false) String reason){
+        log.info("正在处理商家退款：" + number);
+        String status = orderService.judgeRefund1(number,fromId,isPass,reason);
+        return ResultUtils.getResult(new JSONObject(),status);
     }
 
 }

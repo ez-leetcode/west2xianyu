@@ -40,7 +40,6 @@ public class Complain {
     @TableLogic
     private Integer deleted;
 
-
     @ApiModelProperty("用户举报创建时间")
     @TableField(fill = FieldFill.INSERT)
     private Date createTime;

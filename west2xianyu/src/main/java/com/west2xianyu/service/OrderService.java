@@ -23,6 +23,8 @@ public interface OrderService {
 
     String saveRefund(Long number,String id,double money,String reason,String photo,String description);
 
+    String judgeRefund1(Long number,String fromId,Integer isPass,String reason);
+
     String sendOrder(Long number,String fromId);
 
     String refundPhotoUpload(MultipartFile file);

@@ -23,5 +23,9 @@ public interface AdministratorService {
 
     String judgeRefund(Long number,String id,int isPass);
 
+    String deleteComplain(Long number);
+
     JSONObject getRefund(Long number);
+
+    JSONObject getComplainList(String keyword,Long cnt,Long page);
 }

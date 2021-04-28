@@ -23,7 +23,7 @@ import java.util.Date;
 public class Message {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @ApiModelProperty(value = "消息编号",notes = "雪花算法，唯一，数据库中作为主键，和商品不是同一个编号")
+    @ApiModelProperty(value = "消息编号",notes = "雪花算法，唯一，数据库中作为主键")
     @TableId(type = IdType.ID_WORKER)
     private Long number;
 

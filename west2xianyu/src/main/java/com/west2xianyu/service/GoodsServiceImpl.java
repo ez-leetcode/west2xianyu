@@ -62,7 +62,7 @@ public class GoodsServiceImpl implements GoodsService{
         History history = historyMapper.selectOne(wrapper);
         if(history != null){
             log.info("已被浏览，正在更新");
-            historyMapper.updateById(history);
+            historyMapper.update(history,wrapper);
         }else{
             log.info("正在保存历史记录信息，商品编号：" + number + " 用户id：" + id);
             historyMapper.insert(new History(number,id,null,null));
