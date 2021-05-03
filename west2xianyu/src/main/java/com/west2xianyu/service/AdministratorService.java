@@ -25,6 +25,8 @@ public interface AdministratorService {
 
     String deleteComplain(Long number);
 
+    String frozenGoods(Long number);
+
     JSONObject getRefund(Long number);
 
     JSONObject getComplainList(String keyword,Long cnt,Long page);

@@ -105,6 +105,15 @@ public class OrderServiceImpl implements OrderService{
         orders.setPrice(goods.getPrice());
         ordersMapper.insert(orders);
         log.info("订单生成成功，订单：" + orders.toString());
+        //获取订单实例
+        QueryWrapper<Orders> wrapper2 = new QueryWrapper<>();
+        wrapper2.eq("status",1)
+                .eq("from_id",goods.getFromId())
+                .eq("to_id",toId)
+                .eq("goods_number",number)
+                .eq("goods_name",goods.getGoodsName())
+                .eq("address",address);
+        Orders orders1 = ordersMapper.selectOne(wrapper2);
         goodsMapper.deleteById(number);
         log.info("商品伪删除成功");
         //伪删除所有收藏此商品的数据
@@ -127,7 +136,8 @@ public class OrderServiceImpl implements OrderService{
             message1.setMsg(dateFormat.format(calendar.getTime()) + "：\n" + "您的商品：" + number + "已被买家" + toId + "拍下，请及时与买家取得联系");
         }
         messageMapper.insert(message1);
-        return "success";
+        //成功向前台返回一个订单编号
+        return orders1.getNumber().toString();
     }
 
     @Override
@@ -229,6 +239,7 @@ public class OrderServiceImpl implements OrderService{
         if(status != -1){
             wrapper.eq("status",status);
         }
+        //两次是因为or语句后面条件重置
         wrapper.eq("to_id",id)
                 .or()
                 .eq("from_id",id);
@@ -249,8 +260,16 @@ public class OrderServiceImpl implements OrderService{
         for(Orders x:ordersList){
             //bug:用户被封了  所以就算被封号也能查到
             User user = userMapper.selectUser(x.getFromId());
-            orderMsgList.add(new OrderMsg1(x.getNumber(),x.getFromId(),user.getUsername(),
-                    x.getGoodsName(),x.getPrice(),x.getFreight(),x.getPhoto(),x.getOrderTime()));
+            User user1 = userMapper.selectUser(x.getToId());
+            if(id.equals(x.getToId())){
+                //查询者是买家
+                orderMsgList.add(new OrderMsg1(x.getNumber(),x.getFromId(),user.getUsername(),user.getPhoto(),user1.getId(),user1.getUsername(),user1.getPhoto(),
+                        x.getGoodsName(),x.getPrice(),x.getFreight(),x.getPhoto(),x.getMessage(),1,x.getStatus(),x.getOrderTime()));
+            }else{
+                //查询者是卖家
+                orderMsgList.add(new OrderMsg1(x.getNumber(),x.getFromId(),user.getUsername(),user.getPhoto(),user1.getId(),user1.getUsername(),user1.getPhoto(),
+                        x.getGoodsName(),x.getPrice(),x.getFreight(),x.getPhoto(),x.getMessage(),0,x.getStatus(),x.getOrderTime()));
+            }
         }
         log.info("获取订单列表成功：" + orderMsgList.toString());
         jsonObject.put("orderList",orderMsgList);
@@ -301,8 +320,51 @@ public class OrderServiceImpl implements OrderService{
     }
 
 
-
-
+    @Override
+    public String remindOrder(Long number, String fromId, String toId) {
+        Orders orders = ordersMapper.selectById(number);
+        if(orders == null){
+            log.warn("提醒用户失败，订单不存在：" + number);
+            return "existWrong";
+        }
+        Message message = new Message();
+        message.setIsRead(0);
+        message.setTitle("您的订单" + number + "有新的订单提醒，请及时处理");
+        //发送给被提醒者
+        message.setId(toId);
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //获取被提醒用户实例
+        User user = userMapper.selectUser(fromId);
+        if(user == null){
+            log.warn("提醒用户失败，被提醒用户不存在：" + fromId);
+            return "userWrong";
+        }
+        if(orders.getStatus() == 1){
+            //待付款状态，卖家提醒
+            message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + number + "卖家" + user.getUsername() + "（" + user.getId() +
+                    "）" + "正在催促您付款哦，请注意核实订单信息，防止诈骗~");
+        }else if(orders.getStatus() == 2){
+            //待发货状态，买家提醒
+            message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + number + "买家" + user.getUsername() + "（" + user.getId() +
+                    "）" + "正在催促您发货哦，请及时发货~");
+        }else if(orders.getStatus() == 3){
+            //待收货状态，卖家提醒
+            message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + number + "卖家" + user.getUsername() + "（" + user.getId() +
+                    "）" + "正在催促您收货哦，请及时查收商品~");
+        }else if(orders.getStatus() == 4){
+            //待评价状态，卖家提醒
+            message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + number + "卖家" + user.getUsername() + "（" + user.getId() +
+                    "）" + "正在催促您评价订单哦，有空的话不如评价一下吧~");;
+        }else{
+            log.warn("提醒订单失败，订单状态有误");
+            return "statusWrong";
+        }
+        //发送通知
+        messageMapper.insert(message);
+        log.info("订单提醒成功，订单：" + number);
+        return "success";
+    }
 
     //确认收货3-4
     @Override

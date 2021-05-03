@@ -27,6 +27,8 @@ public interface OrderService {
 
     String sendOrder(Long number,String fromId);
 
+    String remindOrder(Long number,String fromId,String toId);
+
     String refundPhotoUpload(MultipartFile file);
 
     String evaluatePhotoUpload(MultipartFile file);

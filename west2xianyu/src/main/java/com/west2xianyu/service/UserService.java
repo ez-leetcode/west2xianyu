@@ -46,6 +46,8 @@ public interface UserService {
 
     JSONObject getHistory(String id,long cnt,long page);
 
+    JSONObject getFans(String id,long cnt,long page);
+
     JSONObject getFollow(String id,long cnt,long page);
 
     JSONObject getAddress(String id,long cnt,long page);

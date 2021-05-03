@@ -7,6 +7,7 @@ import com.west2xianyu.mapper.*;
 import com.west2xianyu.msg.CommentMsg;
 import com.west2xianyu.msg.FavorMsg;
 import com.west2xianyu.msg.GoodsMsg;
+import com.west2xianyu.msg.GoodsMsg1;
 import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
 import com.west2xianyu.utils.RedisUtils;
@@ -66,6 +67,13 @@ public class GoodsServiceImpl implements GoodsService{
         }else{
             log.info("正在保存历史记录信息，商品编号：" + number + " 用户id：" + id);
             historyMapper.insert(new History(number,id,null,null));
+            //把最近更新时间加上
+            QueryWrapper<History> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("goods_id",number)
+                    .eq("id",id);
+            History history1 = historyMapper.selectOne(wrapper1);
+            history1.setUpdateTime(history1.getCreateTime());
+            historyMapper.update(history1,wrapper1);
         }
         //更新商品浏览信息用redis实现5分钟刷新一次
         //保存浏览信息在redis里
@@ -429,7 +437,8 @@ public class GoodsServiceImpl implements GoodsService{
         JSONObject jsonObject = new JSONObject();
         QueryWrapper<Goods> wrapper = new QueryWrapper<>();
         //获取商品信息列表
-        List<Goods> goodsList = goodsMapper.selectList(wrapper);
+        goodsMapper.selectPage(page1,wrapper);
+        List<Goods> goodsList = page1.getRecords();
         log.info("获取用户商品列表成功！");
         jsonObject.put("goodsList",goodsList);
         jsonObject.put("count",page1.getTotal());
@@ -450,5 +459,18 @@ public class GoodsServiceImpl implements GoodsService{
         return jsonObject;
     }
 
-
+    @Override
+    public JSONObject getGoodsWhenever1(Long number) {
+        Goods goods = goodsMapper.selectGoodsWhenever(number);
+        if(goods == null){
+            log.warn("这个商品真的不存在呀！！！编号：" + number);
+            return null;
+        }
+        JSONObject jsonObject = new JSONObject();
+        User user = userMapper.selectUser(goods.getFromId());
+        GoodsMsg1 goodsMsg1 = new GoodsMsg1(goods.getNumber(),goods.getFromId(),user.getUsername(),user.getPhoto(),goods.getPrice(),
+                goods.getPhoto(),goods.getGoodsName(),goods.getDescription(),goods.getScanCounts(),goods.getFavorCounts(),goods.getUpdateTime());
+        jsonObject.put("goods",goodsMsg1);
+        return jsonObject;
+    }
 }

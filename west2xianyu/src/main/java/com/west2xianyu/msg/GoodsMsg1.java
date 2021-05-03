@@ -1,6 +1,5 @@
 package com.west2xianyu.msg;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,12 +10,13 @@ import lombok.ToString;
 
 import java.util.Date;
 
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel(description = "商品展示信息类")
-public class GoodsMsg {
+@ApiModel(description = "商品展示信息类1")
+public class GoodsMsg1 {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     @ApiModelProperty(value = "商品编号")
@@ -24,6 +24,12 @@ public class GoodsMsg {
 
     @ApiModelProperty(value = "卖家id")
     private String id;
+
+    @ApiModelProperty(value = "卖家昵称")
+    private String username;
+
+    @ApiModelProperty(value = "卖家头像url")
+    private String userPhoto;
 
     @ApiModelProperty(value = "商品价格")
     private Double price;
@@ -45,5 +51,4 @@ public class GoodsMsg {
 
     @ApiModelProperty(value = "最近上架时间")
     private Date updateTime;
-
 }

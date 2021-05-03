@@ -448,4 +448,33 @@ public class AdministratorServiceImpl implements AdministratorService{
     }
 
 
+    @Override
+    public String frozenGoods(Long number) {
+        Goods goods = goodsMapper.selectById(number);
+        if(goods == null){
+            log.warn("冻结商品失败，订单不存在：" + number);
+            return "existWrong";
+        }
+        //先冻结商品
+        goods.setIsFrozen(1);
+        goodsMapper.updateById(goods);
+        //通知卖家
+        Message message = new Message();
+        message.setId(goods.getFromId());
+        message.setIsRead(0);
+        message.setTitle("您的商品" + number + "由于违规，已被管理员冻结");
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的商品" + number + "由于涉嫌违规已被管理员冻结，您的行为已被记录，请整改后再进行上架！");
+        messageMapper.insert(message);
+        //更新卖家犯罪记录
+        User user = userMapper.selectUser(goods.getFromId());
+        if(user != null){
+            user.setFansCounts(user.getFrozenCounts() + 1);
+            userMapper.updateById(user);
+        }
+        log.info("冻结商品成功：" + number);
+        return "success";
+    }
+
 }

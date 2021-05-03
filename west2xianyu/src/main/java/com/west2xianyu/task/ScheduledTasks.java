@@ -38,6 +38,8 @@ public class ScheduledTasks {
             if(goods == null){
                 //商品不存在或已被冻结
                 log.info("商品不存在或已被冻结：" + Long.valueOf(key));
+                //这里也要记得删掉redis数据库的数据
+                redisUtils.delete("scan_" + key);
                 continue;
             }
             //新增浏览量
@@ -53,4 +55,5 @@ public class ScheduledTasks {
         log.info("本次商品访问量同步成功, 总耗时: {}", (endTime - startTime) / 1000000 + "ms");
         log.info("商品浏览量同步成功");
     }
+
 }

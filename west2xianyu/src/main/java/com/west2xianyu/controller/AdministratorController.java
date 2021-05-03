@@ -252,4 +252,15 @@ public class AdministratorController {
     }
 
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "goodsId",value = "冻结商品编号",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "冻结商品",notes = "existWrong：商品不存在（可能是重复请求） success：成功")
+    @PostMapping("/frozenGoods")
+    public Result<JSONObject> frozenGoods(@RequestParam("goodsId") Long goodsId){
+        log.info("正在冻结商品：" + goodsId);
+        String status = administratorService.frozenGoods(goodsId);
+        return ResultUtils.getResult(new JSONObject(),status);
+    }
+
 }

@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
-//   0.订单被取消  1.订单已拍下 2.买家已付款 3.卖家已发货 4.买家确认收货==订单已完成（需评价） 5.买家已评价  8.订单已全部完成   10.申请退款  11.退款成功  12.退款失败
+//   0.订单被取消  1.订单已拍下 2.买家已付款 3.卖家已发货 4.买家确认收货==订单已完成（需评价） 5.买家已评价   10.申请退款  11.退款成功  12.退款失败
 
 @Api(tags = "订单控制类",protocols = "https")
 @Slf4j
@@ -35,12 +35,12 @@ public class OrderController {
 
      */
 
-    @ApiOperation(value = "生成订单请求",notes = "repeatWrong：该商品已被下单 existWrong：该商品部存在 frozenWrong：该商品已被冻结 addressWrong：地址编号对应地址不存在 success：成功")
+    @ApiOperation(value = "生成订单请求",notes = "repeatWrong：该商品已被下单 existWrong：该商品不存在 frozenWrong：该商品已被冻结 addressWrong：地址编号对应地址不存在 success：成功 成功返回json number：订单编号")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "toId",value = "买家id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "address",value = "地址编号",required = true,dataType = "Long",paramType = "query"),
-            @ApiImplicitParam(name = "message",value = "卖家留言",dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "message",value = "买家留言",dataType = "string",paramType = "query"),
     })
     @PostMapping("/order")
     public Result<JSONObject> generateOrder(@RequestParam("number") Long number, @RequestParam("toId") String toId,
@@ -49,7 +49,12 @@ public class OrderController {
         JSONObject jsonObject = new JSONObject();
         log.info("正在生成订单：" + number);
         String status = orderService.generateOrder(number,toId,message,address);
-        return ResultUtils.getResult(jsonObject,status);
+        if(status.equals("repeatWrong") || status.equals("existWrong") || status.equals("frozenWrong") || status.equals("addressWrong")){
+            return ResultUtils.getResult(jsonObject,status);
+        }
+        //说明返回了url
+        jsonObject.put("number",status);
+        return ResultUtils.getResult(jsonObject,"success");
     }
 
 
@@ -81,7 +86,7 @@ public class OrderController {
             @ApiImplicitParam(name = "fromId",value = "卖家id",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "toId",value = "买家id",dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "删除订单",notes = "existWrong：订单已被删除（可能是重复请求） success：成功")
+    @ApiOperation(value = "删除订单（暂时不用）",notes = "existWrong：订单已被删除（可能是重复请求） success：成功")
     @DeleteMapping("/order")
     public Result<JSONObject> deleteOrder(@RequestParam("number") Long number,@RequestParam(value = "fromId",required = false) String fromId,
                                           @RequestParam(value = "toId",required = false) String toId) {
@@ -195,6 +200,22 @@ public class OrderController {
     }
 
 
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "fromId",value = "用户id（提醒者）",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "toId",value = "被提醒用户id",required = true,dataType = "string",paramType = "query")
+    })
+    @ApiOperation(value = "订单提醒",notes = "statusWrong：订单状态错误（1，2，3，4才可以提醒） userWrong：用户不存在  existWrong：订单不存在 success：成功 ")
+    @PostMapping("/remindOrder")
+    public Result<JSONObject> remindOrder(@RequestParam("number") Long number,@RequestParam("fromId") String fromId,
+                                          @RequestParam("toId") String toId){
+        log.info("正在进行订单提醒，订单：" + number);
+        return ResultUtils.getResult(new JSONObject(),orderService.remindOrder(number,fromId,toId));
+    }
+
+
+
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "买家id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "number",value = "订单id",required = true,dataType = "Long",paramType = "query"),
@@ -246,6 +267,7 @@ public class OrderController {
         }
         return ResultUtils.getResult(jsonObject,status);
     }
+
 
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),

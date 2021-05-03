@@ -350,11 +350,25 @@ public class UserController {
     })
     @ApiOperation(value = "获取粉丝列表",notes = "success：成功 成功返回json fansList：粉丝列表 pages：页面数 count：总数")
     @GetMapping("/fans")
-    public Result<JSONObject> getFollow(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+    public Result<JSONObject> getFans(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                 @RequestParam("page") Long page){
         log.info("正在获取粉丝列表：" + id);
-        JSONObject jsonObject = userService.getFollow(id,cnt,page);
+        JSONObject jsonObject = userService.getFans(id,cnt,page);
         return ResultUtils.getResult(jsonObject,"success");
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "一页数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "获取关注列表",notes = "success：成功  成功返回json followList：关注列表 pages：页面数 count：总数")
+    @GetMapping("/followList")
+    public Result<JSONObject> getFollow(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
+                                        @RequestParam("page") Long page){
+        log.info("正在获取关注列表：" + id);
+        return ResultUtils.getResult(userService.getFollow(id,cnt,page),"success");
     }
 
 
@@ -400,7 +414,7 @@ public class UserController {
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "number",value = "商品编号",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "获取商品下面的评论列表",notes = "success：成功  成功返回json commentList：评论列表 pages：页面数 count：总数")
+    @ApiOperation(value = "获取商品下面的评论列表（暂时不用）",notes = "success：成功  成功返回json commentList：评论列表 pages：页面数 count：总数")
     @GetMapping("/commentList")
     public Result<JSONObject> getCommentList(@RequestParam("id") String id,@RequestParam("cnt") Long cnt,
                                              @RequestParam("page") Long page,@RequestParam("number") Long number){

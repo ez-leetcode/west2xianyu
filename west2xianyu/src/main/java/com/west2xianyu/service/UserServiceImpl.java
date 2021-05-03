@@ -5,10 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
-import com.west2xianyu.msg.EvaluateMsg;
-import com.west2xianyu.msg.FansMsg;
-import com.west2xianyu.msg.HistoryMsg;
-import com.west2xianyu.msg.ShoppingMsg;
+import com.west2xianyu.msg.*;
 import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -301,7 +298,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public JSONObject getFollow(String id, long cnt, long page) {
+    public JSONObject getFans(String id, long cnt, long page) {
         JSONObject jsonObject = new JSONObject();
         QueryWrapper<Fans> wrapper = new QueryWrapper<>();
         wrapper.eq("id",id)
@@ -314,20 +311,81 @@ public class UserServiceImpl implements UserService{
         log.info("粉丝列表：" + fansList.toString());
         for(Fans x:fansList){
             //遍历粉丝集合，查询所有粉丝信息
-            User user = userMapper.selectById(x.getFansId());
+            User user = userMapper.selectUser(x.getFansId());
             QueryWrapper<Orders> wrapper1 = new QueryWrapper<>();
             wrapper1.eq("from_id",id)
+                     //订单已完成的才行
+                    .eq("status",5)
                     .eq("to_id",x.getFansId());
             //获取购买列表
             List<Orders> ordersList = ordersMapper.selectList(wrapper1);
             FansMsg fansMsg = new FansMsg(id,x.getId(),user.getUsername(),user.getPhoto(),
-                    user.getIntroduction(), ordersList.size(),x.getCreateTime());
+                    user.getIntroduction(),ordersList.size(),x.getCreateTime());
             fansMsgList.add(fansMsg);
         }
         jsonObject.put("fansList",fansMsgList);
         jsonObject.put("pages",page1.getPages());
         jsonObject.put("count",page1.getTotal());
         log.info("获取粉丝列表成功：" + fansMsgList.toString());
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject getFollow(String id, long cnt, long page) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Fans> wrapper = new QueryWrapper<>();
+        wrapper.eq("fans_id",id)
+                .orderByDesc("create_time");
+        Page<Fans> page1 = new Page<>(page,cnt);
+        fansMapper.selectPage(page1,wrapper);
+        List<Fans> fansList = page1.getRecords();
+        List<FollowMsg> followList = new LinkedList<>();
+        for(Fans x:fansList){
+            //获取关注者信息
+            User user = userMapper.selectUser(x.getId());
+            QueryWrapper<Goods> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("is_pass",1)
+                    .eq("is_frozen",0)
+                    .eq("from_id",user.getId())
+                    .orderByDesc("create_time");
+            //获取商品列表
+            List<Goods> goodsList = goodsMapper.selectList(wrapper1);
+            //消息对象设置基本信息
+            FollowMsg followMsg = new FollowMsg();
+            followMsg.setId(user.getId());
+            followMsg.setCreateTime(x.getCreateTime());
+            followMsg.setUsername(user.getUsername());
+            followMsg.setPhoto(user.getPhoto());
+            int k = 1;
+            for(Goods goods:goodsList){
+                if(k == 1){
+                    followMsg.setGoodsId1(goods.getNumber());
+                    followMsg.setGoodsName1(goods.getGoodsName());
+                    followMsg.setGoodsPhoto1(goods.getPhoto());
+                    followMsg.setGoodsPrice1(goods.getPrice());
+                }else if(k == 2){
+                    followMsg.setGoodsId2(goods.getNumber());
+                    followMsg.setGoodsName2(goods.getGoodsName());
+                    followMsg.setGoodsPhoto2(goods.getPhoto());
+                    followMsg.setGoodsPrice2(goods.getPrice());
+                }else if(k == 3){
+                    followMsg.setGoodsId3(goods.getNumber());
+                    followMsg.setGoodsName3(goods.getGoodsName());
+                    followMsg.setGoodsPhoto3(goods.getPhoto());
+                    followMsg.setGoodsPrice3(goods.getPrice());
+                }else{
+                    break;
+                }
+                k++;
+            }
+            //把消息对象添加进followList
+            followList.add(followMsg);
+        }
+        jsonObject.put("followList",followList);
+        jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getTotal());
+        log.info("获取用户收藏列表成功");
+        log.info(jsonObject.toString());
         return jsonObject;
     }
 
@@ -387,7 +445,7 @@ public class UserServiceImpl implements UserService{
     public String addLikes(Long goodsId, String fromId, String likeId,String comments, String createTime) {
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("goods_id",goodsId)
-                .eq("from_id",fromId)
+                .eq("id",fromId)
                 .eq("comments",comments)
                 .eq("create_time",createTime);
         Comment comment = commentMapper.selectOne(wrapper);
@@ -409,7 +467,7 @@ public class UserServiceImpl implements UserService{
         commentLikesMapper.insert(commentLikes1);
         log.info("插入点赞信息成功：" + commentLikes1.toString());
         comment.setLikes(comment.getLikes() + 1);
-        commentMapper.updateById(comment);
+        commentMapper.update(comment,wrapper);
         log.info("更新（增加）点赞数据成功");
         return "success";
     }
@@ -428,7 +486,8 @@ public class UserServiceImpl implements UserService{
         }
         QueryWrapper<CommentLikes> wrapper1 = new QueryWrapper<>();
         wrapper1.eq("goods_id",goodsId)
-                .eq("id",id)
+                .eq("from_id",comment.getId())
+                .eq("like_id",id)
                 .eq("comments",comments);
         CommentLikes commentLikes = commentLikesMapper.selectOne(wrapper1);
         if(commentLikes == null){
@@ -438,7 +497,7 @@ public class UserServiceImpl implements UserService{
         commentLikesMapper.delete(wrapper1);
         log.info("删除点赞信息成功");
         comment.setLikes(comment.getLikes() - 1);
-        commentMapper.updateById(comment);
+        commentMapper.update(comment,wrapper);
         log.info("更新（减少）点赞数据成功");
         return "success";
     }
@@ -661,7 +720,7 @@ public class UserServiceImpl implements UserService{
         List<HistoryMsg> historyMsgList = new ArrayList<>();
         for(History x:historyList){
             Goods goods = goodsMapper.selectGoodsWhenever(x.getGoodsId());
-            historyMsgList.add(new HistoryMsg(goods.getNumber(),id,goods.getGoodsName(),goods.getPrice(),goods.getPhoto(),goods.getUpdateTime()));
+            historyMsgList.add(new HistoryMsg(goods.getNumber(),id,goods.getGoodsName(),goods.getPrice(),goods.getPhoto(),x.getUpdateTime()));
         }
         jsonObject.put("historyList",historyMsgList);
         jsonObject.put("pages",page1.getPages());
@@ -828,6 +887,7 @@ public class UserServiceImpl implements UserService{
         wrapper.eq("goods_id",number)
                 .orderByDesc("create_time");
         Page<Comment> page1 = new Page<>(page,cnt);
+        commentMapper.selectPage(page1,wrapper);
         List<Comment> commentList = page1.getRecords();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("commentList",commentList);

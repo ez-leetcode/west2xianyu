@@ -136,6 +136,12 @@
             <version>3.0.0</version>
         </dependency>
 
+        <!-- websocket实现 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
         <!-- quartz实现定时任务 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

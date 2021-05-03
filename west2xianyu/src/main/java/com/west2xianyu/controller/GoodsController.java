@@ -49,7 +49,7 @@ public class GoodsController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "在任何情况下获取商品信息的接口",notes = "existWrong：商品真的不存在  success：成功  成功返回json goods：商品信息（这个接口不会增加页面浏览量）")
+    @ApiOperation(value = "在任何情况下获取商品信息的接口",notes = "existWrong：商品真的不存在  success：成功  成功返回json goods：商品信息（这个接口不会增加页面浏览量，可放心用）")
     @GetMapping("/goodsWhenever")
     public Result<JSONObject> getGoodsWhenever(@RequestParam("number") Long number){
         log.info("正在获取闲置物品详细信息（任何条件下） 商品编号：" + number);
@@ -60,6 +60,20 @@ public class GoodsController {
         return ResultUtils.getResult(jsonObject,"success");
     }
 
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "另外一个获取商品信息的接口（有卖家昵称头像等相关信息）",notes = "existWrong：商品真的不存在  success：成功  成功返回json goods：商品信息（这个接口不会增加页面浏览量，可以放心用）")
+    @GetMapping("/goodsWhenever1")
+    public Result<JSONObject> getGoodsWhenever1(@RequestParam("number") Long number){
+        log.info("正在获取闲置物品相关信息：" + number);
+        JSONObject jsonObject = goodsService.getGoodsWhenever1(number);
+        if(jsonObject == null){
+            return ResultUtils.getResult(new JSONObject(),"existWrong");
+        }
+        return ResultUtils.getResult(jsonObject,"success");
+    }
 
 
 
@@ -182,6 +196,9 @@ public class GoodsController {
         String status = goodsService.deleteFavor(goodsId,id);
         return ResultUtils.getResult(jsonObject,status);
     }
+
+
+
 
     //失效的获取不到
     @ApiImplicitParams({

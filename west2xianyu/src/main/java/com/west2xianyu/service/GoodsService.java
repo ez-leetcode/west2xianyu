@@ -35,4 +35,6 @@ public interface GoodsService {
     JSONObject getGoodsList(String id,Long cnt,Long page);
 
     JSONObject getGoodsWhenever(Long number);
+
+    JSONObject getGoodsWhenever1(Long number);
 }
