@@ -2,6 +2,7 @@ package com.west2xianyu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.msg.GoodsMsg2;
 import com.west2xianyu.pojo.Goods;
 import com.west2xianyu.pojo.Result;
 import com.west2xianyu.service.GoodsService;
@@ -30,15 +31,10 @@ public class GoodsController {
     public Result<JSONObject> getGoods(@RequestParam("number") Long number, @RequestParam("id") String id){
         JSONObject jsonObject = new JSONObject();
         log.info("正在获取闲置物品详细信息");
-        Goods goods = goodsService.getGoods(number,id);
+        GoodsMsg2 goods = goodsService.getGoods(number,id);
         if(goods == null){
             log.warn("获取闲置物品详细信息失败，物品不存在：" + number);
             return ResultUtils.getResult(jsonObject,"existWrong");
-        }
-        //后面结合权限管理框架时再添加管理员查看冻结物品功能
-        if(goods.getIsFrozen() == 1){
-            log.warn("获取闲置物品详细信息失败，物品已被冻结，可以通过管理员账号访问");
-            return ResultUtils.getResult(jsonObject,"frozenWrong");
         }
         log.info("获取闲置物品详细信息成功，物品：" + goods.toString());
         jsonObject.put("goods",goods);
@@ -329,10 +325,6 @@ public class GoodsController {
         log.info("正在获取该用户所有上架的闲置物品信息：" + id);
         return ResultUtils.getResult(goodsService.getGoodsList(id,cnt,page),"success");
     }
-
-
-
-
 
 
 }

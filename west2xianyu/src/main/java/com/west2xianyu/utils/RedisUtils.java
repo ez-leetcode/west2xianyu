@@ -1,10 +1,17 @@
 package com.west2xianyu.utils;
 
+
+import com.west2xianyu.mapper.UserMapper;
+import com.west2xianyu.pojo.User;
+import io.jsonwebtoken.Claims;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -19,6 +26,10 @@ public class RedisUtils {
 
     @Autowired
     private StringRedisTemplate redisTemplate;
+
+    @Autowired
+    private UserMapper userMapper;
+
 
     //存key-value
     public void save(String key,String value){
@@ -88,14 +99,38 @@ public class RedisUtils {
     }
 
 
-
-
-
-    /*
-    public boolean hasKey(String key){
-        return redisTemplate.hasKey(key);
+    //从token中获取身份信息
+    public UsernamePasswordAuthenticationToken getAuthentication(String token){
+        //先解析token
+        Claims claims = JwtUtils.getTokenBody(token);
+        //获取用户名
+        String username = claims.getId();
+        //根据用户名判断是否为管理员，后面可根据
+        User user = userMapper.selectUser(username);
+        Collection<GrantedAuthority> authList = new ArrayList<>();
+        authList.add(new SimpleGrantedAuthority("ROLE_USER"));
+        if(user == null){
+            log.error("用户不存在");
+            return null;
+        }
+        if(user.getIsAdministrator() == 0){
+            //用户不是管理员
+            log.info("身份认证成功，用户：" + username + "是普通用户");
+            return new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(username,user.getPassword(),authList),token,authList);
+        }else{
+            authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        }
+        log.info("身份认证成功，用户：" + username + "是管理员");
+        return new UsernamePasswordAuthenticationToken(new org.springframework.security.core.userdetails.User(username,user.getPassword(),authList),token,authList);
     }
 
-     */
+
+    //用户判断token是否存在
+    public boolean hasKey(String key){
+        return redisTemplate.opsForValue().get(key) != null;
+    }
+
+
+
 
 }

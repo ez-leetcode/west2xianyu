@@ -1,6 +1,7 @@
 package com.west2xianyu.handler;
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.mapper.UserMapper;
 import com.west2xianyu.pojo.User;
 import com.west2xianyu.utils.RedisUtils;
 import com.west2xianyu.utils.ResultUtils;
@@ -24,11 +25,15 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
     public void onLogoutSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         httpServletResponse.setHeader("Content-Type","application/json;charset=utf-8");
         //获取用户实例
-        User user = (User) authentication.getPrincipal();
+        String username = httpServletRequest.getParameter("id");
+        User user = userMapper.selectUser(username);
         log.info("正在注销用户：" + user.getId());
         //销毁redis中的token
         redisUtils.delete(user.getId());

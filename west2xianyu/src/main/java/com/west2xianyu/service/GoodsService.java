@@ -1,12 +1,13 @@
 package com.west2xianyu.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.west2xianyu.msg.GoodsMsg2;
 import com.west2xianyu.pojo.Goods;
 import org.springframework.web.multipart.MultipartFile;
 
 public interface GoodsService {
 
-    Goods getGoods(Long number,String id);
+    GoodsMsg2 getGoods(Long number, String id);
 
     String saveGoods(Goods goods);
 

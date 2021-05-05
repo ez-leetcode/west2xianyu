@@ -20,7 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "管理员控制类",protocols = "https")
 @Slf4j
 @RestController
-@Secured("ROLE_admin")
+@Secured("ROLE_ADMIN")
+@RequestMapping("/admin")
 public class AdministratorController {
 
     @Autowired

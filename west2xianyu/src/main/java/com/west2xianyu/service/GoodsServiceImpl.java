@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
-import com.west2xianyu.msg.CommentMsg;
-import com.west2xianyu.msg.FavorMsg;
-import com.west2xianyu.msg.GoodsMsg;
-import com.west2xianyu.msg.GoodsMsg1;
+import com.west2xianyu.msg.*;
 import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
 import com.west2xianyu.utils.RedisUtils;
@@ -47,13 +44,13 @@ public class GoodsServiceImpl implements GoodsService{
 
 
     @Override
-    public Goods getGoods(Long number,String id) {
+    public GoodsMsg2 getGoods(Long number,String id) {
         Goods goods = goodsMapper.selectById(number);
         if(goods == null){
             return null;
         }
         if(goods.getIsFrozen() == 1){
-            log.warn("获取商品详细信息失败，商品已被冻结或未审核");
+            log.warn("获取商品详细信息失败，商品已被冻结");
             return null;
         }
         //商品存在且未冻结
@@ -78,7 +75,11 @@ public class GoodsServiceImpl implements GoodsService{
         //更新商品浏览信息用redis实现5分钟刷新一次
         //保存浏览信息在redis里
         redisUtils.saveScan(number.toString());
-        return goods;
+        //获取卖家信息
+        User user = userMapper.selectUser(goods.getFromId());
+        GoodsMsg2 goodsMsg2 = new GoodsMsg2(number,goods.getFromId(),user.getUsername(),user.getPhoto(),goods.getPrice(),goods.getPhoto(),goods.getGoodsName(),
+                goods.getDescription(),goods.getScanCounts(),goods.getFavorCounts(),user.getAveDescribe(),user.getAveService(),user.getAveLogistics(),goods.getUpdateTime());
+        return goodsMsg2;
     }
 
     @Override

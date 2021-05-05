@@ -3,7 +3,6 @@ package com.west2xianyu.config;
 public class AlipayConfig {
 
 
-
     // 作为身份标识的应用ID
     public static String app_id = "2021000117638703";
 

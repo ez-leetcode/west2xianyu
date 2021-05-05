@@ -55,6 +55,9 @@ public class OrderMsg {
     @ApiModelProperty(value = "商品图片url")
     private String photo;
 
+    @ApiModelProperty(value = "订单状态")
+    private Integer status;
+
     @ApiModelProperty(value = "订单创建时间")
     private Date createTime;
 }

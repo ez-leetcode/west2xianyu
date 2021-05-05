@@ -22,6 +22,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
         //相应状态
         httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        log.info("用户权限不足");
         //返回json格式
         httpServletResponse.setHeader("Content-Type","application/json;charset=utf-8");
         JSONObject jsonObject = new JSONObject();

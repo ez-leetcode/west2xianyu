@@ -173,7 +173,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public User getUser(String Id) {
-        return userMapper.selectById(Id);
+        return userMapper.selectUser(Id);
     }
 
     @Override

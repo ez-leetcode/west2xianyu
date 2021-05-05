@@ -37,15 +37,11 @@ class West2xianyuApplicationTests {
     @Autowired
     private RefundMapper refundMapper;
 
+
     /*
     @Test
     void fun() {
-        QueryWrapper<Refund> wrapper = new QueryWrapper<>();
-        wrapper.eq("number","1386951846640848877");
-        Refund refund = refundMapper.selectOne(wrapper);
-        if(refund != null){
-            System.out.println(refund);
-        }
+        System.out.println(redisUtils.hasKey("171909068"));
     }
 
 

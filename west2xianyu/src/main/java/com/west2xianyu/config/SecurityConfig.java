@@ -1,12 +1,13 @@
 package com.west2xianyu.config;
 
 
-import com.west2xianyu.filter.MyLoginFilter;
+import com.west2xianyu.filter.MyUsernamePasswordFilter;
 import com.west2xianyu.handler.MyAccessDeniedHandler;
 import com.west2xianyu.handler.MyAuthenticationFailureHandler;
 import com.west2xianyu.handler.MyAuthenticationSuccessHandler;
 import com.west2xianyu.handler.MyLogoutSuccessHandler;
 import com.west2xianyu.service.UserDetailServiceImpl;
+import com.west2xianyu.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,11 +19,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true,securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -38,9 +40,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private MyLogoutSuccessHandler myLogoutSuccessHandler;
 
-
     @Autowired
     private UserDetailServiceImpl userDetailService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
 
     @Bean
@@ -73,8 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //在校验密码之前先校验验证码
-        //http.addFilterBefore(new MyLoginFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new MyUsernamePasswordFilter(), UsernamePasswordAuthenticationFilter.class);
 
         http.authorizeRequests()
                 //测试的时候放行全部
@@ -94,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //放行支付宝退款接口
                 .antMatchers("/refundBill").permitAll()
                 //拥有管理员角色
-                .antMatchers("/admin/**").permitAll()//hasRole("admin")
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 //拥有用户角色
                 //.antMatchers("/user/**").hasRole("user")
                 //其他所有请求必须认证才能访问，必须登录
@@ -133,8 +136,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //跨域
        // http.cors();
-
-
 
         //由于有了token认证机制，所以关闭csrf防护
         //http.csrf().disable();

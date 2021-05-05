@@ -16,6 +16,7 @@ import java.io.IOException;
 
 @Slf4j
 @Setter
+//这个暂时弃用
 public class MyLoginFilter extends OncePerRequestFilter {
 
     @Override
@@ -54,7 +55,7 @@ public class MyLoginFilter extends OncePerRequestFilter {
                 //StringRedisTemplate redisTemplate = new StringRedisTemplate();
                 WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
                 if(applicationContext != null){
-                    RedisUtils redisUtils=(RedisUtils) applicationContext.getBean("redisUtils");
+                    RedisUtils redisUtils = (RedisUtils) applicationContext.getBean("redisUtils");
                     //String realToken = redisTemplate.opsForValue().get(username);
                     String realToken = redisUtils.getValue(username);
                     String realUsername = JwtUtils.getUsername(token);

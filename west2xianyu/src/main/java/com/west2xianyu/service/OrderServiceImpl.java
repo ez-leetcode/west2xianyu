@@ -156,7 +156,7 @@ public class OrderServiceImpl implements OrderService{
             return null;
         }
         return new OrderMsg(number,orders.getFromId(),orders.getToId(),user.getUsername(),orders.getGoodsName(),orders.getPrice(),
-                orders.getFreight(),address.getCampus(),address.getRealAddress(),address.getPhone(),address.getName(),orders.getPhoto(),orders.getOrderTime());
+                orders.getFreight(),address.getCampus(),address.getRealAddress(),address.getPhone(),address.getName(),orders.getPhoto(),orders.getStatus(),orders.getOrderTime());
     }
 
     //暂时不用
@@ -355,7 +355,7 @@ public class OrderServiceImpl implements OrderService{
         }else if(orders.getStatus() == 4){
             //待评价状态，卖家提醒
             message.setMsg(dateFormat.format(calendar.getTime()) + "： \n" + "您的订单" + number + "卖家" + user.getUsername() + "（" + user.getId() +
-                    "）" + "正在催促您评价订单哦，有空的话不如评价一下吧~");;
+                    "）" + "正在催促您评价订单哦，有空的话不如评价一下吧~");
         }else{
             log.warn("提醒订单失败，订单状态有误");
             return "statusWrong";
