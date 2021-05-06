@@ -1,7 +1,9 @@
 package com.west2xianyu.pojo;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 //返回结果
 @Setter
@@ -19,10 +21,10 @@ public class Result<T> {
 
     @Override
     public String toString() {
-        return "{" +
-                "code=" + code +
-                ", msg='" + msg + '\'' +
-                ", data=" + data +
-                '}';
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",code);
+        jsonObject.put("msg",msg);
+        jsonObject.put("data",data);
+        return jsonObject.toString();
     }
 }

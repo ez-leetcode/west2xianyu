@@ -13,6 +13,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Api(tags = "订单控制类",protocols = "https")
 @Slf4j
- @RestController
+@RestController
 public class OrderController {
 
 
@@ -35,7 +36,8 @@ public class OrderController {
 
      */
 
-    @ApiOperation(value = "生成订单请求",notes = "repeatWrong：该商品已被下单 existWrong：该商品不存在 frozenWrong：该商品已被冻结 addressWrong：地址编号对应地址不存在 success：成功 成功返回json number：订单编号")
+    @Secured("ROLE_USER")
+    @ApiOperation(value = "生成订单请求（需要用户角色）",notes = "repeatWrong：该商品已被下单 existWrong：该商品不存在 frozenWrong：该商品已被冻结 addressWrong：地址编号对应地址不存在 success：成功 成功返回json number：订单编号")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "闲置物品编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "toId",value = "买家id",required = true,dataType = "string",paramType = "query"),
@@ -60,8 +62,9 @@ public class OrderController {
 
     //pass
     //应该校验买卖家，不能让别人看到
+    @Secured("ROLE_USER")
     @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query")
-    @ApiOperation(value = "获取订单详细信息",notes = "existWrong：订单不存在 success：成功  成功返回json order：订单具体内容")
+    @ApiOperation(value = "获取订单详细信息（需要用户角色）",notes = "existWrong：订单不存在 success：成功  成功返回json order：订单具体内容")
     @GetMapping("/order")
     public Result<JSONObject> getOrder(@RequestParam("number") Long number){
         JSONObject jsonObject = new JSONObject();
@@ -109,6 +112,7 @@ public class OrderController {
 
 
     //待评价
+    @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
@@ -120,7 +124,7 @@ public class OrderController {
             @ApiImplicitParam(name = "isNoname",value = "是否匿名",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "photo",value = "描述的图片",dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "购买后评价商品",notes = "existWrong：订单不存在或已被冻结 statusWrong：订单状态有误 userWrong：卖家已被封号 success：成功")
+    @ApiOperation(value = "购买后评价商品（需要用户角色）",notes = "existWrong：订单不存在或已被冻结 statusWrong：订单状态有误 userWrong：卖家已被封号 success：成功")
     @PostMapping("/evaluate")
     public Result<JSONObject> evaluateOrder(@RequestParam("number") Long number,@RequestParam("fromId") String fromId,
                                     @RequestParam("toId") String toId,@RequestParam("describe") Double describe,
@@ -133,8 +137,10 @@ public class OrderController {
         return ResultUtils.getResult(jsonObject,status);
     }
 
+
+    @Secured("ROLE_USER")
     @ApiImplicitParam(name = "photo",value = "描述图片文件",required = true,dataType = "file",paramType = "body")
-    @ApiOperation(value = "上传评价描述图片",notes = "fileWrong：上传文件为空 typeWrong：文件类型有误 success：成功 成功返回json url：图片url")
+    @ApiOperation(value = "上传评价描述图片（需要用户角色）",notes = "fileWrong：上传文件为空 typeWrong：文件类型有误 success：成功 成功返回json url：图片url")
     @PostMapping("/evaluatePhoto")
     public Result<JSONObject> evaluatePhotoUpload(@RequestParam("photo") MultipartFile file){
         JSONObject jsonObject = new JSONObject();
@@ -149,6 +155,7 @@ public class OrderController {
     }
 
 
+    @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "status",value = "订单状态,-1代表全部状态",required = true,dataType = "int",paramType = "query"),
@@ -156,7 +163,7 @@ public class OrderController {
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "获取所有订单页面",notes = "success：成功 成功返回json orderList：订单列表 pages：页面数 count：总数")
+    @ApiOperation(value = "获取所有订单页面（需要用户角色）",notes = "success：成功 成功返回json orderList：订单列表 pages：页面数 count：总数")
     @GetMapping("/orderList")
     public Result<JSONObject> getOrderList(@RequestParam("id") String id,@RequestParam("status") int status,
                                    @RequestParam(value = "keyword",required = false) String keyword, @RequestParam("cnt") long cnt,
@@ -168,11 +175,12 @@ public class OrderController {
     }
 
 
+    @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
     })
-    @ApiOperation(value = "卖家已发货",notes = "existWrong：订单不存在或已被冻结 statusWrong：订单状态有误 success：成功")
+    @ApiOperation(value = "卖家已发货（需要用户角色）",notes = "existWrong：订单不存在或已被冻结 statusWrong：订单状态有误 success：成功")
     @PostMapping("/sendOrder")
     public Result<JSONObject> sendOrder(@RequestParam("number") Long number,@RequestParam("fromId") String fromId){
         JSONObject jsonObject = new JSONObject();
@@ -183,13 +191,13 @@ public class OrderController {
 
 
 
-
+    @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "toId",value = "买家",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "number",value = "订单id",required = true,dataType = "Long",paramType = "query"),
     })
-    @ApiOperation(value = "确认收货",notes = "userWrong：买家id或卖家id不正确 existWrong：订单不存在或被冻结 statusWrong：订单状态有误 success：成功")
+    @ApiOperation(value = "确认收货（需要用户角色）",notes = "userWrong：买家id或卖家id不正确 existWrong：订单不存在或被冻结 statusWrong：订单状态有误 success：成功")
     @PostMapping("/confirmOrder")
     public Result<JSONObject> confirmOrder(@RequestParam("fromId") String fromId,@RequestParam("toId") String toId,
                                    @RequestParam("number") Long number){
@@ -200,13 +208,13 @@ public class OrderController {
     }
 
 
-
+    @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "fromId",value = "用户id（提醒者）",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "toId",value = "被提醒用户id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "订单提醒",notes = "statusWrong：订单状态错误（1，2，3，4才可以提醒） userWrong：用户不存在  existWrong：订单不存在 success：成功 ")
+    @ApiOperation(value = "订单提醒（需要用户角色）",notes = "statusWrong：订单状态错误（1，2，3，4才可以提醒） userWrong：用户不存在  existWrong：订单不存在 success：成功 ")
     @PostMapping("/remindOrder")
     public Result<JSONObject> remindOrder(@RequestParam("number") Long number,@RequestParam("fromId") String fromId,
                                           @RequestParam("toId") String toId){
@@ -216,11 +224,12 @@ public class OrderController {
 
 
 
+    @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "买家id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "number",value = "订单id",required = true,dataType = "Long",paramType = "query"),
     })
-    @ApiOperation(value = "取消订单",notes = "existWrong：订单不存在或已被冻结 statusWrong：订单状态有误 success：成功")
+    @ApiOperation(value = "取消订单（需要用户角色）",notes = "existWrong：订单不存在或已被冻结 statusWrong：订单状态有误 success：成功")
     @PostMapping("/cancelOrder")
     public Result<JSONObject> cancelOrder(@RequestParam("id") String id,@RequestParam("number") Long number){
         JSONObject jsonObject = new JSONObject();
@@ -232,6 +241,7 @@ public class OrderController {
 
     //申请订单退款
     //退款图片上传待完成
+    @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "退款买家id",required = true,dataType = "string",paramType = "query"),
@@ -240,7 +250,7 @@ public class OrderController {
             @ApiImplicitParam(name = "description",value = "描述",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "photo",value = "描述图片url",dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "订单退款(付款和已发货状态可用)，通知管理员",notes = "existWrong：订单不存在或已被冻结 statusWrong：订单状态有误 success：成功")
+    @ApiOperation(value = "订单退款(付款和已发货状态可用)，通知管理员（需要用户角色）",notes = "existWrong：订单不存在或已被冻结 statusWrong：订单状态有误 success：成功")
     @PostMapping("/refund")
     public Result<JSONObject> postRefund(@RequestParam("number") Long number,@RequestParam("id") String id,
                              @RequestParam("money") Double money,@RequestParam("reason") String reason,
@@ -253,8 +263,9 @@ public class OrderController {
     }
 
 
+    @Secured("ROLE_USER")
     @ApiImplicitParam(name = "photo",value = "描述图片文件",required = true,dataType = "file",paramType = "body")
-    @ApiOperation(value = "上传退款描述图片",notes = "fileWrong：上传文件为空 typeWrong：文件类型有误 success：成功 成功返回json url：图片url")
+    @ApiOperation(value = "上传退款描述图片（需要用户角色）",notes = "fileWrong：上传文件为空 typeWrong：文件类型有误 success：成功 成功返回json url：图片url")
     @PostMapping("/refundPhoto")
     public Result<JSONObject> refundPhotoUpload(@RequestParam("photo") MultipartFile file){
         JSONObject jsonObject = new JSONObject();
@@ -269,13 +280,14 @@ public class OrderController {
     }
 
 
+    @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "fromId",value = "卖家id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "isPass",value = "是否同意（1同意0不同意）",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "reason",value = "不同意时可以说明原因",dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "商家同意或拒绝退款接口",notes = "existWrong：订单不存在或已退款  statusWrong：订单状态错误  userWrong：卖家id错误  success：成功")
+    @ApiOperation(value = "商家同意或拒绝退款接口（需要用户角色）",notes = "existWrong：订单不存在或已退款  statusWrong：订单状态错误  userWrong：卖家id错误  success：成功")
     @PostMapping("/judgeRefund1")
     public Result<JSONObject> agreeRefund(@RequestParam("number") Long number,@RequestParam("fromId") String fromId,
                                           @RequestParam("isPass") Integer isPass,@RequestParam(value = "reason",required = false) String reason){
@@ -283,5 +295,6 @@ public class OrderController {
         String status = orderService.judgeRefund1(number,fromId,isPass,reason);
         return ResultUtils.getResult(new JSONObject(),status);
     }
+
 
 }

@@ -29,7 +29,7 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
         //登录失败情况，可能用户名或者密码错误
         if(e instanceof UsernameNotFoundException){
             //出现用户名密码错误
-            log.info(e.toString());
+            log.info("用户名密码出现错误" + e.getLocalizedMessage());
         }
         httpServletResponse.setHeader("Content-Type","application/json;charset=utf-8");
         JSONObject jsonObject = new JSONObject();
@@ -38,4 +38,5 @@ public class MyAuthenticationFailureHandler implements AuthenticationFailureHand
         printWriter.flush();
         printWriter.close();
     }
+
 }

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 //登录后，访问接口没有权限的时候调用
 @Slf4j
@@ -19,7 +20,7 @@ import java.io.PrintWriter;
 public class MyAccessDeniedHandler implements AccessDeniedHandler {
 
     @Override
-    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException, ServletException {
+    public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) throws IOException{
         //相应状态
         httpServletResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
         log.info("用户权限不足");

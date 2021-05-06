@@ -34,9 +34,11 @@ public class MyLogoutSuccessHandler implements LogoutSuccessHandler {
         //获取用户实例
         String username = httpServletRequest.getParameter("id");
         User user = userMapper.selectUser(username);
-        log.info("正在注销用户：" + user.getId());
-        //销毁redis中的token
-        redisUtils.delete(user.getId());
+        if(user != null){
+            log.info("正在注销用户：" + user.getId());
+            //销毁redis中的token
+            redisUtils.delete(user.getId());
+        }
         JSONObject jsonObject = new JSONObject();
         PrintWriter printWriter = httpServletResponse.getWriter();
         printWriter.write(ResultUtils.getResult(jsonObject,"logoutSuccess").toString());

@@ -96,10 +96,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/notifyBill").permitAll()
                 //放行支付宝退款接口
                 .antMatchers("/refundBill").permitAll()
-                //拥有管理员角色
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                //拥有用户角色
-                //.antMatchers("/user/**").hasRole("user")
                 //其他所有请求必须认证才能访问，必须登录
                 .anyRequest().authenticated()
                 .and()

@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.*;
 @Api(tags = "管理员控制类",protocols = "https")
 @Slf4j
 @RestController
+//管理员下的接口都要管理员角色
 @Secured("ROLE_ADMIN")
-@RequestMapping("/admin")
 public class AdministratorController {
 
     @Autowired
@@ -44,7 +44,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "获取所有用户信息",notes = "success：成功 成功返回json userList：用户信息列表 pages：页面数 count：总数")
+    @ApiOperation(value = "获取所有用户信息（需要管理员角色）",notes = "success：成功 成功返回json userList：用户信息列表 pages：页面数 count：总数")
     @GetMapping("/getUser")
     public Result<JSONObject> getAllUser(@RequestParam("cnt") Long cnt, @RequestParam("page") Long page,
                              @RequestParam(value = "keyword",required = false) String keyword){
@@ -60,7 +60,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "获取正常或者已禁用的用户信息",notes = "success：成功 成功返回json userList：用户信息列表 pages：页面数 count：总数")
+    @ApiOperation(value = "获取正常或者已禁用的用户信息（需要管理员角色）",notes = "success：成功 成功返回json userList：用户信息列表 pages：页面数 count：总数")
     @GetMapping("/getUser1")
     public Result<JSONObject> getAllUser1(@RequestParam("isDeleted") int isDeleted,@RequestParam(value = "keyword",required = false) String keyword,
                                   @RequestParam("cnt") Long cnt,@RequestParam("page") Long page){
@@ -70,13 +70,12 @@ public class AdministratorController {
 
 
 
-    //封禁时长大于999天=永封
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "被封用户id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "days",value = "封禁时长(天)",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "reason",value = "封号原因(发邮件告知)",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "管理员冻结用户",notes = "existWrong：用户不存在或已被冻结 success：成功")
+    @ApiOperation(value = "管理员冻结用户（需要管理员角色）",notes = "existWrong：用户不存在或已被冻结 success：成功")
     @PostMapping("/frozeUser")
     public Result<JSONObject> frozenUser(@RequestParam("id") String id,@RequestParam("days") int days,
                                  @RequestParam("reason") String reason){
@@ -97,7 +96,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "adminId",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "解封用户",notes = "userWrong：用户未被封号 success：成功")
+    @ApiOperation(value = "解封用户（需要管理员角色）",notes = "userWrong：用户未被封号 success：成功")
     @PostMapping("/reopenUser")
     public Result<JSONObject> reopenUser(@RequestParam("id") String id,@RequestParam("adminId") String adminId){
         JSONObject jsonObject = new JSONObject();
@@ -117,7 +116,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "isPass",value = "是否通过",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "审核商品",notes = "existWrong：商品不存在或已下架 success：成功")
+    @ApiOperation(value = "审核商品（需要管理员角色）",notes = "existWrong：商品不存在或已下架 success：成功")
     @PostMapping("/judgeGoods")
     public Result<JSONObject> judgeGoods(@RequestParam("number") Long number,@RequestParam("isPass") int isPass,
                                  @RequestParam("id") String id){
@@ -136,7 +135,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "isHide",value = "是否隐藏已读",required = true,dataType = "int",paramType = "query")
     })
-    @ApiOperation(value = "获取所有用户反馈",notes = "success：成功 成功返回json feedbackList：返回信息列表 pages：页面数 count：总数")
+    @ApiOperation(value = "获取所有用户反馈（需要管理员角色）",notes = "success：成功 成功返回json feedbackList：返回信息列表 pages：页面数 count：总数")
     @GetMapping("/feedbackList")
     public Result<JSONObject> getAllFeedback(@RequestParam("cnt") Long cnt, @RequestParam("page") Long page,
                                              @RequestParam("id") String id, @RequestParam("isHide") int isHide){
@@ -150,7 +149,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "number",value = "反馈编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "获取单个具体反馈信息",notes = "existWrong：反馈信息不存在 success：成功 成功返回json feedback：反馈信息")
+    @ApiOperation(value = "获取单个具体反馈信息（需要管理员角色）",notes = "existWrong：反馈信息不存在 success：成功 成功返回json feedback：反馈信息")
     @GetMapping("/feedback")
     public Result<JSONObject> getFeedback(@RequestParam("number") Long number,@RequestParam("id") String id){
         log.info("正在获取详细反馈信息，管理员：" + id + " 编号：" + number);
@@ -171,7 +170,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "keyword",value = "搜索关键词",dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "isPass",value = "是否已经通过审核",required = true,dataType = "int",paramType = "query"),
     })
-    @ApiOperation(value = "获取所有商品列表",notes = "success：成功 成功返回json goodsList：商品列表信息  pages：页面数 count：数据量")
+    @ApiOperation(value = "获取所有商品列表（需要管理员角色）",notes = "success：成功 成功返回json goodsList：商品列表信息  pages：页面数 count：数据量")
     @GetMapping("/goodsList")
     public Result<JSONObject> getGoodsList(@RequestParam("cnt") Long cnt,@RequestParam("page") Long page,
                                @RequestParam(value = "keyword",required = false) String keyword,
@@ -186,7 +185,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "number",value = "订单编号",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "获取退款详细信息",notes = "existWrong：订单不存在或没有申请退款 statusWrong：订单状态错误 success：成功 成功返回json refund：退款详细信息")
+    @ApiOperation(value = "获取退款详细信息（需要管理员角色）",notes = "existWrong：订单不存在或没有申请退款 statusWrong：订单状态错误 success：成功 成功返回json refund：退款详细信息")
     @GetMapping("/getRefund")
     public Result<JSONObject> getRefund(@RequestParam("number") Long number,@RequestParam("id") String id){
         log.info("正在获取退款详细信息，管理员：" + id + " 订单：" + number);
@@ -204,7 +203,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "isPass",value = "是否同意",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "处理退款申请",notes = "existWrong：订单不存在或没有申请退款 statusWrong：订单状态错误 success：成功")
+    @ApiOperation(value = "处理退款申请（需要管理员角色）",notes = "existWrong：订单不存在或没有申请退款 statusWrong：订单状态错误 success：成功")
     @PostMapping("/judgeRefund")
     public Result<JSONObject> judgeRefund(@RequestParam("number") Long number,@RequestParam("isPass") int isPass,
                                    @RequestParam("id") String id) throws Exception{
@@ -232,7 +231,7 @@ public class AdministratorController {
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "获取投诉列表",notes = "success：成功  成功返回json complainList：投诉内容列表 pages：页面数 cnt：总数")
+    @ApiOperation(value = "获取投诉列表（需要管理员角色）",notes = "success：成功  成功返回json complainList：投诉内容列表 pages：页面数 cnt：总数")
     @GetMapping("/complainList")
     public Result<JSONObject> getComplainList(@RequestParam(value = "keyword",required = false) String keyword,
                                               @RequestParam("cnt") Long cnt,@RequestParam("page") Long page){
@@ -244,7 +243,7 @@ public class AdministratorController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "投诉编号",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "删除投诉",notes = "existWrong：投诉内容不存在（可能已经被删除） success：成功")
+    @ApiOperation(value = "删除投诉（需要管理员角色）",notes = "existWrong：投诉内容不存在（可能已经被删除） success：成功")
     @DeleteMapping("/complain")
     public Result<JSONObject> deleteComplain(@RequestParam("number") Long number){
         log.info("正在删除投诉内容：" + number);
@@ -256,7 +255,7 @@ public class AdministratorController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "goodsId",value = "冻结商品编号",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "冻结商品",notes = "existWrong：商品不存在（可能是重复请求） success：成功")
+    @ApiOperation(value = "冻结商品（需要管理员角色）",notes = "existWrong：商品不存在（可能是重复请求） success：成功")
     @PostMapping("/frozenGoods")
     public Result<JSONObject> frozenGoods(@RequestParam("goodsId") Long goodsId){
         log.info("正在冻结商品：" + goodsId);
