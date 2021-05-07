@@ -5,7 +5,6 @@ import com.west2xianyu.utils.JwtUtils;
 import com.west2xianyu.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,13 +18,13 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 
 
 @Slf4j
 public class MyUsernamePasswordFilter extends OncePerRequestFilter {
+
 
 
     //重写拦截器方法
@@ -46,6 +45,17 @@ public class MyUsernamePasswordFilter extends OncePerRequestFilter {
         WebApplicationContext applicationContext = WebApplicationContextUtils.getWebApplicationContext(request.getServletContext());
         if(applicationContext != null){
             RedisUtils redisUtils = (RedisUtils) applicationContext.getBean("redisUtils");
+            //有token情况下，在身份验证之前，看看token是不是在黑名单里自动过滤
+            if(redisUtils.hasKey("BLACK_" + token)){
+                //有在黑名单，保存加一
+                redisUtils.saveBlackToken(token);
+                //给黑名单身份
+                Collection<GrantedAuthority> authList2 = new ArrayList<>();
+                authList2.add(new SimpleGrantedAuthority("ROLE_BLACK"));
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(new User("1","1",authList2),null,authList2));
+                chain.doFilter(request,response);
+                return ;
+            }
             //先查询redis数据库中是否有这个token
             //先获取token中的用户名
             String username = JwtUtils.getUsername(token);
@@ -59,9 +69,22 @@ public class MyUsernamePasswordFilter extends OncePerRequestFilter {
                 log.info("正在赋予身份信息");
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = redisUtils.getAuthentication(token);
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                //判断token有效时间是否小于15分钟，是则重置token有效时间至1小时
+                if(!redisUtils.isAfterDate(username,15)){
+                    //重置token有效时间
+                    log.info("token时间不足，正在重置token有效时间，token：" + token);
+                    redisUtils.resetExpire(username,token,1);
+                    log.info("token时间已被重置成功");
+                }
             }else{
                 log.info("身份信息校验错误");
-                throw new UserPrincipalNotFoundException("用户身份信息错误");
+                //用假的token登录，给他一个黑客身份，黑名单处理
+                redisUtils.saveBlackToken(token);
+                Collection<GrantedAuthority> authList1 = new ArrayList<>();
+                authList1.add(new SimpleGrantedAuthority("ROLE_HACK"));
+                SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(new User("1","1",authList1),null,authList1));
+                chain.doFilter(request,response);
+                return ;
             }
         }
         log.info("身份信息：" + SecurityContextHolder.getContext().toString());

@@ -1,25 +1,15 @@
 package com.west2xianyu;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.west2xianyu.mapper.RefundMapper;
 import com.west2xianyu.mapper.RoleMapper;
 import com.west2xianyu.mapper.UserRoleMapper;
-import com.west2xianyu.pojo.Refund;
-import com.west2xianyu.pojo.Role;
-import com.west2xianyu.pojo.UserRole;
-import com.west2xianyu.utils.JwtUtils;
 import com.west2xianyu.utils.RedisUtils;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 
-import java.awt.geom.QuadCurve2D;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
 class West2xianyuApplicationTests {
@@ -37,16 +27,23 @@ class West2xianyuApplicationTests {
     @Autowired
     private RefundMapper refundMapper;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
 
     /*
     @Test
     void fun() {
-        System.out.println(redisUtils.hasKey("171909068"));
+        redisUtils.resetExpire("171909068","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzE5MDkwNjgiLCJpYXQiOjE2MjAzNjM5OTEsImV4cCI6MTYyMDM2NzU5MX0.jXsVF6Y54b-gn2TKAeeOGVXRVuFrYR0sBd_ciPDBwlY",1);
     }
 
 
-   /*
+    @Test
+    void fun1(){
+        System.out.println(redisTemplate.getExpire("171909060",TimeUnit.SECONDS));
+    }
 
+/*
 
     @Autowired
     private RedisUtils redisUtils;

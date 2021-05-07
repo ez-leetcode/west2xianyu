@@ -32,6 +32,7 @@ public class ResultUtils {
         resultMap.put("authorityWrong",403);
         resultMap.put("yzmWrong",403);
         resultMap.put("codeWrong",403);
+        resultMap.put("frozenWrong",403);
         //支付过程中失败 -2
         resultMap.put("payFail",-2);
         resultMap.put("refundFail",-2);

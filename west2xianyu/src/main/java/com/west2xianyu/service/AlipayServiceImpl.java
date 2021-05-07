@@ -126,7 +126,7 @@ public class AlipayServiceImpl implements AlipayService{
                     message.setId(orders.getFromId());
                     Calendar calendar= Calendar.getInstance();
                     SimpleDateFormat dateFormat= new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    message.setTitle("您的订单" + orders.getNumber() + "已被买家付款，请及时处理");
+                    message.setTitle("您的订单：" + orders.getNumber() + "已被买家付款，请及时处理");
                     message.setIsRead(0);
                     message.setMsg(dateFormat.format(calendar.getTime()) + " \n" + " 您的订单：" + orders.getNumber() + "已被买家" + orders.getToId() +
                             "成功付款，请及时与买家取得联系");

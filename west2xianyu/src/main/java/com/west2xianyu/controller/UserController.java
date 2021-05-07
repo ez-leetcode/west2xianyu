@@ -689,7 +689,8 @@ public class UserController {
             @ApiImplicitParam(name = "fromId",value = "投诉者id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "toId",value = "被投诉者id",required = true,dataType = "string",paramType = "query"),
             @ApiImplicitParam(name = "reason",value = "投诉理由",required = true,dataType = "string",paramType = "query"),
-            @ApiImplicitParam(name = "specificReason",value = "具体原因",required = true,dataType = "string",paramType = "query")
+            @ApiImplicitParam(name = "specificReason",value = "具体原因",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "token",value = "token令牌",required = true,dataType = "string",paramType = "header")
     })
     @ApiOperation(value = "投诉用户（需要用户角色）",notes = "userWrong：用户不存在 success：成功")
     @PostMapping("/complain")

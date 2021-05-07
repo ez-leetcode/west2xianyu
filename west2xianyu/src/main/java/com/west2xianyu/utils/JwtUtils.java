@@ -16,7 +16,7 @@ public class JwtUtils {
 
     private static final String secret = "*&ycy!yyds?";
 
-    private static final long expiration = 8 * 1000 * 3600L;
+    private static final long expiration = 1000 * 3600L;
 
 
     //创建token
@@ -27,7 +27,7 @@ public class JwtUtils {
                 .setSubject(password)
                 //签发时间
                 .setIssuedAt(new Date())
-                //八小时过期
+                //一小时过期
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(SignatureAlgorithm.HS256,secret);
         log.info("创建token成功，用户：" + username + " token：" + jwtBuilder.compact());

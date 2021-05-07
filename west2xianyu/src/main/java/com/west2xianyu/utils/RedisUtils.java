@@ -51,6 +51,35 @@ public class RedisUtils {
         redisTemplate.opsForValue().set(key,value,seconds,TimeUnit.SECONDS);
     }
 
+
+    //判断key是否在这个时间后
+    public boolean isAfterDate(String key,int minutes){
+        return redisTemplate.getExpire(key,TimeUnit.SECONDS) > (long) minutes * 60;
+    }
+
+
+    //token重置时间
+    public void resetExpire(String key,String value,int hours){
+        redisTemplate.opsForValue().set(key,value,hours,TimeUnit.HOURS);
+    }
+
+
+    //保存黑名单token，还可以增加次数，查ip封号
+    public void saveBlackToken(String key){
+        String cntString = redisTemplate.opsForValue().get(key);
+        if(cntString != null){
+            //获取次数并加一
+            int cnt = Integer.parseInt(cntString);
+            cnt ++;
+            //保存犯罪次数
+            redisTemplate.opsForValue().set("BLACK_" + key, Integer.toString(cnt));
+        }else{
+            //以前没有过，存入
+            redisTemplate.opsForValue().set("BLACK_" + key,"1");
+        }
+    }
+
+
     //保存浏览量信息
     public void saveScan(String key){
         //加前缀方便识别
@@ -129,8 +158,5 @@ public class RedisUtils {
     public boolean hasKey(String key){
         return redisTemplate.opsForValue().get(key) != null;
     }
-
-
-
 
 }

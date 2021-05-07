@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
-import com.west2xianyu.msg.FeedbackMsg;
-import com.west2xianyu.msg.GoodsMsg;
-import com.west2xianyu.msg.RefundMsg;
-import com.west2xianyu.msg.UserMsg;
+import com.west2xianyu.msg.*;
 import com.west2xianyu.pojo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +41,12 @@ public class AdministratorServiceImpl implements AdministratorService{
 
     @Autowired
     private ComplainMapper complainMapper;
+
+    @Autowired
+    private EvaluateMapper evaluateMapper;
+
+    @Autowired
+    private CommentMapper commentMapper;
 
 
     @Override
@@ -476,5 +479,91 @@ public class AdministratorServiceImpl implements AdministratorService{
         log.info("冻结商品成功：" + number);
         return "success";
     }
+
+
+    @Override
+    public JSONObject getInformation(String id) {
+        JSONObject jsonObject = new JSONObject();
+        InformationMsg informationMsg = new InformationMsg();
+        List<User> userList = userMapper.selectAll();
+        //用户总数
+        informationMsg.setUserCount(userList.size());
+        List<Orders> ordersList = ordersMapper.selectAll();
+        //订单总数
+        informationMsg.setOrderCount(ordersList.size());
+        //获取已完成订单
+        QueryWrapper<Orders> wrapper = new QueryWrapper<>();
+        wrapper.eq("status",5);
+        List<Orders> ordersList1 = ordersMapper.selectList(wrapper);
+        double sum = 0;
+        for(Orders x:ordersList1){
+            sum += x.getPrice();
+            sum += x.getFreight();
+        }
+        //成功交易订单金额
+        informationMsg.setTradeCount(sum);
+        //成功交易订单数
+        informationMsg.setOrderCount4(ordersList1.size());
+        QueryWrapper<Orders> wrapper1 = new QueryWrapper<>();
+        wrapper1.eq("status",4);
+        List<Orders> ordersList2 = ordersMapper.selectList(wrapper1);
+        //待评价订单数
+        informationMsg.setOrderCount1(ordersList2.size());
+        QueryWrapper<Orders> wrapper2 = new QueryWrapper<>();
+        wrapper2.eq("status",1);
+        List<Orders> ordersList3 = ordersMapper.selectList(wrapper2);
+        //待付款订单数
+        informationMsg.setOrderCount3(ordersList3.size());
+        QueryWrapper<Orders> wrapper3 = new QueryWrapper<>();
+        wrapper3.eq("status",2);
+        List<Orders> ordersList4 = ordersMapper.selectList(wrapper3);
+        //待发货订单数
+        informationMsg.setOrderCount2(ordersList4.size());
+        //交易未成功数
+        informationMsg.setOrderCount5(ordersList.size() - ordersList1.size() - ordersList2.size() - ordersList3.size() - ordersList4.size());
+        List<Goods> goodsList = goodsMapper.selectAll();
+        //总商品数
+        informationMsg.setGoodsCount(goodsList.size());
+        QueryWrapper<Goods> wrapper4 = new QueryWrapper<>();
+        wrapper4.eq("is_pass",1)
+                .eq("is_frozen",0);
+        List<Goods> goodsList1 = goodsMapper.selectList(wrapper4);
+        //上架商品数
+        informationMsg.setGoodsCount1(goodsList1.size());
+        //下架商品总数
+        informationMsg.setGoodsCount2(goodsList.size() - goodsList1.size());
+        List<Evaluate> evaluateList = evaluateMapper.selectAll();
+        //商家评价总数
+        informationMsg.setEvaluate(evaluateList.size());
+        List<Comment> commentList = commentMapper.selectAll();
+        //商品留言总数
+        informationMsg.setComments(commentList.size());
+        QueryWrapper<Feedback> wrapper5 = new QueryWrapper<>();
+        wrapper5.eq("is_read",0);
+        wrapper5.orderByDesc("create_time");
+        List<Feedback> feedbackList = feedbackMapper.selectList(wrapper5);
+        int cnt = 0;
+        for(Feedback x:feedbackList){
+            cnt ++;
+            if(cnt == 1){
+                informationMsg.setFeedback1(x.getTitle());
+            }else if(cnt == 2){
+                informationMsg.setFeedback2(x.getTitle());
+            }else if(cnt == 3){
+                informationMsg.setFeedback3(x.getTitle());
+            }else if(cnt == 4){
+                informationMsg.setFeedback4(x.getTitle());
+            }else if(cnt == 5){
+                informationMsg.setFeedback5(x.getTitle());
+            }
+            if(cnt == 6){
+                break;
+            }
+        }
+        jsonObject.put("information",informationMsg);
+        return jsonObject;
+    }
+
+
 
 }

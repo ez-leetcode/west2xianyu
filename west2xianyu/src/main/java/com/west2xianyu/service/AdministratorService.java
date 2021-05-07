@@ -30,4 +30,6 @@ public interface AdministratorService {
     JSONObject getRefund(Long number);
 
     JSONObject getComplainList(String keyword,Long cnt,Long page);
+
+    JSONObject getInformation(String id);
 }

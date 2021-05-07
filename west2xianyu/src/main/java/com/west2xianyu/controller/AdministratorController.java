@@ -12,7 +12,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
@@ -261,6 +260,17 @@ public class AdministratorController {
         log.info("正在冻结商品：" + goodsId);
         String status = administratorService.frozenGoods(goodsId);
         return ResultUtils.getResult(new JSONObject(),status);
+    }
+
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "管理员id",required = true,dataType = "string",paramType = "query")
+    })
+    @ApiOperation(value = "获取后台管理主页面信息（需要管理员角色）",notes = "success：成功 成功返回json information")
+    @GetMapping("/information")
+    public Result<JSONObject> getInformation(@RequestParam("id") String id){
+        log.info("正在获取后台主页面信息：" + id);
+        return ResultUtils.getResult(administratorService.getInformation(id),"success");
     }
 
 }

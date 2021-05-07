@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -77,9 +79,8 @@ public class GoodsServiceImpl implements GoodsService{
         redisUtils.saveScan(number.toString());
         //获取卖家信息
         User user = userMapper.selectUser(goods.getFromId());
-        GoodsMsg2 goodsMsg2 = new GoodsMsg2(number,goods.getFromId(),user.getUsername(),user.getPhoto(),goods.getPrice(),goods.getPhoto(),goods.getGoodsName(),
+        return new GoodsMsg2(number,goods.getFromId(),user.getUsername(),user.getPhoto(),goods.getPrice(),goods.getPhoto(),goods.getGoodsName(),
                 goods.getDescription(),goods.getScanCounts(),goods.getFavorCounts(),user.getAveDescribe(),user.getAveService(),user.getAveLogistics(),goods.getUpdateTime());
-        return goodsMsg2;
     }
 
     @Override
@@ -331,8 +332,19 @@ public class GoodsServiceImpl implements GoodsService{
         if(fromId != null){
             wrapper.eq("from_id",fromId);
         }
+        if(keyword != null){
+            //设置搜索关键词
+            wrapper.like("goods_name",keyword);
+        }
+        //已经审核通过
+        Map<String,String> map1 = new HashMap<>();
+        map1.put("is_pass","1");
+        map1.put("is_frozen","0");
+        map1.put("deleted","0");
+        wrapper.allEq(map1);
+        //wrapper.eq("is_pass",1);
         //未被冻结
-        wrapper.eq("is_frozen",0);
+        //wrapper.eq("is_frozen",0);
         //设置价格区间
         wrapper.between("price",low,high);
         //最近更新过的物品会先被刷到
@@ -340,31 +352,44 @@ public class GoodsServiceImpl implements GoodsService{
         if(label1 != null){
             wrapper.or()
                     .like("label1",label1)
+                    .between("price",low,high)
+                    .allEq(map1)
                     .or()
                     .like("label2",label1)
+                    .between("price",low,high)
+                    .allEq(map1)
                     .or()
-                    .like("label3",label1);
+                    .like("label3",label1)
+                    .between("price",low,high)
+                    .allEq(map1);
         }
         if(label2 != null){
             wrapper.or()
                     .like("label1",label2)
+                    .between("price",low,high)
+                    .allEq(map1)
                     .or()
                     .like("label2",label2)
+                    .between("price",low,high)
+                    .allEq(map1)
                     .or()
-                    .like("label3",label2);
+                    .like("label3",label2)
+                    .between("price",low,high)
+                    .allEq(map1);
         }
         if(label3 != null){
             wrapper.or()
                     .like("label1",label3)
+                    .between("price",low,high)
+                    .allEq(map1)
                     .or()
                     .like("label2",label3)
+                    .between("price",low,high)
+                    .allEq(map1)
                     .or()
-                    .like("label3",label3);
-        }
-        if(keyword != null){
-            //设置搜索关键词
-            wrapper.or()
-                    .like("goods_name",keyword);
+                    .like("label3",label3)
+                    .between("price",low,high)
+                    .allEq(map1);
         }
         Page<Goods> page1 = new Page<>(page,cnt);
         goodsMapper.selectPage(page1,wrapper);

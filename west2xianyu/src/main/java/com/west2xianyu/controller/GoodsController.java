@@ -77,7 +77,7 @@ public class GoodsController {
     //pass
     @Secured("ROLE_USER")
     @ApiImplicitParam(name = "photo",value = "商品图片",required = true,dataType = "file",paramType = "body")
-    @ApiOperation(value = "上传商品图片（需要用户身份）",notes = "typeWrong：上传文件类型有误 fileWrong：上传文件为空 success：成功 成功返回json url：商品图片url")
+    @ApiOperation(value = "上传商品图片（需要用户角色）",notes = "typeWrong：上传文件类型有误 fileWrong：上传文件为空 success：成功 成功返回json url：商品图片url")
     @PostMapping("/goodsPhoto")
     public Result<JSONObject> uploadGoodsPhoto(@RequestParam("photo")MultipartFile file){
         JSONObject jsonObject = new JSONObject();
