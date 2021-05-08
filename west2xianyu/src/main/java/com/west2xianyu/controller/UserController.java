@@ -702,4 +702,19 @@ public class UserController {
     }
 
 
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fromId",value = "聊天者（学号）",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "toId",value = "被聊天者（学号）",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "获取聊天记录",notes = "success：成功  成功返回json talkList：聊天列表")
+    @GetMapping("/oldTalk")
+    public Result<JSONObject> getOldTalk(@RequestParam("fromId") String fromId,@RequestParam("toId") String toId,
+                                         @RequestParam("cnt") Long cnt,@RequestParam("page") Long page){
+        log.info("正在获取聊天记录：" + fromId);
+        return ResultUtils.getResult(userService.getTalk(fromId,toId,page,cnt),"success");
+    }
+
+
 }

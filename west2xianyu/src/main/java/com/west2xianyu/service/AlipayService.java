@@ -13,4 +13,5 @@ public interface AlipayService {
     String notifyPay(HttpServletRequest request) throws Exception;
 
     String refundBill(Long number,Double price) throws Exception;
+
 }

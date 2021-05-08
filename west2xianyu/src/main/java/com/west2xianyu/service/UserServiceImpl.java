@@ -10,6 +10,7 @@ import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -69,6 +70,9 @@ public class UserServiceImpl implements UserService{
 
     @Autowired
     private ComplainMapper complainMapper;
+
+    @Autowired
+    private TalkMapper talkMapper;
 
     //有时间加邮箱验证码
     @Override
@@ -720,6 +724,7 @@ public class UserServiceImpl implements UserService{
         List<HistoryMsg> historyMsgList = new ArrayList<>();
         for(History x:historyList){
             Goods goods = goodsMapper.selectGoodsWhenever(x.getGoodsId());
+            log.info(x.getGoodsId().toString());
             historyMsgList.add(new HistoryMsg(goods.getNumber(),id,goods.getGoodsName(),goods.getPrice(),goods.getPhoto(),x.getUpdateTime()));
         }
         jsonObject.put("historyList",historyMsgList);
@@ -893,8 +898,24 @@ public class UserServiceImpl implements UserService{
         jsonObject.put("commentList",commentList);
         jsonObject.put("pages",page1.getPages());
         jsonObject.put("count",page1.getTotal());
+        log.info("获取评论列表成功：" + id);
         return jsonObject;
     }
 
+
+    @Override
+    public JSONObject getTalk(String fromId, String toId, long page, long cnt) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Talk> wrapper = new QueryWrapper<>();
+        wrapper.eq("from_id",fromId)
+                .eq("to_id",toId)
+                .orderByDesc("create_time");
+        Page<Talk> page1 = new Page<>(page,cnt);
+        talkMapper.selectPage(page1,wrapper);
+        List<Talk> talkList = page1.getRecords();
+        jsonObject.put("talkList",talkList);
+        log.info("获取历史聊天记录成功：" + fromId);
+        return jsonObject;
+    }
 
 }

@@ -37,4 +37,5 @@ public class FansMsg {
 
     @ApiModelProperty("关注时间")
     private Date followTime;
+
 }

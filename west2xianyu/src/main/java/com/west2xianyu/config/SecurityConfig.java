@@ -7,7 +7,6 @@ import com.west2xianyu.handler.MyAuthenticationFailureHandler;
 import com.west2xianyu.handler.MyAuthenticationSuccessHandler;
 import com.west2xianyu.handler.MyLogoutSuccessHandler;
 import com.west2xianyu.service.UserDetailServiceImpl;
-import com.west2xianyu.utils.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,9 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailServiceImpl userDetailService;
 
-    @Autowired
-    private RedisUtils redisUtils;
-
 
     @Bean
     public PasswordEncoder getPassword(){
@@ -60,7 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //放行静态资源
     @Override
-    public void configure(WebSecurity web) throws Exception {
+    public void configure(WebSecurity web){
         //不通过security
         //可能还要有图片
         //swagger放行这四个，不然看不见

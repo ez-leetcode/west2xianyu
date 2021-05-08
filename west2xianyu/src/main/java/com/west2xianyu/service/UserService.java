@@ -60,6 +60,8 @@ public interface UserService {
 
     JSONObject getCommentList(String id,long cnt,long page,long number);
 
+    JSONObject getTalk(String fromId,String toId,long page,long cnt);
+
     String deleteHistory(Long goodsId,String id);
 
     String deleteAllHistory(String id);
@@ -75,4 +77,5 @@ public interface UserService {
     String findPassword(String id,String newPassword);
 
     String complainUser(String fromId,String toId,String reason,String specificReason);
+
 }

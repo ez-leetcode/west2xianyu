@@ -7,10 +7,10 @@ import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 
+
+//这个阿里云ssl安全证书出了点问题，支付宝异步回调不认可这个证书，暂时https用不了
 @Slf4j
 //@Configuration
 public class HttpsConfig {

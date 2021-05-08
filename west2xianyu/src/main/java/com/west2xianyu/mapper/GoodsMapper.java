@@ -25,4 +25,5 @@ public interface GoodsMapper extends BaseMapper<Goods> {
 
     @Select("SELECT * FROM goods")
     List<Goods> selectAll();
+
 }

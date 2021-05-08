@@ -7,12 +7,10 @@ import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.attribute.UserPrincipalNotFoundException;
 
 //登录后，访问接口没有权限的时候调用
 @Slf4j

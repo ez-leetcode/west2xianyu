@@ -31,10 +31,12 @@ class West2xianyuApplicationTests {
     private RedisTemplate redisTemplate;
 
 
-    /*
+
     @Test
     void fun() {
-        redisUtils.resetExpire("171909068","eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxNzE5MDkwNjgiLCJpYXQiOjE2MjAzNjM5OTEsImV4cCI6MTYyMDM2NzU5MX0.jXsVF6Y54b-gn2TKAeeOGVXRVuFrYR0sBd_ciPDBwlY",1);
+        redisUtils.saveByTime("ycy","yyds",1);
+        System.out.println(redisUtils.isAfterDate("ycy",50));
+        System.out.println(redisUtils.isAfterDate("ycy",70));
     }
 
 
