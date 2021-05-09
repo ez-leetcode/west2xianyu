@@ -31,6 +31,7 @@ class West2xianyuApplicationTests {
     private RedisTemplate redisTemplate;
 
 
+    /*
 
     @Test
     void fun() {

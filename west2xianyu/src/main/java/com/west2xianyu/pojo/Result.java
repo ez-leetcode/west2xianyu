@@ -3,7 +3,6 @@ package com.west2xianyu.pojo;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 //返回结果
 @Setter

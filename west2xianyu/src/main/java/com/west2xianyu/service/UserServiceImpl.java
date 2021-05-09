@@ -10,7 +10,6 @@ import com.west2xianyu.pojo.*;
 import com.west2xianyu.utils.OssUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -909,12 +908,72 @@ public class UserServiceImpl implements UserService{
         QueryWrapper<Talk> wrapper = new QueryWrapper<>();
         wrapper.eq("from_id",fromId)
                 .eq("to_id",toId)
+                .orderByDesc("create_time")
+                .or()
+                .eq("from_id",toId)
+                .eq("to_id",fromId)
                 .orderByDesc("create_time");
         Page<Talk> page1 = new Page<>(page,cnt);
         talkMapper.selectPage(page1,wrapper);
         List<Talk> talkList = page1.getRecords();
         jsonObject.put("talkList",talkList);
+        jsonObject.put("count",page1.getTotal());
+        jsonObject.put("pages",page1.getPages());
+        //获取完聊天记录，把他们标志为已读
+        for(Talk x:talkList){
+            x.setIsRead(1);
+            QueryWrapper<Talk> wrapper1 = new QueryWrapper<>();
+            wrapper1.eq("from_id",x.getFromId())
+                    .eq("to_id",x.getToId())
+                    .eq("message",x.getMessage());
+            talkMapper.update(x,wrapper);
+        }
         log.info("获取历史聊天记录成功：" + fromId);
+        return jsonObject;
+    }
+
+
+    @Override
+    public String getOneTalk(String fromId, String toId, String createTime, String message) {
+        QueryWrapper<Talk> wrapper = new QueryWrapper<>();
+        wrapper.eq("from_id",fromId)
+                .eq("to_id",toId)
+                .eq("message",message)
+                .eq("create_time",createTime);
+        Talk talk = talkMapper.selectOne(wrapper);
+        if(talk == null){
+            log.warn("聊天消息不存在");
+            return "existWrong";
+        }
+        talk.setIsRead(1);
+        talkMapper.update(talk,wrapper);
+        log.info("获取消息成功");
+        return "success";
+    }
+
+
+    @Override
+    public JSONObject getTalkList(String id, int isRead, long page, long cnt) {
+        JSONObject jsonObject = new JSONObject();
+        QueryWrapper<Talk> wrapper = new QueryWrapper<>();
+        wrapper.eq("to_id",id)
+                .eq("is_read",isRead)
+                .orderByDesc("create_time");
+        Page<Talk> page1 = new Page<>(page,cnt);
+        talkMapper.selectPage(page1,wrapper);
+        List<Talk> talkList = page1.getRecords();
+        List<TalkMsg> talkMsgList = new LinkedList<>();
+        for(Talk x:talkList){
+            User fromUser = userMapper.selectUser(x.getFromId());
+            User toUser = userMapper.selectUser(x.getToId());
+            //提取用户头像昵称等信息
+            talkMsgList.add(new TalkMsg(fromUser.getId(),toUser.getId(),fromUser.getUsername(),toUser.getUsername(),fromUser.getPhoto(),
+                    toUser.getPhoto(),x.getMessage(),x.getIsRead(),x.getCreateTime()));
+        }
+        jsonObject.put("talkList",talkMsgList);
+        jsonObject.put("pages",page1.getPages());
+        jsonObject.put("count",page1.getTotal());
+        log.info("获取用户消息盒子信息成功");
         return jsonObject;
     }
 

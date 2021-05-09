@@ -4,7 +4,6 @@ package com.west2xianyu.pojo;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -39,7 +38,7 @@ public class User {
     @ApiModelProperty(value = "校区")
     private String campus;
 
-    @ApiModelProperty("手机号码")
+    @ApiModelProperty(value = "手机号码")
     private String phone;
 
     @ApiModelProperty(value = "头像url",notes = "头像资源统一存放在阿里云oss /userPhoto中")
@@ -92,6 +91,7 @@ public class User {
 
 }
 
+//这个已经是上古版本的建表了，不能用了
 /*
     CREATE TABLE `west2xianyu`.`Untitled`  (
         `id` bigint(50) NOT NULL,

@@ -37,7 +37,7 @@ public class UserController {
 
 
     @GetMapping("/test")
-    //注释用户名
+    //测试
     public String test(@ApiParam("用户名") User user){
         return "test" + user.toString();
     }
@@ -668,7 +668,6 @@ public class UserController {
     }
 
 
-
     @Secured("ROLE_USER")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
@@ -683,6 +682,7 @@ public class UserController {
         JSONObject jsonObject = userService.getEvaluate(id,cnt,page);
         return ResultUtils.getResult(jsonObject,"success");
     }
+
 
     @Secured("ROLE_USER")
     @ApiImplicitParams({
@@ -708,7 +708,7 @@ public class UserController {
             @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
             @ApiImplicitParam(name = "page",value = "当前第几页",required = true,dataType = "Long",paramType = "query")
     })
-    @ApiOperation(value = "获取聊天记录",notes = "success：成功  成功返回json talkList：聊天列表")
+    @ApiOperation(value = "获取聊天记录（1对1）",notes = "success：成功  成功返回json talkList：聊天列表")
     @GetMapping("/oldTalk")
     public Result<JSONObject> getOldTalk(@RequestParam("fromId") String fromId,@RequestParam("toId") String toId,
                                          @RequestParam("cnt") Long cnt,@RequestParam("page") Long page){
@@ -716,5 +716,35 @@ public class UserController {
         return ResultUtils.getResult(userService.getTalk(fromId,toId,page,cnt),"success");
     }
 
+
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "fromId",value = "聊天者（学号）",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "toId",value = "被聊天者（学号）",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "message",value = "消息内容",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "createTime",value = "消息时间（因为可能有的信息会被发两次）",required = true,dataType = "string",paramType = "query")
+    })
+    @ApiOperation(value = "获取到单个聊天信息调用，标记为已读（这个暂时不用）",notes = "existWrong：消息不存在 success：成功")
+    @PostMapping("/talk")
+    public Result<JSONObject> getOneTalk(@RequestParam("fromId") String fromId,@RequestParam("toId") String toId,
+                                         @RequestParam("message") String message,@RequestParam("createTime") String createTime){
+        log.info("正在标记单个聊天信息：" + message);
+        return ResultUtils.getResult(new JSONObject(), userService.getOneTalk(fromId,toId,message,createTime));
+    }
+
+
+    @Secured("ROLE_USER")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query"),
+            @ApiImplicitParam(name = "isRead",value = "是否已读",required = true,dataType = "int",paramType = "query"),
+            @ApiImplicitParam(name = "cnt",value = "页面数据量",required = true,dataType = "Long",paramType = "query"),
+            @ApiImplicitParam(name = "page",value = "当前页面",required = true,dataType = "Long",paramType = "query")
+    })
+    @ApiOperation(value = "获取消息列表（通知那里）",notes = "success：成功 返回json talkList：消息列表（会有头像昵称等等）")
+    @GetMapping("/talkList")
+    public Result<JSONObject> getTalkList(@RequestParam("id") String id,@RequestParam("isRead") Integer isRead,
+                                          @RequestParam("cnt") Long cnt,@RequestParam("page") Long page){
+        log.info("正在获取消息列表：" + id);
+        return ResultUtils.getResult(userService.getTalkList(id,isRead,page,cnt),"success");
+    }
 
 }

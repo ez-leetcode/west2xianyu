@@ -75,17 +75,19 @@ public class WebsocketService {
     public void insertTalk(String fromId,String toId,String message){
         //先尝试获取该用户websocket，看看存不存在，没有就留个聊天记录就好
         WebsocketService websocketService = websocketServiceConcurrentHashMap.get(toId);
+        //更新聊天记录
+        log.info("正在更新聊天记录，fromId：" + fromId + " toId：" + toId + " message：" + message);
         if(websocketService != null){
             //该用户在线，非阻塞式推送
             websocketService.session.getAsyncRemote().sendText(message);
+            //直接已读
+            talkMapper.insert(new Talk(fromId,toId,message,1,null));
+        }else{
+            //标记为未读
+            talkMapper.insert(new Talk(fromId,toId,message,0,null));
         }
-        //更新聊天记录
-        log.info("正在更新聊天记录，fromId：" + fromId + " toId：" + toId + " message：" + message);
-        //标记为未读
-        talkMapper.insert(new Talk(fromId,toId,message,0,null));
         log.info("更新聊天记录成功");
     }
-
 
 
 }

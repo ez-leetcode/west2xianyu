@@ -62,6 +62,8 @@ public interface UserService {
 
     JSONObject getTalk(String fromId,String toId,long page,long cnt);
 
+    JSONObject getTalkList(String id,int isRead,long page,long cnt);
+
     String deleteHistory(Long goodsId,String id);
 
     String deleteAllHistory(String id);
@@ -77,5 +79,7 @@ public interface UserService {
     String findPassword(String id,String newPassword);
 
     String complainUser(String fromId,String toId,String reason,String specificReason);
+
+    String getOneTalk(String fromId,String toId,String createTime,String message);
 
 }
