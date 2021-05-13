@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.west2xianyu.mapper.*;
 import com.west2xianyu.msg.*;
 import com.west2xianyu.pojo.*;
+import com.west2xianyu.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,9 @@ public class AdministratorServiceImpl implements AdministratorService{
 
     @Autowired
     private CommentMapper commentMapper;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
 
     @Override
@@ -213,6 +217,8 @@ public class AdministratorServiceImpl implements AdministratorService{
             //封号
             userMapper.deleteById(user.getId());
             log.info("封号成功，账号：" + id + " 时间：" + days);
+            //封号之后，如果存在token，删除token（没有权限），让它强制下线
+            redisUtils.delete(user.getId());
         }
         //封号之后，因为用户登录不上去收不到通知，用邮件通知用户
         return user;

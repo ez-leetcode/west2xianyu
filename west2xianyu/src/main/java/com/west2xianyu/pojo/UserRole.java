@@ -41,4 +41,5 @@ public class UserRole {
     @ApiModelProperty("最近一次更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updateTime;
+
 }

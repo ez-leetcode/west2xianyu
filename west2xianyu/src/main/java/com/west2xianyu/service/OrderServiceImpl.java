@@ -92,6 +92,14 @@ public class OrderServiceImpl implements OrderService{
             log.warn("用户保存地址不存在，编号：" + address);
             return "addressWrong";
         }
+        int result = goodsMapper.deleteById(number);
+        //乐观锁的使用
+        if(result == 0){
+            //更新失败，说明version对不上，通知下单失败
+            log.info("商品伪删除失败");
+            return "existWrong";
+        }
+        log.info("商品伪删除成功");
         if(!address2.getCampus().equals(address1.getCampus())){
             //校区不同，运费6块钱
             orders.setFreight(6.0);
@@ -114,13 +122,11 @@ public class OrderServiceImpl implements OrderService{
                 .eq("goods_name",goods.getGoodsName())
                 .eq("address",address);
         Orders orders1 = ordersMapper.selectOne(wrapper2);
-        goodsMapper.deleteById(number);
-        log.info("商品伪删除成功");
         //伪删除所有收藏此商品的数据
         QueryWrapper<Favor> wrapper1 = new QueryWrapper<>();
         wrapper1.eq("goods_id",number);
-        int result = favorMapper.delete(wrapper1);
-        log.info("伪删除所有收藏成功：" + result + "条");
+        int result1 = favorMapper.delete(wrapper1);
+        log.info("伪删除所有收藏成功：" + result1 + "条");
         //通知卖家
         Message message1 = new Message();
         message1.setId(goods.getFromId());

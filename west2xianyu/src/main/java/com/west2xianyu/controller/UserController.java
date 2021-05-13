@@ -127,11 +127,21 @@ public class UserController {
             @ApiImplicitParam(name = "status",value = "获取哪一种验证码 1.注册 2.找回密码 3.修改密码",required = true,dataType = "int",paramType = "query"),
             @ApiImplicitParam(name = "id",value = "用户id",required = true,dataType = "string",paramType = "query")
     })
-    @ApiOperation(value = "获取验证码",notes = "existWrong：用户不存在 success：成功")
+    @ApiOperation(value = "获取验证码",notes = "repeatWrong：重复发送验证码太多次 existWrong：用户不存在 success：成功")
     @PostMapping("/code")
     public Result<JSONObject> getMailCode(@RequestParam("status") Integer status,@RequestParam("id") String id){
         log.info("正在获取验证码，状态：" + status);
         String function;
+        String sendCountString = redisUtils.getValue(id + "sendCode");
+        int sendCount = 0;
+        //先判断验证码发送是否过于频繁
+        if(sendCountString != null){
+            sendCount = Integer.parseInt(sendCountString);
+            if(sendCount > 10){
+                log.info("用户近期发送验证码过于频繁，请稍后再试");
+                return ResultUtils.getResult(new JSONObject(),"repeatWrong");
+            }
+        }
         //获取验证码
         String yzm = UUID.randomUUID().toString().substring(0,5);
         if(status == 1){
@@ -160,13 +170,13 @@ public class UserController {
             redisUtils.saveByMinutesTime(id + "changePassword",yzm,15);
             mailService.sendEmail(user.getEmail(),yzm,function);
         }
+        sendCount ++;
+        //保存验证码次数
+        redisUtils.saveByTime(id + "sendCode",String.valueOf(sendCount),2);
         return ResultUtils.getResult(new JSONObject(),"success");
     }
 
-
-
     /*
-
     @ApiOperation(value = "登录账号请求",notes = "登录成功会返回一个token，接下来登录时需要带上~")
     @PostMapping("/login")
     public JSONObject login(User user){
@@ -174,7 +184,6 @@ public class UserController {
         JSONObject jsonObject = new JSONObject();
         return jsonObject;
     }
-
      */
 
     @Secured("ROLE_USER")

@@ -1,5 +1,6 @@
 package com.west2xianyu;
 
+import com.west2xianyu.mapper.GoodsMapper;
 import com.west2xianyu.mapper.RefundMapper;
 import com.west2xianyu.mapper.RoleMapper;
 import com.west2xianyu.mapper.UserRoleMapper;
@@ -30,20 +31,21 @@ class West2xianyuApplicationTests {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private GoodsMapper goodsMapper;
 
     /*
 
     @Test
     void fun() {
-        redisUtils.saveByTime("ycy","yyds",1);
-        System.out.println(redisUtils.isAfterDate("ycy",50));
-        System.out.println(redisUtils.isAfterDate("ycy",70));
+        int result = goodsMapper.deleteById(1390677138446315522L);
+        System.out.println(result);
     }
 
 
     @Test
     void fun1(){
-        System.out.println(redisTemplate.getExpire("171909060",TimeUnit.SECONDS));
+        //System.out.println(redisTemplate.getExpire("171909060",TimeUnit.SECONDS));
     }
 
 /*

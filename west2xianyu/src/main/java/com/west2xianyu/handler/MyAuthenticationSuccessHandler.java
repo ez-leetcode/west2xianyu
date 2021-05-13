@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -35,13 +34,15 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
 
     //登录成功
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException{
         httpServletResponse.setHeader("Content-Type", "application/json;charset=utf-8");
         PrintWriter printWriter = httpServletResponse.getWriter();
         JSONObject jsonObject = new JSONObject();
         //注意，这里不是pojo的user
         User user = (User) authentication.getPrincipal();
         com.west2xianyu.pojo.User user1 = userMapper.selectUser(user.getUsername());
+        log.info("登录用户：" + user.getUsername());
+        log.info(user.toString());
         if(user1.getDeleted() == 1){
             if(user1.getReopenDate().before(new Date())){
                 //重开日期在之前，说明账号已解封

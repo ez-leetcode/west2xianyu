@@ -29,4 +29,5 @@ public class MybatisPlusHandler implements MetaObjectHandler {
         this.setFieldValByName("updateTime",new Date(),metaObject);
         log.info("更新数据并更新时间字段成功");
     }
+
 }
