@@ -19,6 +19,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 
 @Configuration
@@ -47,6 +49,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder getPassword(){
         //密码加密强度：5
         return new BCryptPasswordEncoder(5);
+    }
+
+    @Bean
+    public HttpFirewall httpFirewall() {
+        return new DefaultHttpFirewall();
     }
 
     @Override

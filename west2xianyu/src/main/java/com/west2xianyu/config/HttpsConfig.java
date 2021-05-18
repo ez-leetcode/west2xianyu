@@ -65,8 +65,6 @@ server:
     key-store-type: PKCS12
     #开启ssl
     enabled: true
-
-
      */
 
 

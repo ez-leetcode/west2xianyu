@@ -31,7 +31,7 @@ public class MyUsernamePasswordFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         //尝试获取token，没有直接放行（因为没有token会没有身份不让用接口，放行无所谓）
         String token = request.getHeader("token");
-        if(token == null || token.equals("")){
+        if(token == null){
             //没有token,直接放行，给个游客身份（不能不给身份，会跳到默认的登录界面的）
             Collection<GrantedAuthority> authList = new ArrayList<>();
             authList.add(new SimpleGrantedAuthority("ROLE_YK"));
